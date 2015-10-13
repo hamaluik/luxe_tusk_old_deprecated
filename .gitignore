@@ -2,6 +2,9 @@
 build/
 report/
 
+# VERSION file
+VERSION
+
 ### Windows ###
 # Windows image file caches
 Thumbs.db
