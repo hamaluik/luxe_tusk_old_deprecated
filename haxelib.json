@@ -1,0 +1,13 @@
+{
+  "name": "Tusk",
+  "url" : "https://github.com/BlazingMammothGames/Tusk",
+  "license": "MIT",
+  "tags": ["game", "engine", "2D"],
+  "description": "A cross-platform game engine built on top of snõw, from the snõwkit collective.",
+  "version": "1.0.0",
+  "releasenote": "Initial release. Prepare for lift-off!",
+  "contributors": ["FuzzyWuzzie"],
+  "dependencies": {
+    "snow": ""
+  }
+}
