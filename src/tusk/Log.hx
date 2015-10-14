@@ -15,7 +15,7 @@ enum LogFunctions {
 }
 
 class Log {
-	public static var functions:EnumFlags<LogFunctions> = {
+	/*public static var functions:EnumFlags<LogFunctions> = {
 		var f:EnumFlags<LogFunctions> = new EnumFlags<LogFunctions>();
 		f.set(FATAL);
 		f.set(ERROR);
@@ -25,7 +25,7 @@ class Log {
 			f.set(DEBUG);
 		#end
 		f;
-	};
+	};*/
 
 	public static function log(value:Dynamic, func:LogFunctions, ?pos:haxe.PosInfos):Void {
 		#if web
@@ -46,49 +46,55 @@ class Log {
 
 	// the whole world has gone to shit
 	macro public static function logFatal(value:Dynamic):Expr {
-		if(functions.has(FATAL)) {
+		#if log_fatal
 			return macro @:pos(Context.currentPos()) tusk.Log.log($value, tusk.Log.LogFunctions.FATAL);
-		}
-		return macro null;
+		#else
+			return macro null;
+		#end
 	}
 
 	// crashes / exceptions
 	macro public static function logError(value:Dynamic):Expr {
-		if(functions.has(ERROR)) {
+		#if log_fatal
 			return macro @:pos(Context.currentPos()) tusk.Log.log($value, tusk.Log.LogFunctions.ERROR);
-		}
-		return macro null;
+		#else
+			return macro null;
+		#end
 	}
 
 	// incorrect behaviour but we can continue
 	macro public static function logWarning(value:Dynamic):Expr {
-		if(functions.has(WARN)) {
+		#if log_fatal
 			return macro @:pos(Context.currentPos()) tusk.Log.log($value, tusk.Log.LogFunctions.WARN);
-		}
-		return macro null;
+		#else
+			return macro null;
+		#end
 	}
 
 	// indicator of normal behaviour
 	macro public static function logInfo(value:Dynamic):Expr {
-		if(functions.has(INFO)) {
+		#if log_fatal
 			return macro @:pos(Context.currentPos()) tusk.Log.log($value, tusk.Log.LogFunctions.INFO);
-		}
-		return macro null;
+		#else
+			return macro null;
+		#end
 	}
 
 	// behind the scene stuff
 	macro public static function logDebug(value:Dynamic):Expr {
-		if(functions.has(DEBUG)) {
+		#if debug
 			return macro @:pos(Context.currentPos()) tusk.Log.log($value, tusk.Log.LogFunctions.DEBUG);
-		}
-		return macro null;
+		#else
+			return macro null;
+		#end
 	}
 
 	// delving deep
 	macro public static function logTrace(value:Dynamic):Expr {
-		if(functions.has(TRACE)) {
+		#if log_trace
 			return macro @:pos(Context.currentPos()) tusk.Log.log($value, tusk.Log.LogFunctions.TRACE);
-		}
-		return macro null;
+		#else
+			return macro null;
+		#end
 	}
 }

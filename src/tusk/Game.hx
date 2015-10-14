@@ -6,6 +6,7 @@ import tusk.Log.*;
 class Game extends snow.App {
     override function config(config:AppConfig):AppConfig {
         config.window.title = 'Unbranded Tusk Game';
+        logTrace("game config: " + config);
         return config;
     }
 
