@@ -1,25 +1,19 @@
 {
-  project : {
-    name : 'Tusk Basic Sample',
-    version : '1.0.0',
-    author : 'FuzzyWuzzie',
+	project: {
+		name: 'Tusk Basic Sample',
+		version: '1.0.0',
+		author: 'FuzzyWuzzie',
 
-    app : {
-      name : 'Tusk-Sample',
-      package : '',
-    },
+		app: {
+			name: 'tusk-sample-basic',
+			package: 'com.blazingmammothgames.tusk',
+			main: 'Main'
+		},
 
-    build : {
-      dependencies : {
-        snow : '*',
-        tusk : '*'
-      }
-    },
-
-    files : {
-      config : 'config.json'
-    }
-
-  }
-
+		build: {
+			dependencies: {
+				tusk: '*'
+			}
+		}
+	}
 }

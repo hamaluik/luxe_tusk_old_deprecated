@@ -1,0 +1,23 @@
+{
+	flow: {
+		build: {
+			boot: 'TuskApp'
+		}
+	},
+	project: {
+		name: 'tusk',
+		version: '1.0.0-prealpha',
+		author: 'FuzzyWuzzie',
+		build: {
+			dependencies: {
+				snow: '*'
+			},
+			files: {
+				boot: {
+					path: 'flow/boot/TuskApp.hx => haxe/TuskApp.hx',
+					template: ['project']
+				}
+			}
+		}
+	}
+}

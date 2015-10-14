@@ -1,6 +1,7 @@
 # Project binaries
 bin/
 report/
+src/bin/
 
 # VERSION file
 VERSION
