@@ -8,6 +8,9 @@
 		name: 'tusk',
 		version: '1.0.0-prealpha',
 		author: 'FuzzyWuzzie',
+		app: {
+			icon: 'flow/icons/ => tusk'
+		},
 		build: {
 			dependencies: {
 				snow: '*'
