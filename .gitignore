@@ -1,5 +1,5 @@
 # Project binaries
-build/
+bin/
 report/
 
 # VERSION file
