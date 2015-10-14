@@ -1,0 +1,25 @@
+{
+  project : {
+    name : 'Tusk Basic Sample',
+    version : '1.0.0',
+    author : 'FuzzyWuzzie',
+
+    app : {
+      name : 'Tusk-Sample',
+      package : '',
+    },
+
+    build : {
+      dependencies : {
+        snow : '*',
+        Tusk : '*'
+      }
+    },
+
+    files : {
+      config : 'config.json'
+    }
+
+  }
+
+}
