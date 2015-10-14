@@ -1,5 +1,6 @@
 import {{project.app.main}};
 
+import tusk.Tusk;
 import tusk.Log.*;
 import snow.Snow;
 import snow.types.Types.SnowConfig;
@@ -17,7 +18,7 @@ class TuskApp {
 		// initialize!
 		logInfo('initializing game...');
 		try {
-			snow.init(snowConfig, new {{project.app.main}}());
+			snow.init(snowConfig, new Tusk(new {{project.app.main}}()));
 		}
 		catch(exception:tusk.Exception) {
 			logError(exception);

@@ -1,16 +1,16 @@
 package tusk;
 
-import snow.types.Types;
-import tusk.Log.*;
+class Game {
+	public var title(get, null):String;
 
-class Game extends snow.App {
-    override function config(config:AppConfig):AppConfig {
-        config.window.title = 'Unbranded Tusk Game';
-        logTrace("game config: " + config);
-        return config;
-    }
+	// override to change the title
+	public function get_title():String {
+		return "Unbranded Tusk Game";
+	}
 
-    override public function ready() {
-        logWarning("Your game should probably override the ready() function..");
-    }
+	public function new() {}
+
+	// override to go!
+	public function onStart() {}
+	public function onDestroy() {}
 }

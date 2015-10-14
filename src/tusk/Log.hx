@@ -15,18 +15,6 @@ enum LogFunctions {
 }
 
 class Log {
-	/*public static var functions:EnumFlags<LogFunctions> = {
-		var f:EnumFlags<LogFunctions> = new EnumFlags<LogFunctions>();
-		f.set(FATAL);
-		f.set(ERROR);
-		f.set(WARN);
-		f.set(INFO);
-		#if debug
-			f.set(DEBUG);
-		#end
-		f;
-	};*/
-
 	public static function log(value:Dynamic, func:LogFunctions, ?pos:haxe.PosInfos):Void {
 		#if web
 			var message = value.toString();
