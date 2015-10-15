@@ -5,4 +5,6 @@ A game engine built on top of snõw (https://github.com/underscorediscovery/snow
 
 ## Contributing
 
-See https://gist.github.com/FuzzyWuzzie/fab1ce12d2fb84f1f888 for the post-commit hook to automatically update the `VERSION` file and https://gist.github.com/FuzzyWuzzie/8af1e821bdeec3926b9e for the pre-commit hook to automatically run tests before committing. Place the files in the `.git/hooks` repository, named `post-commit` and `pre-commit` respectively.
+See https://gist.github.com/FuzzyWuzzie/fab1ce12d2fb84f1f888 for the post-commit hook to automatically update the `VERSION` file and upload docs to gh-pages, and https://gist.github.com/FuzzyWuzzie/8af1e821bdeec3926b9e for the pre-commit hook to automatically run tests before committing. Place the files in the `.git/hooks` repository, named `post-commit` and `pre-commit` respectively.
+
+See https://gist.github.com/chrisjacob/825950 for information on setting up the gh-pages sub repo.
