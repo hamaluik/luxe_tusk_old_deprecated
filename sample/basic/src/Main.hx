@@ -6,7 +6,7 @@ class Main extends Game {
         return "Tusk (Basic Sample)";
     }
 
-    override public function onStart(data:tusk.Events.Start) {
+    override public function onStart(data:tusk.events.StartEvent) {
         logInfo('Sample has started!');
     }
 }
