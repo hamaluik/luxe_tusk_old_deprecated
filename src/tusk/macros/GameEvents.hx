@@ -3,7 +3,18 @@ package tusk.macros;
 import haxe.macro.Context;
 import haxe.macro.Expr;
 
+/**
+ * This a build macro which will fill out the function `___connectRoutes`
+ * with routing expressions for the tusk core.
+ */
 @:noCompletion class GameEvents {
+	/**
+	 * Connect the fields. Apply to a game class using:
+	 * ```haxe
+	 * @:autoBuild(tusk.macros.GameEvents.connect())
+	 * ```
+	 * @return an array of the fields in the class (the `___connectRoutes` function will be modified)
+	 */
 	macro public static function connect():Array<Field> {
 		// grab all the fields
 		var fields = Context.getBuildFields();
@@ -41,8 +52,14 @@ import haxe.macro.Expr;
 		return fields;
 	}
 
+	/**
+	 * Assuming we've found events to connect, use this to insert
+	 * the routing expression into the connection method
+	 * @param connectField the field corresponding to the `___connectRoutes` method
+	 * @param eventField   the field corresponding to the detected event method
+	 */
 	private static function connectEvent(connectField:Field, eventField:Field) {
-		// add `tusk.Tusk.routeEvent(tusk.Events.EventType.Start, onStart);` expression to the connection field
+		#if !docgen
 		var eventName:String = eventField.name.substr(2);
 		switch(connectField.kind) {
 			default:
@@ -50,8 +67,9 @@ import haxe.macro.Expr;
 				switch(f.expr.expr) {
 					default:
 					case EBlock(exprs):
-						exprs.push(Context.parse('tusk.Tusk.routeEvent(tusk.Events.EventType.${eventName}, ${eventField.name})', eventField.pos));
+						exprs.push(Context.parse('tusk.Tusk.routeEvent(tusk.events.EventType.${eventName}, ${eventField.name})', eventField.pos));
 				}
 		}
+		#end
 	}
 }

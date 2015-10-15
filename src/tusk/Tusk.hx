@@ -4,6 +4,7 @@ import snow.types.Types;
 import tusk.Game;
 import tusk.EventRouter;
 import tusk.Log.*;
+import tusk.events.*;
 
 class Tusk extends snow.App.AppFixedTimestep {
     private static var tusk:Tusk;
@@ -18,11 +19,11 @@ class Tusk extends snow.App.AppFixedTimestep {
         this.game = game;
     }
 
-    public static function routeEvent(type:Events.EventType, handler:EventHandler) {
+    public static function routeEvent(type:EventType, handler:EventHandler) {
         tusk.router.registerHandler(type, handler);
     }
 
-    public static function unrouteEvent(type:Events.EventType, handler:EventHandler) {
+    public static function unrouteEvent(type:EventType, handler:EventHandler) {
         tusk.router.unregisterHandler(type, handler);
     }
 
@@ -36,6 +37,6 @@ class Tusk extends snow.App.AppFixedTimestep {
         logTrace("snõw is ready");
         logTrace("connecting game routes");
         game.___connectRoutes();
-        router.onEvent(Events.EventType.Start, {});
+        router.onEvent(EventType.Start, {});
     }
 }

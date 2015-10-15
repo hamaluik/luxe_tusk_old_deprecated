@@ -1,18 +1,11 @@
 package tusk;
 
 import tusk.Log.*;
-import haxe.ds.IntMap;
-
-@:enum abstract EventType(Int) from Int to Int {
-	var Start    = 1;
-	var Update   = 2;
-	var Destroy  = 3;
-}
-
-typedef EventHandler = Dynamic->Void;
+import haxe.ds.EnumValueMap;
+import tusk.events.*;
 
 class EventRouter {
-	private var handlers:IntMap<Array<EventHandler>> = new IntMap<Array<EventHandler>>();
+	private var handlers:EnumValueMap<EventType, Array<EventHandler>> = new EnumValueMap<EventType, Array<EventHandler>>();
 	public function new() {}
 
 	/**
