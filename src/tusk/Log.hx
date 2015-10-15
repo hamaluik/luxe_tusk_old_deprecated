@@ -28,7 +28,7 @@ class Log {
 				default: untyped console.log('l.' + pos.fileName + ':' + pos.lineNumber + ': ' + message);
 			}
 		#else
-			trace(v, pos);
+			trace(value, pos);
 		#end
 	}
 

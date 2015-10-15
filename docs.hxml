@@ -1,0 +1,26 @@
+-cmd cd docs
+
+--next
+
+-dce no
+-cp ../src
+--macro ImportAll.run()
+
+--each
+
+-neko all.n
+-xml neko.xml
+
+--next
+
+-js all.js
+-xml js.xml
+
+--next
+
+--interp
+-xml haxe.xml
+
+--next
+
+-cmd haxelib run dox -i . -theme flambe --title "Tusk Dox" --toplevel-package tusk

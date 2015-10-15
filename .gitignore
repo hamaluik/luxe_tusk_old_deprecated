@@ -7,7 +7,10 @@ src/bin/
 VERSION
 
 # Documentation
-docs/
+docs/*.xml
+docs/pages/
+docs/*.js
+docs/*.n
 
 ### Windows ###
 # Windows image file caches
