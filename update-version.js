@@ -7,7 +7,19 @@ console.log("> Updating VERSION...");
 // read the version file
 fs.readFile('VERSION', 'utf8', function(err, ver) {
 	if(err) {
-		return console.log(err);
+		if(err.code === 'ENOENT') {
+			// the VERSION file didn't exist!
+			// we must create it!
+			var cp = require('child_process');
+			var results = cp.execSync('git tag').toString().trim().split('\n');
+			if(results.length < 1) {
+				return console.log(err);
+			}
+			ver = results[0].substr(1).trim() + "+0";
+		}
+		else {
+			return console.log(err);
+		}
 	}
 	
 	// get the shorthand for the commit
