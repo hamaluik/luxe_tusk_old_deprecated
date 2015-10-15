@@ -2,16 +2,17 @@
 
 --next
 
+--interp
+--macro Clean.run()
+
+--next
+
 -dce no
 -cp ../src
 --macro ImportAll.run()
+#TestClass
 
 --each
-
--neko all.n
--xml neko.xml
-
---next
 
 -js all.js
 -xml js.xml
@@ -23,4 +24,10 @@
 
 --next
 
--cmd haxelib run dox -i . -theme flambe --title "Tusk Dox" --toplevel-package tusk
+#-cmd haxelib run dox -i . -theme ./themes/tusk --title Tusk
+#-cmd haxelib run dox -i . -theme ./themes/tusk --title Tusk --toplevel-package tusk
+-cmd haxelib run dox -i . -theme ./themes/tusk --title Tusk -D version 1.0.0-prealpha -ex Array -ex ArrayAccess -ex Bool -ex Class -ex Date -ex DateTools -ex Dynamic -ex EReg -ex Enum -ex EnumValue -ex Float -ex IMap -ex Int -ex IntIterator -ex Sys -ex Iterable -ex Iterator -ex Lambda -ex List -ex Map -ex Math -ex Null -ex Reflect -ex Std -ex String -ex StringBuf -ex StringTools -ex Type -ex Void -ex Xml -ex "js/*" -ex "Sys/*" -ex "sys/*" -ex "haxe/*" -ex "neko/*"
+
+--next
+
+-cmd http-server ./pages
