@@ -6,6 +6,9 @@ src/bin/
 # VERSION file
 VERSION
 
+# Documentation
+docs/
+
 ### Windows ###
 # Windows image file caches
 Thumbs.db
