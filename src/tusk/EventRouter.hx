@@ -14,6 +14,9 @@ class EventRouter {
 	 * @param handler function that will be called when event `type` happens
 	 */
 	public function registerHandler(type:EventType, handler:EventHandler):Void {
+		if(handler == null) {
+			throw new tusk.Exception('Event handler cannot be null!');
+		}
 		if(!handlers.exists(type)) {
 			handlers.set(type, new Array<EventHandler>());
 		}
@@ -35,7 +38,7 @@ class EventRouter {
 	 * @param type what type of event to register the handler for
 	 * @param data           an Events typedef containing event information
 	 */
-	public function onEvent<T>(type:EventType, data:T) {
+	public function onEvent<T>(type:EventType, ?data:T) {
 		if(!handlers.exists(type)) return;
 		var handlerArray:Array<EventHandler> = handlers.get(type);
 		for(handler in handlerArray) {
