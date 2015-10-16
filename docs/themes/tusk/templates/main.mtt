@@ -23,7 +23,7 @@
 </head>
 <body>
 	<nav>
-		<h1><a href="/">::api.config.pageTitle::</a></h1>
+		<h1><a href="::api.config.rootPath::">::api.config.pageTitle::</a></h1>
 		<ul></ul>
 	</nav>
 	::raw __content__::
