@@ -43,7 +43,9 @@ enum LogFunctions {
 
 /**
  * Macros and functions responsible for logging. To enable or disable specific logs, change
- * the compile-time definitions. The following definitions are valid and correspond to
+ * the compile-time definitions.
+ * 
+ * The following definitions are valid and correspond to
  * the macros defined below:
  * <ul>
  * <li>`log_fatal`

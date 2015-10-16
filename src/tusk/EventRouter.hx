@@ -4,6 +4,10 @@ import tusk.Log.*;
 import haxe.ds.EnumValueMap;
 import tusk.events.*;
 
+/**
+ * This class sends events to connected listeners. Listeners can
+ * connect by registering themselves as handlers.
+ */
 class EventRouter {
 	private var handlers:EnumValueMap<EventType, Array<EventHandler>> = new EnumValueMap<EventType, Array<EventHandler>>();
 	public function new() {}
