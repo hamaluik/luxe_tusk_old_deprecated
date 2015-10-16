@@ -2,14 +2,12 @@
 	// insert the navigation
 	var nav = document.getElementsByTagName("nav")[0];
 	var navTree = nav.getElementsByTagName("ul")[0];
-	navTree.innerHTML = navContent.replace(/\:\:rootPath\:\:/g, '');
-
-	console.log(location.href);
+	console.log(dox);
+	navTree.innerHTML = navContent.replace(/\:\:rootPath\:\:/g, dox.rootPath);
 
 	// highlight the current nav item
 	var navLinks = navTree.getElementsByTagName("a");
 	for (var i = 0; i < navLinks.length; i++) {
-		console.log(navLinks[i].href);
 		if(navLinks[i].href === location.href && navLinks[i].className !== 'nav-toggle') {
 			navLinks[i].className = "active";
 		}

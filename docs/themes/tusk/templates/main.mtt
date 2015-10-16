@@ -10,6 +10,15 @@
 	<link rel="stylesheet" href="::api.config.rootPath::/tusk.css"/>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"/>
 	<link rel="icon" href="::api.config.rootPath::/favicon.ico" type="image/x-icon"></link>
+	<script type="text/javascript">var dox = {
+		rootPath: "::api.config.rootPath::",
+		platforms: [
+			::foreach pf api.config.platforms::
+				"::pf::"
+				::if !repeat.pf.last::,::end::
+			::end::
+		]
+	};</script>
 	<script type="text/javascript" src="::api.config.rootPath::/nav.js"></script>
 </head>
 <body>

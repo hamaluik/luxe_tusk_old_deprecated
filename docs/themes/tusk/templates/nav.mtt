@@ -1,6 +1,6 @@
 <macro name="makeTree(tree,depth)">
 	::switch tree::
-	<li><a href="/::api.config.rootPath::::api.getTreeUrl(tree)::">::api.getTreeName(tree)::</a></li>
+	<li><a href="::api.getTreeUrl(tree)::">::api.getTreeName(tree)::</a></li>
 	::case::
 		<li><a href="#" class="nav-toggle"><i class="fa fa-chevron-right"></i> ::api.getTreeName(tree)::</a>
 			<ul>
