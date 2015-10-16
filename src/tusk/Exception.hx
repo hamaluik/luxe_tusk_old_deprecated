@@ -2,6 +2,9 @@ package tusk;
 
 import haxe.CallStack;
 
+/**
+ * Any and all exceptions thrown by Tusk will be of this type!
+ */
 class Exception {
 	/**
 	 * Set to `true` to show the (post-target) stack trace
