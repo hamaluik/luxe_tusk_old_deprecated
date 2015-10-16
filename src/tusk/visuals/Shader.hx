@@ -34,7 +34,7 @@ class Shader {
 	/**
 	 * The program that this shader compiled into
 	 */
-	public var program:GLProgram;
+	public var program(default, null):GLProgram;
 
 	/**
 	 * Construct a new shader with the given vertex and fragment sources.
