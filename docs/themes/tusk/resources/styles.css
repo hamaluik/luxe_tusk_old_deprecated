@@ -1,24 +1,22 @@
-.navbar { margin:0 0 20px 0; padding:0; color:#fff; } 
+.navbar { margin:0 0 20px 0; padding:0; color:#EEEFF7; } 
 .navbar .tagline { position:relative; top:11px; } 
 .navbar .brand { padding: 7px 20px 7px;}
-.navbar .pull-right { position:relative; top:8px; } 
-.navbar .pull-right a {color: #F48821;}
 
 .dark {
-	background: rgb(20,20,25);
-	color: white;
+	background: #1C1D21;
+	color: #EEEFF7;
 }
 .dark a {
-	color: white;
+	color: #EEEFF7;
 }
 .dark a:hover {
-	color: rgb(200,200,200);
+	color: #92CDCF;
 }
 .dark blockquote {
-	 border-left: 3px solid rgb(126,126,129);
+	 border-left: 3px solid #31353D;
 }
 .dark blockquote small {
-	color: white;
+	color: #EEEFF7;
 	font-weight: bold;
 }
 .dark blockquote small:before {
