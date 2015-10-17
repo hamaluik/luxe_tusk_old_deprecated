@@ -3,6 +3,7 @@ package tusk.visuals;
 #if !docgen
 import snow.api.buffers.Float32Array;
 #else
+@:dox(hide)
 import tusk.visuals.Material.Float32Array;
 #end
 

@@ -16,7 +16,8 @@ void main() {
     vColour = aColour;
 
     gl_Position = uProjectionMatrix * mpos;*/
-    //gl_Position = uProjectionMatrix * uModelViewMatrix * vec4(aPosition, 1.0);
-    gl_Position = vec4(aPosition, 1.0);
-    vColour = vec4(aColour.r, 0.0, 0.0, 1.0);
+    gl_Position = uProjectionMatrix * uModelViewMatrix * vec4(aPosition, 1.0);
+    //gl_Position = vec4(aPosition, 1.0);
+    //vColour = vec4(aColour.r, 0.0, 0.0, 1.0);
+    vColour = aColour;
 }

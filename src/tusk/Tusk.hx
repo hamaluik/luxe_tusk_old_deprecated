@@ -7,6 +7,8 @@ import tusk.Log;
 import tusk.Log.*;
 import tusk.events.*;
 
+import tusk.visuals.*;
+import snow.api.buffers.Float32Array;
 import snow.modules.opengl.GL;
 
 class Tusk extends snow.App.AppFixedTimestep {
