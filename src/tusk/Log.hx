@@ -68,7 +68,10 @@ class Log {
 		#if web
 			var message = v.toString();
 			switch(func) {
-				case Fatal: untyped console.log('%cf.' + pos.fileName + ':' + pos.lineNumber + ': ' + message, 'font-weight: bold; font-size: 2em; color: white; background: #A84B38;');
+				case Fatal: {
+					untyped console.log('%cf.' + pos.fileName + ':' + pos.lineNumber + ': ' + message, 'font-weight: bold; font-size: 2em; color: white; background: #A84B38;');
+					throw new String('FATAL EXCEPTION: ' + pos.fileName + ':' + pos.lineNumber + ': ' + message);
+				}
 				case Error: untyped console.log('%ce.' + pos.fileName + ':' + pos.lineNumber + ': ' + message, 'font-weight: bold; color: white; background: #A84B38;');
 				case Warn: untyped console.log('%cw.' + pos.fileName + ':' + pos.lineNumber + ': ' + message, 'color: white; background: #EA8220;');
 				case Info: untyped console.log('%ci.' + pos.fileName + ':' + pos.lineNumber + ': ' + message, 'color: blue;');

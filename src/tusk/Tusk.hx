@@ -12,24 +12,24 @@ import snow.api.buffers.Float32Array;
 import snow.modules.opengl.GL;
 
 class Tusk extends snow.App.AppFixedTimestep {
-    private static var tusk:Tusk;
+    private static var instance:Tusk;
 
     private var game:Game;
     private var router:EventRouter;
 
     public function new(game:Game) {
         super();
-        tusk = this;
+        instance = this;
         this.router = new EventRouter();
         this.game = game;
     }
 
     public static function routeEvent(type:EventType, handler:EventHandler) {
-        tusk.router.registerHandler(type, handler);
+        instance.router.registerHandler(type, handler);
     }
 
     public static function unrouteEvent(type:EventType, handler:EventHandler) {
-        tusk.router.unregisterHandler(type, handler);
+        instance.router.unregisterHandler(type, handler);
     }
 
     override function config(config:AppConfig):AppConfig {
