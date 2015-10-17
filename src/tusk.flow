@@ -12,6 +12,10 @@
 			icon: 'flow/icons/ => tusk'
 		},
 		build: {
+			flags: [
+				"-resource ../assets/shaders/default.vert@default.vert",
+				"-resource ../assets/shaders/default.frag@default.frag"
+			],
 			dependencies: {
 				snow: '*'
 			},

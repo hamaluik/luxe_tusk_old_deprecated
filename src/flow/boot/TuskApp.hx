@@ -11,7 +11,6 @@ class TuskApp {
 		
 		var snowConfig:SnowConfig = {
 			has_loop: true,
-			config_path: '',
 			app_package: '{{toString project.app.package}}'
 		};
 		

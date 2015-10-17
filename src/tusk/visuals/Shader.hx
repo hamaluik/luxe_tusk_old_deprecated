@@ -5,7 +5,9 @@ import tusk.Log.*;
 
 #if docgen
 @:dox(hide)
-typedef GLProgram = Int;
+typedef GLProgram = String;
+@:dox(hide)
+typedef GLUniformLocation = Int;
 #else
 import snow.modules.opengl.GL;
 #end
@@ -68,14 +70,14 @@ class Shader {
 		GL.shaderSource(vShader, vertSrc);
 		GL.compileShader(vShader);
 		if(GL.getShaderParameter(vShader, GL.COMPILE_STATUS) == 0) {
-			throw new Exception("Error compiling shader '" + id + "'.vertex: " + GL.getShaderInfoLog(vShader));
+			throw new Exception("Error compiling shader '" + id + "'.vertex:\n" + GL.getShaderInfoLog(vShader));
 		}
 
 		var fShader:GLShader = GL.createShader(GL.FRAGMENT_SHADER);
 		GL.shaderSource(fShader, fragSrc);
 		GL.compileShader(fShader);
 		if(GL.getShaderParameter(fShader, GL.COMPILE_STATUS) == 0) {
-			throw new Exception("Error compiling shader '" + id + "'.fragment: " + GL.getShaderInfoLog(fShader));
+			throw new Exception("Error compiling shader '" + id + "'.fragment:\n" + GL.getShaderInfoLog(fShader));
 		}
 
 		logTrace("Shader '" + id + "' components compiled!");
@@ -91,7 +93,7 @@ class Shader {
 
 		return program;
 		#else
-		return 0;
+		return "";
 		#end
 	}
 
@@ -116,7 +118,7 @@ class Shader {
 	 * @param  uniform  the name of the uniform (matching its spelling in the shader source) to find
 	 * @return          the locatino of the uniform in the program
 	 */
-	public function getUniformLocation(uniform:String):Int {
+	public function getUniformLocation(uniform:String):GLUniformLocation {
 		#if !docgen
 		if(program == null) {
 			throw new Exception("Shader '"+id+"' must be compiled before uniform '"+uniform+"' can be accessed!");
