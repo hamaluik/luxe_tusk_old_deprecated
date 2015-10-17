@@ -1,7 +1,7 @@
 package tusk.visuals;
 
-import tusk.Exception;
-import tusk.Log.*;
+import tusk.debug.Exception;
+import tusk.debug.Log.*;
 
 #if docgen
 @:dox(hide)

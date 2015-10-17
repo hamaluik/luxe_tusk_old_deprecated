@@ -3,7 +3,7 @@ package tusk.util;
 import buddy.*;
 import tusk.util.Vector;
 import tusk.events.*;
-import tusk.Exception;
+import tusk.debug.Exception;
 using buddy.Should;
 
 class TestVector extends BuddySuite {

@@ -1,9 +1,8 @@
-package tusk;
+package tusk.events;
 
 import buddy.*;
-import tusk.EventRouter;
 import tusk.events.*;
-import tusk.Exception;
+import tusk.debug.Exception;
 using buddy.Should;
 
 class TestEventRouter extends BuddySuite {
