@@ -1,4 +1,4 @@
-package tusk;
+package tusk.debug;
 
 import haxe.CallStack;
 

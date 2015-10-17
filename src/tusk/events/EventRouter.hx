@@ -1,6 +1,7 @@
-package tusk;
+package tusk.events;
 
-import tusk.Log.*;
+import tusk.debug.Exception;
+import tusk.debug.Log.*;
 import haxe.ds.EnumValueMap;
 import tusk.events.*;
 
@@ -19,7 +20,7 @@ class EventRouter {
 	 */
 	public function registerHandler(type:EventType, handler:EventHandler):Void {
 		if(handler == null) {
-			throw new tusk.Exception('Event handler cannot be null!');
+			throw new Exception('Event handler cannot be null!');
 		}
 		if(!handlers.exists(type)) {
 			handlers.set(type, new Array<EventHandler>());

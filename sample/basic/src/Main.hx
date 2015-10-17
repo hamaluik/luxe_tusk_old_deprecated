@@ -1,5 +1,5 @@
-import tusk.Log.*;
 import tusk.Game;
+import tusk.debug.Log.*;
 import tusk.events.*;
 
 class Main extends Game {

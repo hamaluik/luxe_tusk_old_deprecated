@@ -1,4 +1,4 @@
-package tusk;
+package tusk.debug;
 
 import haxe.io.Path;
 import haxe.macro.Context;
@@ -90,7 +90,7 @@ class Log {
 	 */
 	macro public static function logFatal(value:Dynamic):Expr {
 		#if log_fatal
-			return macro @:pos(Context.currentPos()) tusk.Log.log($value, tusk.Log.LogFunctions.Fatal);
+			return macro @:pos(Context.currentPos()) tusk.debug.Log.log($value, tusk.debug.Log.LogFunctions.Fatal);
 		#else
 			return macro null;
 		#end
@@ -104,7 +104,7 @@ class Log {
 	 */
 	macro public static function logError(value:Dynamic):Expr {
 		#if log_error
-			return macro @:pos(Context.currentPos()) tusk.Log.log($value, tusk.Log.LogFunctions.Error);
+			return macro @:pos(Context.currentPos()) tusk.debug.Log.log($value, tusk.debug.Log.LogFunctions.Error);
 		#else
 			return macro null;
 		#end
@@ -116,7 +116,7 @@ class Log {
 	 */
 	macro public static function logWarning(value:Dynamic):Expr {
 		#if log_warning
-			return macro @:pos(Context.currentPos()) tusk.Log.log($value, tusk.Log.LogFunctions.Warn);
+			return macro @:pos(Context.currentPos()) tusk.debug.Log.log($value, tusk.debug.Log.LogFunctions.Warn);
 		#else
 			return macro null;
 		#end
@@ -128,7 +128,7 @@ class Log {
 	 */
 	macro public static function logInfo(value:Dynamic):Expr {
 		#if log_info
-			return macro @:pos(Context.currentPos()) tusk.Log.log($value, tusk.Log.LogFunctions.Info);
+			return macro @:pos(Context.currentPos()) tusk.debug.Log.log($value, tusk.debug.Log.LogFunctions.Info);
 		#else
 			return macro null;
 		#end
@@ -140,7 +140,7 @@ class Log {
 	 */
 	macro public static function logDebug(value:Dynamic):Expr {
 		#if debug
-			return macro @:pos(Context.currentPos()) tusk.Log.log($value, tusk.Log.LogFunctions.Debug);
+			return macro @:pos(Context.currentPos()) tusk.debug.Log.log($value, tusk.debug.Log.LogFunctions.Debug);
 		#else
 			return macro null;
 		#end
@@ -152,7 +152,7 @@ class Log {
 	 */
 	macro public static function logTrace(value:Dynamic):Expr {
 		#if log_trace
-			return macro @:pos(Context.currentPos()) tusk.Log.log($value, tusk.Log.LogFunctions.Trace);
+			return macro @:pos(Context.currentPos()) tusk.debug.Log.log($value, tusk.debug.Log.LogFunctions.Trace);
 		#else
 			return macro null;
 		#end
