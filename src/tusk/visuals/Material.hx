@@ -1,6 +1,7 @@
 package tusk.visuals;
 
 #if docgen
+@:dox(hide)
 typedef Float32Array = Array<Float>;
 #else
 import snow.modules.opengl.GL;
