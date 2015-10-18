@@ -1,4 +1,4 @@
-package tusk.util;
+package tusk.math;
 
 private class VectorRaw
 {

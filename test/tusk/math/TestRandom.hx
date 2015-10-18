@@ -1,7 +1,7 @@
-package tusk.util;
+package tusk.math;
 
 import buddy.*;
-import tusk.util.Random;
+import tusk.math.Random;
 import tusk.events.*;
 import tusk.debug.Exception;
 using buddy.Should;

@@ -1,12 +1,9 @@
-package tusk.visuals;
+package tusk.resources;
 
-#if docgen
-@:dox(hide)
-typedef Float32Array = Array<Float>;
-#else
+#if !docgen
 import snow.modules.opengl.GL;
-import snow.api.buffers.Float32Array;
 #end
+import tusk.math.Matrix4x4;
 
 /**
  * Defines a material
@@ -29,12 +26,12 @@ class Material {
 	}
 
 	/**
-	 * Set a uniform matrix on the material
+	 * Set a uniform matrix4x4 on the material
 	 * @param name      The name of the uniform representing the matrix
-	 * @param matrix    The matrix data (currently 4x4 only!)
+	 * @param matrix    The matrix data (4x4!)
 	 * @param transpose Whether the matrix should be transposed or not
 	 */
-	public function setMatrix(name:String, matrix:Float32Array, transpose:Bool = false) {
+	public function setMatrix4x4(name:String, matrix:Matrix4x4, transpose:Bool = false) {
 		#if !docgen
 		var location:GLUniformLocation = shader.getUniformLocation(name);
 		GL.uniformMatrix4fv(location, transpose, matrix);

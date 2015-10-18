@@ -1,4 +1,4 @@
-package tusk.visuals;
+package tusk.resources;
 
 import tusk.debug.Exception;
 import tusk.debug.Log.*;

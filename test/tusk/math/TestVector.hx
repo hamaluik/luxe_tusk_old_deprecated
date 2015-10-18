@@ -1,7 +1,7 @@
-package tusk.util;
+package tusk.math;
 
 import buddy.*;
-import tusk.util.Vector;
+import tusk.math.Vector;
 import tusk.events.*;
 import tusk.debug.Exception;
 using buddy.Should;
