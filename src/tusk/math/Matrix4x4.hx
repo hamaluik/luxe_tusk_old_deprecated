@@ -7,6 +7,9 @@ typedef Float32Array = Array<Float>;
 import snow.api.buffers.Float32Array;
 #end
 
+/**
+ * A class representing a 4x4 matrix
+ */
 class Matrix4x4 {
 
 }

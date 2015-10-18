@@ -7,6 +7,14 @@ import tusk.events.*;
 
 import snow.modules.opengl.GL;
 
+/**
+ * The main application lives here.
+ * 
+ * It should mostly be a one-way relationship from here to children of the `Game` class
+ * (width the exception of hooking up events).
+ *
+ * Responsible for showing the splash screen and emitting events.
+ */
 class Tusk extends snow.App.AppFixedTimestep {
     private static var instance:Tusk;
 
