@@ -2,7 +2,7 @@ import {{project.app.main}};
 
 import tusk.Tusk;
 import tusk.debug.Exception;
-import tusk.debug.Log.*;
+import tusk.debug.Log;
 import snow.Snow;
 import snow.types.Types.SnowConfig;
 
@@ -21,7 +21,7 @@ class TuskApp {
 			snow.init(snowConfig, new Tusk(new {{project.app.main}}()));
 		}
 		catch(exception:Exception) {
-			logError(exception);
+			Log.error(exception);
 		}
 	}
 }

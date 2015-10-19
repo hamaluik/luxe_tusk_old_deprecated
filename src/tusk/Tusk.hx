@@ -2,7 +2,7 @@ package tusk;
 
 import snow.types.Types;
 import tusk.Game;
-import tusk.debug.Log.*;
+import tusk.debug.Log;
 import tusk.events.*;
 
 import snow.modules.opengl.GL;
@@ -40,15 +40,15 @@ class Tusk extends snow.App.AppFixedTimestep {
         config.window.title = game.title;
         config.window.width = 960;
         config.window.height = 540;
-        logTrace("game config: " + config);
+        Log.trace("game config: " + config);
         return config;
     }
 
     override public function ready() {
-        logTrace("snõw is ready");
-        logTrace("connecting rendering callback");
+        Log.trace("snõw is ready");
+        Log.trace("connecting rendering callback");
         app.window.onrender = render;
-        logTrace("connecting game routes");
+        Log.trace("connecting game routes");
         game.___connectRoutes();
         router.onEvent(EventType.Start, {});
     }

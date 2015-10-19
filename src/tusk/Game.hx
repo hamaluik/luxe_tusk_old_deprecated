@@ -1,6 +1,6 @@
 package tusk;
 
-import tusk.debug.Log.*;
+import tusk.debug.Log;
 import tusk.events.*;
 
 /**

@@ -1,7 +1,7 @@
 package tusk.resources;
 
 import tusk.debug.Exception;
-import tusk.debug.Log.*;
+import tusk.debug.Log;
 
 #if docgen
 @:dox(hide)
@@ -64,7 +64,7 @@ class Shader {
 			throw new Exception("Error compiling shader '" + id + "'.fragment: source must be set first!");
 		}
 
-		logTrace("Compiling shader '" + id + "' components...");
+		Log.trace("Compiling shader '" + id + "' components...");
 
 		var vShader:GLShader = GL.createShader(GL.VERTEX_SHADER);
 		GL.shaderSource(vShader, vertSrc);
@@ -80,8 +80,8 @@ class Shader {
 			throw new Exception("Error compiling shader '" + id + "'.fragment:\n" + GL.getShaderInfoLog(fShader));
 		}
 
-		logTrace("Shader '" + id + "' components compiled!");
-		logTrace("Linking shader '" + id + "' components...");
+		Log.trace("Shader '" + id + "' components compiled!");
+		Log.trace("Linking shader '" + id + "' components...");
 
 		program = GL.createProgram();
 		GL.attachShader(program, vShader);

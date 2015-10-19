@@ -88,7 +88,7 @@ class Log {
 	 * Use for show-stopping errors
 	 * @param value the message / object to log
 	 */
-	macro public static function logFatal(value:Dynamic):Expr {
+	macro public static function fatal(value:Dynamic):Expr {
 		#if log_fatal
 			return macro @:pos(Context.currentPos()) tusk.debug.Log.log($value, tusk.debug.Log.LogFunctions.Fatal);
 		#else
@@ -102,7 +102,7 @@ class Log {
 	 * necessarily show-stopping but require intervention.
 	 * @param value the message / object to log
 	 */
-	macro public static function logError(value:Dynamic):Expr {
+	macro public static function error(value:Dynamic):Expr {
 		#if log_error
 			return macro @:pos(Context.currentPos()) tusk.debug.Log.log($value, tusk.debug.Log.LogFunctions.Error);
 		#else
@@ -114,7 +114,7 @@ class Log {
 	 * Use for indicating incorrect behaviour (but execution can be continued).
 	 * @param value the message / object to log
 	 */
-	macro public static function logWarning(value:Dynamic):Expr {
+	macro public static function warning(value:Dynamic):Expr {
 		#if log_warning
 			return macro @:pos(Context.currentPos()) tusk.debug.Log.log($value, tusk.debug.Log.LogFunctions.Warn);
 		#else
@@ -126,7 +126,7 @@ class Log {
 	 * Use to indicate normal behaviour
 	 * @param value the message / object to log
 	 */
-	macro public static function logInfo(value:Dynamic):Expr {
+	macro public static function info(value:Dynamic):Expr {
 		#if log_info
 			return macro @:pos(Context.currentPos()) tusk.debug.Log.log($value, tusk.debug.Log.LogFunctions.Info);
 		#else
@@ -138,7 +138,7 @@ class Log {
 	 * Use for logging behind-the-scenes information.
 	 * @param value the message / object to log
 	 */
-	macro public static function logDebug(value:Dynamic):Expr {
+	macro public static function debug(value:Dynamic):Expr {
 		#if debug
 			return macro @:pos(Context.currentPos()) tusk.debug.Log.log($value, tusk.debug.Log.LogFunctions.Debug);
 		#else
@@ -150,7 +150,7 @@ class Log {
 	 * Used when delving deep into what is going on
 	 * @param value the message / object to log
 	 */
-	macro public static function logTrace(value:Dynamic):Expr {
+	macro public static function trace(value:Dynamic):Expr {
 		#if log_trace
 			return macro @:pos(Context.currentPos()) tusk.debug.Log.log($value, tusk.debug.Log.LogFunctions.Trace);
 		#else

@@ -1,7 +1,7 @@
 package tusk.events;
 
 import tusk.debug.Exception;
-import tusk.debug.Log.*;
+import tusk.debug.Log;
 import haxe.ds.EnumValueMap;
 import tusk.events.*;
 
