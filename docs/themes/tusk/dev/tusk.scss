@@ -1,4 +1,4 @@
-@import 'lib/_boneless/colors';
+/*@import 'lib/_boneless/colors';
 @import 'lib/_boneless/config';
 @import 'lib/_boneless/_utilities/mixins';
 @import 'lib/_boneless/base';
@@ -8,7 +8,8 @@
 @import 'lib/_boneless/buttons';
 @import 'lib/_boneless/forms';
 @import 'lib/_boneless/tables';
-@import 'lib/_boneless/utilities';
+@import 'lib/_boneless/utilities';*/
+@import 'typebase';
 
 @import '//fonts.googleapis.com/css?family=Raleway:400,700|Inconsolata:400,700)';
 
@@ -154,7 +155,16 @@ main {
 			padding: 0.25rem 0.5rem;
 			white-space: inherit;
 			display: inline-block;
-			border: 1px solid $gray-base;
+			border: none;
+			background: $brand-darker;
+			color: $brand-lighter;
+
+			a {
+				color: $brand-light;
+				&:hover {
+					color: $brand-main;
+				}
+			}
 
 			.identifier {
 				font-weight: bold;
@@ -162,18 +172,18 @@ main {
 
 			.type {
 				//font-style: italic;
-				color: $brand-main;
+				color: $brand-light;
 			}
 		}
 	}
 
 	h3 {
 		font-style: italic;
-		margin: 0 1rem 1rem 4rem;
+		margin: 0 1rem 1rem 3rem;
 	}
 
 	p, pre, ul, ol {
-		margin: 0 1rem 1rem 5rem;
+		margin: 0 1rem 1rem 4rem;
 	}
 
 	p.alert {
@@ -187,7 +197,7 @@ main {
 	}
 
 	div.description {
-		margin-left: -4rem;
+		margin-left: -2rem;
 	}
 
 	dl {
@@ -214,11 +224,10 @@ main {
 		}
 		dd {
 			padding: 0 0.25rem 0.25rem 0.5rem;
-		}
-
-		p {
-			margin: 0;
-			padding: 0;
+			>p, >.description {
+				margin: 0;
+				padding: 0;
+			}
 		}
 	}
 }
