@@ -10,10 +10,10 @@ class CameraViewModel extends Component {
 	/**
 	 * The computed view model matrix
 	 */
-	var viewModelMatrix:Matrix4x4;
+	public var viewModelMatrix:Matrix4x4;
 
 	/**
 	 * Whether the view model matrix is dirt and needs to be recalculated or not
 	 */
-	var dirty:Bool;
+	public var dirty:Bool;
 }

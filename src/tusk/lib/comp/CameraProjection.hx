@@ -10,10 +10,10 @@ class CameraProjection extends Component {
 	/**
 	 * The computed projection matrix
 	 */
-	var projectionMatrix:Matrix4x4;
+	public var projectionMatrix:Matrix4x4;
 
 	/**
 	 * Whether the projection matrix is dirt and needs to be recalculated or not
 	 */
-	var dirty:Bool;
+	public var dirty:Bool;
 }
