@@ -1,8 +1,6 @@
 package tusk.resources;
 
-#if !docgen
 import snow.modules.opengl.GL;
-#end
 import tusk.math.Matrix4x4;
 
 /**

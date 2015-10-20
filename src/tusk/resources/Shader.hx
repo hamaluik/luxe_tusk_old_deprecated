@@ -2,15 +2,7 @@ package tusk.resources;
 
 import tusk.debug.Exception;
 import tusk.debug.Log;
-
-#if docgen
-@:dox(hide)
-typedef GLProgram = String;
-@:dox(hide)
-typedef GLUniformLocation = Int;
-#else
 import snow.modules.opengl.GL;
-#end
 
 /**
  * Defines a GL shader

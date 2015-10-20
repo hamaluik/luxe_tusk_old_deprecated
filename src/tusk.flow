@@ -22,13 +22,16 @@
 			dependencies: {
 				snow: '*'
 			},
-			defines: ['log_fatal', 'log_error', 'log_warning', 'log_info', 'assertions'],
+			defines: ['log_fatal', 'log_error', 'log_warning', 'log_info', 'assertions', 'log_trace'],
 			files: {
 				boot: {
 					path: 'flow/boot/TuskApp.hx => haxe/TuskApp.hx',
 					template: ['project']
 				}
 			}
+		},
+		files: {
+			splashSound: 'flow/assets/sounds/blazingmammothgames.ogg => assets/sounds/blazingmammothgames.ogg'
 		}
 	}
 }
