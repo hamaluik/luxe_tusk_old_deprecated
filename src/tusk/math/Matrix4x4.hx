@@ -1,12 +1,7 @@
 package tusk.math;
 
 import tusk.debug.Assert;
-#if (docgen || testing)
-@:dox(hide)
-typedef Float32Array = Array<Float>;
-#else
 import snow.api.buffers.Float32Array;
-#end
 
 /**
  * A class representing a 4x4 matrix
@@ -25,7 +20,6 @@ class Matrix4x4 {
 	 * @return               [description]
 	 */
 	public function new(?array:Array<Float>) {
-		#if !(docgen || testing)
 		if(array != null) {
 			//Assert.isTrue(array.length == 16);
 			buffer = new Float32Array(array);
@@ -33,7 +27,6 @@ class Matrix4x4 {
 		else {
 			buffer = new Float32Array(16);
 		}
-		#end
 	}
 
 	/**

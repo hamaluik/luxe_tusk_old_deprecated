@@ -10,6 +10,7 @@
 -dce no
 -cp ../src
 -D docgen
+-lib snow
 --macro ImportAll.run()
 #TestClass
 

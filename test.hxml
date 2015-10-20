@@ -1,4 +1,5 @@
 -lib buddy
+-lib snow
 -D testing
 -main TestMain
 -cp test

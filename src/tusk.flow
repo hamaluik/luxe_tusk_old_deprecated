@@ -14,7 +14,10 @@
 		build: {
 			flags: [
 				"-resource flow/assets/shaders/default.colour.vert@default.colour.vert",
-				"-resource flow/assets/shaders/default.colour.frag@default.colour.frag"
+				"-resource flow/assets/shaders/default.colour.frag@default.colour.frag",
+				"-resource flow/assets/shaders/default.texture.vert@default.texture.vert",
+				"-resource flow/assets/shaders/default.texture.frag@default.texture.frag",
+				"-resource flow/assets/images/blazingmammothgames.png@blazingmammothgames.png"
 			],
 			dependencies: {
 				snow: '*'

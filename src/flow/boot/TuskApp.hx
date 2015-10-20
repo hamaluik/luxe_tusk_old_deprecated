@@ -10,8 +10,12 @@ class TuskApp {
 	public static function main() {
 		var snow:Snow = new Snow();
 		
+		var hasLoop:Bool = true;
+		#if (docgen || testing)
+		hasLoop = false;
+		#end
 		var snowConfig:SnowConfig = {
-			has_loop: true,
+			has_loop: hasLoop,
 			app_package: '{{toString project.app.package}}'
 		};
 		

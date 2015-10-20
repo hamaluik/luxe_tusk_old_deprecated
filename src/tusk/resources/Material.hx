@@ -37,4 +37,9 @@ class Material {
 		GL.uniformMatrix4fv(location, transpose, matrix.buffer);
 		#end
 	}
+
+	public function setTexture(name:String, ndx:Int) {
+		var location:GLUniformLocation = shader.getUniformLocation(name);
+		GL.uniform1i(location, ndx);
+	}
 }
