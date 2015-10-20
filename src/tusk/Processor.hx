@@ -1,9 +1,14 @@
 package tusk;
 
+import tusk.events.*;
+
 /**
  * Base class for all processors ('systems')
  */
+@:autoBuild(tusk.macros.EventConnector.connect())
 class Processor {
+	public var entities:Array<Entity>;
+
 	/**
 	 * The processor's matcher
 	 */
@@ -27,56 +32,57 @@ class Processor {
 	}
 
 	/**
+	 * These will be replaced by a macro
+	 */
+	@:dox(hide)
+	public function ___connectRoutes() {}
+	@:dox(hide)
+	public function ___disconnectRoutes() {}
+
+	/**
 	 * Create a new processor with the given matcher
-	 * @param  matcher the matcher
+	 * @param  entities a list of all current entities in the game
 	 */
-	public function new(matcher:Matcher) {
-		this.matcher = matcher;
-	}
-	
-	/**
-	 * Override to hook into the event when an entity is added to the system
-	 * @param  entity the entity that was just added
-	 */
-	inline public function onEntityAdded(entity:Entity):Void {
-		
-	}
-	
-	/**
-	 * Override to hook into the event when an entity is removed from the system
-	 * @param  entity the entity that was just removed
-	 */
-	inline public function onEntityRemoved(entity:Entity):Void {
-		
-	}
-	
-	/**
-	 * Override to hook into the `update` event
-	 * @param  entities<Entity> the list of entities that match this system
-	 */
-	public function update(entities:Array<Entity>):Void {
-		
+	public function new(?entities:Array<Entity>) {
+		if(entities != null) {
+			this.entities = matcher.matchEntities(entities);
+		}
+		else {
+			this.entities = new Array<Entity>();
+		}
 	}
 
 	/**
 	 * Override to hook into the event sent when this processor is re-enabled
 	 */
-	inline public function onEnabled():Void {
-
-	}
-
+	public function onEnabled():Void {}
 
 	/**
 	 * Override to hook into the event sent when this processor is disabled
 	 */
-	inline public function onDisabled():Void {
+	public function onDisabled():Void {}
 
-	}
-	
 	/**
-	 * Override to hook into the event when the system is destroyed
+	 * Override to hook into when the application is ready
+	 * @param  data The data supplied by the event caller
 	 */
-	inline public function onDestroy():Void {
-		
-	}
+	public function onStart(data:StartEvent) {}
+
+	/**
+	 * Override to hook into when the application is being destroyed
+	 * @param  data The data supplied by the event caller
+	 */
+	public function onDestroy(data:DestroyEvent) {}
+
+	/**
+	 * Override to hook into when the application's timer updates
+	 * @param  data The data supplied by the event caller
+	 */
+	public function onUpdate(data:UpdateEvent) {}
+
+	/**
+	 * Override to hook into the render function
+	 * @param  data The data supplied by the event caller
+	 */
+	public function onRender(data:RenderEvent) {}
 }

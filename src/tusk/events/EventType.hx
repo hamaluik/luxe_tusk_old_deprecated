@@ -6,5 +6,6 @@ package tusk.events;
 enum EventType {
 	Start;
 	Update;
+	Render;
 	Destroy;
 }

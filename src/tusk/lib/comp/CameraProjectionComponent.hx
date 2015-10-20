@@ -6,7 +6,7 @@ import tusk.math.Matrix4x4;
 /**
  * A tŭsk standard libary component for defining a camera projection matrix
  */
-class CameraProjection extends Component {
+class CameraProjectionComponent extends Component {
 	/**
 	 * The computed projection matrix
 	 */

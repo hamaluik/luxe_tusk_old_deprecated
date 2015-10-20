@@ -4,8 +4,8 @@ package tusk;
  * The matcher class implements the low-level logic for determining if an entity matches a system
  */
 class Matcher {
-	private var mustHaves:Array<Class<Component>> = new Array<Class<Component>>();
-	private var mustNotHaves:Array<Class<Component>> = new Array<Class<Component>>();
+	private var includes:Array<Class<Component>> = new Array<Class<Component>>();
+	private var excludes:Array<Class<Component>> = new Array<Class<Component>>();
 
 	public function new() { }
 	
@@ -34,8 +34,8 @@ class Matcher {
 	 * @return                          whether or not the component is included
 	 */
 	public function isIncluded(componentType:Class<Component>):Bool {
-		for (mustHave in mustHaves) {
-			if (mustHave == componentType) {
+		for (include in includes) {
+			if (include == componentType) {
 				return true;
 			}
 		}
@@ -48,8 +48,8 @@ class Matcher {
 	 * @return                          whether or not the component is excluded
 	 */
 	public function isExcluded(componentType:Class<Component>):Bool {
-		for (mustNotHave in mustNotHaves) {
-			if (mustNotHave == componentType) {
+		for (exclude in excludes) {
+			if (exclude == componentType) {
 				return true;
 			}
 		}
@@ -62,6 +62,27 @@ class Matcher {
 	 * @return        whether the entity matches or not
 	 */
 	public function matchesEntity(entity:Entity):Bool {
-		return false;
+		for(include in includes) {
+			if(!entity.hasType(include) || !entity.get(include).enabled) {
+				return false;
+			}
+		}
+		for(exclude in excludes) {
+			if(entity.hasType(exclude) && entity.get(exclude).enabled) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Returns a filtered list of entities which match this matcher
+	 * @param  entities<Entity> the full list of entities to examine
+	 * @return                  [description]
+	 */
+	public function matchEntities(entities:Array<Entity>):Array<Entity> {
+		return entities.filter(function(entity:Entity):Bool {
+			return matchesEntity(entity);
+		});
 	}
 }

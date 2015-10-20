@@ -6,7 +6,7 @@ import tusk.math.Matrix4x4;
 /**
  * A tŭsk standard libary component for defining a camera's view model
  */
-class CameraViewModel extends Component {
+class CameraViewModelComponent extends Component {
 	/**
 	 * The computed view model matrix
 	 */
