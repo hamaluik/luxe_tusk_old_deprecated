@@ -17,9 +17,22 @@ class Matrix4x4 {
 	 */
 	public var buffer(default, null):Float32Array;
 
-	public function new() {
+	/**
+	 * Construct a new 4x4 matrix
+	 * @param  ?array<Float> If provided, use the array values as values in the matrix.
+	 *                       If an array is provided, an exception will be thrown if
+	 *                       `array.length != 16`.
+	 * @return               [description]
+	 */
+	public function new(?array:Array<Float>) {
 		#if !(docgen || testing)
-		buffer = new Float32Array(16);
+		if(array != null) {
+			//Assert.isTrue(array.length == 16);
+			buffer = new Float32Array(array);
+		}
+		else {
+			buffer = new Float32Array(16);
+		}
 		#end
 	}
 
@@ -27,8 +40,8 @@ class Matrix4x4 {
 	 * sets a value in the matrix
 	 */
 	public function set(x:Int, y:Int, v:Float) {
-		Assert.isTrue(x >= 0 && x < 4);
-		Assert.isTrue(y >= 0 && y < 4);
+		//Assert.isTrue(x >= 0 && x < 4);
+		//Assert.isTrue(y >= 0 && y < 4);
 		buffer[(y * 4) + x] = v;
 	}
 }

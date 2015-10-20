@@ -13,8 +13,8 @@
 		},
 		build: {
 			flags: [
-				"-resource flow/assets/shaders/default.colour.vert@default.vert",
-				"-resource flow/assets/shaders/default.colour.frag@default.frag"
+				"-resource flow/assets/shaders/default.colour.vert@default.colour.vert",
+				"-resource flow/assets/shaders/default.colour.frag@default.colour.frag"
 			],
 			dependencies: {
 				snow: '*'

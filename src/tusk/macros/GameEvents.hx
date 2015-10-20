@@ -33,7 +33,7 @@ import haxe.macro.Expr;
 				name: '___connectRoutes',
 				doc: null, meta: [], access: [AOverride, APublic],
 				pos: Context.currentPos(),
-				kind: FFun({ params:[], args:[], ret:null, expr:macro { tusk.debug.Log.logInfo('Connecting game routes...'); } })
+				kind: FFun({ params:[], args:[], ret:null, expr:macro { tusk.debug.Log.info('Connecting game routes...'); } })
 			};
 			fields.push(connectField);
 		}

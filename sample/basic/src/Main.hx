@@ -1,5 +1,5 @@
 import tusk.Game;
-import tusk.debug.Log.*;
+import tusk.debug.Log;
 import tusk.events.*;
 
 class Main extends Game {
@@ -8,6 +8,6 @@ class Main extends Game {
     }
 
     override public function onStart(data:StartEvent) {
-    	logInfo("Game has started!");
+    	Log.info("Game has started!");
     }
 }

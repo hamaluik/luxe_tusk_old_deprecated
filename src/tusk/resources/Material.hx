@@ -34,7 +34,7 @@ class Material {
 	public function setMatrix4x4(name:String, matrix:Matrix4x4, transpose:Bool = false) {
 		#if !docgen
 		var location:GLUniformLocation = shader.getUniformLocation(name);
-		GL.uniformMatrix4fv(location, transpose, matrix);
+		GL.uniformMatrix4fv(location, transpose, matrix.buffer);
 		#end
 	}
 }
