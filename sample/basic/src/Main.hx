@@ -2,6 +2,7 @@ import tusk.*;
 
 import tusk.debug.Log;
 import tusk.events.*;
+import tusk.resources.AssetFiles;
 
 import tusk.lib.proc.*;
 import tusk.lib.comp.*;
@@ -25,7 +26,7 @@ class Main extends Game {
     		new CameraProjectionComponent()
     	]));
     	entities.push(new Entity([
-    		new SoundComponent(false, "assets/sounds/blazingmammothgames.ogg")
+    		new SoundComponent(false, AssetFiles.sounds___blazingmammothgames__ogg)
     	]));
 
     	Log.info("Done loading entities!");
