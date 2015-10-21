@@ -192,7 +192,8 @@ main {
     color: #EEEFF7; }
   main pre {
     border: 1px solid #1C1D21;
-    padding: 0 0.5rem; }
+    padding: 0 0.5rem;
+    background: white; }
   main div.description {
     margin-left: -2rem; }
   main dl {
