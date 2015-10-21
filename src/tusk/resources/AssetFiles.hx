@@ -39,7 +39,7 @@ package tusk.resources;
  * }
  * ```
  */
-@:build(tusk.macros.AssetFilesBuilder.build("assets/"))
+@:build(tusk.macros.AssetFilesBuilder.build("assets"))
 class AssetFiles {
 
 }

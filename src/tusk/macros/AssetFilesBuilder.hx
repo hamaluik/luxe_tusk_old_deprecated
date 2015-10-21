@@ -17,7 +17,7 @@ import sys.FileSystem;
 
         #if !docgen
         // get all the files in the folder
-        var fileRefs:Array<FileRef> = recurseReadFiles(dir, dir, new Array<FileRef>());
+        var fileRefs:Array<FileRef> = recurseReadFiles(dir, dir);
 
         // add the fields to the class
         for(fileRef in fileRefs) {
@@ -35,17 +35,18 @@ import sys.FileSystem;
     }
 
     #if !docgen
-    private static function recurseReadFiles(baseDir:String, dir:String, fileRefs:Array<FileRef>):Array<FileRef> {
-        var fileNames:Array<String> = FileSystem.readDirectory(dir);
-        for(fileName in fileNames) {
-            if(!FileSystem.isDirectory(dir + fileName)) {
-                fileRefs.push(new FileRef(baseDir, dir + fileName));
+    private static function recurseReadFiles(baseDir:String, file:String):Array<FileRef> {
+        var fileRefs:Array<FileRef> = new Array<FileRef>();
+        if(FileSystem.isDirectory(file)) {
+            for(fileName in FileSystem.readDirectory(file)) {
+                fileRefs = fileRefs.concat(recurseReadFiles(baseDir, file + "/" + fileName));
             }
-            else {
-                fileRefs = fileRefs.concat(recurseReadFiles(baseDir, dir + fileName + "/", fileRefs));
-            }
+            return fileRefs;
         }
-        return fileRefs;
+        else {
+            fileRefs.push(new FileRef(baseDir, file));
+            return fileRefs;
+        }
     }
     #end
 }
@@ -56,9 +57,10 @@ private class FileRef {
     public var documentation:String;
 
     public function new(baseDir:String, value:String) {
+        //trace("Added file: " + value);
         this.value = value;
         // clear out invalid characters
-        this.name = value.substr(baseDir.length).split("/").join("___").split("-").join("_").split(".").join("__");
+        this.name = value.substr(baseDir.length + 1).split("/").join("___").split("-").join("_").split(".").join("__");
         // generate documentation
         this.documentation = "Reference to file '" + value + "' (auto)";
     }

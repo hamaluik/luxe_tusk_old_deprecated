@@ -26,7 +26,7 @@ class Main extends Game {
     		new CameraProjectionComponent()
     	]));
     	entities.push(new Entity([
-    		new SoundComponent(false, AssetFiles.sounds___blazingmammothgames__ogg)
+    		new SoundComponent(false, AssetFiles.sounds___tada__ogg)
     	]));
 
     	Log.info("Done loading entities!");
