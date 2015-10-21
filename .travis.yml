@@ -2,5 +2,7 @@ language: haxe
 haxe:
   - "3.2.1"
   - development
+before_install:
+  - haxelib git snow https://github.com/underscorediscovery/snow.git
 hxml:
   - test.hxml
