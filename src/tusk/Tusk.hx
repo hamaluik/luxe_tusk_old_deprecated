@@ -4,8 +4,22 @@ import tusk.Game;
 import tusk.debug.Log;
 import tusk.events.*;
 
+#if !docgen
 import snow.types.Types;
 import snow.modules.opengl.GL;
+import snow.App.AppFixedTimestep;
+import snow.system.window.Window;
+#else
+@:dox(hide)
+class Window {}
+@:dox(hide)
+class AppFixedTimestep {
+    public var alpha:Float;
+    public function new() {}
+}
+@:dox(hide)
+typedef AppConfig = { window:Window }
+#end
 
 /**
  * The main application lives here.
@@ -13,16 +27,17 @@ import snow.modules.opengl.GL;
  * It should mostly be a one-way relationship from here to children of the `Game` class
  * (width the exception of hooking up events).
  *
- * Responsible for showing the splash screen and emitting events.
+ * Generally responsible for showing the splash screen and emitting events.
  */
-class Tusk extends snow.App.AppFixedTimestep {
-    public static var instance:Tusk;
+class Tusk extends AppFixedTimestep {
+    private static var instance:Tusk;
 
     private var game:Game;
     private var router:EventRouter;
 
     private var splashScreen:tusk.SplashScreen;
 
+    #if !docgen
     @:noCompletion
     public function new(game:Game) {
         super();
@@ -39,36 +54,6 @@ class Tusk extends snow.App.AppFixedTimestep {
     @:noCompletion
     public static function unrouteEvent(type:EventType, handler:EventHandler) {
         instance.router.unregisterHandler(type, handler);
-    }
-
-    public static function addEntity(entity:Entity) {
-        for(processor in instance.game.processors) {
-            if(processor.entities.indexOf(entity) == -1 && processor.matcher.matchesEntity(entity)) {
-                processor.entities.push(entity);
-                Log.trace("Added entity to processor '" + Type.getClassName(Type.getClass(processor)) + "'!");
-            }
-        }
-    }
-
-    public static function entityChanged(entity:Entity) {
-        for(processor in instance.game.processors) {
-            if(processor.entities.indexOf(entity) == -1 && processor.matcher.matchesEntity(entity)) {
-                processor.entities.push(entity);
-                Log.trace("Added entity to processor '" + Type.getClassName(Type.getClass(processor)) + "'!");
-            }
-            else if(processor.entities.indexOf(entity) != -1 && !processor.matcher.matchesEntity(entity)) {
-                processor.entities.remove(entity);
-                Log.trace("Removed entity from processor '" + Type.getClassName(Type.getClass(processor)) + "'!");
-            }
-        }
-    }
-
-    public static function removeEntity(entity:Entity) {
-        for(processor in instance.game.processors) {
-            if(processor.entities.remove(entity)) {
-                Log.trace("Removed entity from processor '" + Type.getClassName(Type.getClass(processor)) + "'!");
-            }
-        }
     }
 
     @:noCompletion
@@ -115,7 +100,50 @@ class Tusk extends snow.App.AppFixedTimestep {
         router.onEvent(EventType.Update, { dt: dt });
     }
 
-    private function render(window:snow.system.window.Window) {
+    private function render(window:Window) {
         router.onEvent(EventType.Render, { alpha: alpha });
+    }
+    #end
+
+    /**
+     * Called in an entity constructor when it is created (to route the events to the processors)
+     * @param entity The entity that was just created
+     */
+    public static function addEntity(entity:Entity) {
+        for(processor in instance.game.processors) {
+            if(processor.entities.indexOf(entity) == -1 && processor.matcher.matchesEntity(entity)) {
+                processor.entities.push(entity);
+                Log.trace("Added entity to processor '" + Type.getClassName(Type.getClass(processor)) + "'!");
+            }
+        }
+    }
+
+    /**
+     * Called whenever an entity changes (when its component-composition changes) (to route the events to the processors)
+     * @param  entity the changed entity
+     */
+    public static function entityChanged(entity:Entity) {
+        for(processor in instance.game.processors) {
+            if(processor.entities.indexOf(entity) == -1 && processor.matcher.matchesEntity(entity)) {
+                processor.entities.push(entity);
+                Log.trace("Added entity to processor '" + Type.getClassName(Type.getClass(processor)) + "'!");
+            }
+            else if(processor.entities.indexOf(entity) != -1 && !processor.matcher.matchesEntity(entity)) {
+                processor.entities.remove(entity);
+                Log.trace("Removed entity from processor '" + Type.getClassName(Type.getClass(processor)) + "'!");
+            }
+        }
+    }
+
+    /**
+     * Called whenever an entity is destroyed (to route the events to the processors)
+     * @param  entity the destroyed entity
+     */
+    public static function removeEntity(entity:Entity) {
+        for(processor in instance.game.processors) {
+            if(processor.entities.remove(entity)) {
+                Log.trace("Removed entity from processor '" + Type.getClassName(Type.getClass(processor)) + "'!");
+            }
+        }
     }
 }

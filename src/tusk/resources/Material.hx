@@ -1,7 +1,10 @@
 package tusk.resources;
 
-import snow.modules.opengl.GL;
 import tusk.math.Matrix4x4;
+
+#if !docgen
+import snow.modules.opengl.GL;
+#end
 
 /**
  * Defines a material
@@ -37,7 +40,9 @@ class Material {
 	}
 
 	public function setTexture(name:String, ndx:Int) {
+		#if !docgen
 		var location:GLUniformLocation = shader.getUniformLocation(name);
 		GL.uniform1i(location, ndx);
+		#end
 	}
 }

@@ -26,7 +26,7 @@ class SoundProcessor extends Processor {
 			if(!sound.playing) {
 				sound.playing = true;
 				Log.info("Playing sound: '" + sound.id + "'...");
-				Tusk.instance.app.audio.play(sound.id);
+				//Tusk.instance.app.audio.play(sound.id);
 			}
 		}
 	}

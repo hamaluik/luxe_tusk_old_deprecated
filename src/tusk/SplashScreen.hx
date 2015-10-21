@@ -2,11 +2,14 @@ package tusk;
 
 import tusk.debug.Log;
 
+#if !docgen
 import snow.types.Types;
 import snow.modules.opengl.GL;
+#end
 
 @:dox(hide)
 class SplashScreen {
+    #if !docgen
     private var tuskLib:Tusk;
     private var onDone:Void->Void;
 
@@ -185,4 +188,5 @@ class SplashScreen {
         GL.disableVertexAttribArray(uvLocation);
         GL.useProgram(null);
     }
+    #end
 }

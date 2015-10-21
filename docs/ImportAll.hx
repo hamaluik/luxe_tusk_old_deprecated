@@ -3,7 +3,7 @@ import haxe.macro.Context;
 // stolen from haxe/doc/ImportAll.hx
 class ImportAll {
 	private static var skippedFiles:Array<String> = [
-		".svn", "_std", "src", "Tusk.hx", "TuskApp.hx"
+		".svn", "_std", "src", "TuskApp.hx", "SplashScreen.hx"
 	];
 	private static var skippedDirectories:Array<String> = [
 	];
