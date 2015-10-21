@@ -59,16 +59,12 @@ class TestEventRouter extends BuddySuite {
 			it('should pass event data to the handler', {
 				router.registerHandler(EventType.Update, function(data:UpdateEvent) {
 					testValueA = Std.int(data.dt);
-					testValueB = Std.int(data.alpha);
 				});
 				testValueA.should.be(0);
-				testValueB.should.be(0);
 				router.onEvent.bind(EventType.Update, {
-					dt: 123,
-					alpha: 78
+					dt: 123
 				}).should.not.throwType(Exception);
 				testValueA.should.be(123);
-				testValueB.should.be(78);
 			});
 
 			after({

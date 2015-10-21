@@ -44,8 +44,8 @@ class Matrix4x4 {
 	 */
 	public function set(x:Int, y:Int, v:Float) {
 		#if !docgen
-		//Assert.isTrue(x >= 0 && x < 4);
-		//Assert.isTrue(y >= 0 && y < 4);
+		Assert.assert(x >= 0 && x < 4);
+		Assert.assert(y >= 0 && y < 4);
 		buffer[(y * 4) + x] = v;
 		#end
 	}

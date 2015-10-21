@@ -9,7 +9,7 @@ import tusk.resources.*;
 using buddy.Should;
 
 class TestMain implements Buddy<[
-	TestException,
+	TestAssert, TestException,
 	TestEventRouter,
 	TestMatrix4x4, TestRandom, TestVector,
 	TestMaterial, TestShader,
