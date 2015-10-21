@@ -146,4 +146,19 @@ class Tusk extends AppFixedTimestep {
             }
         }
     }
+
+    /**
+     * Creates a savegame string
+     * @return a string defining the current state of the game
+     */
+    public static function serialize():String {
+        Log.trace("Serializing game state...");
+        var s = new haxe.Serializer();
+        s.serialize(instance.game.processors);
+        s.serialize(instance.game.entities);
+        var result:String = s.toString();
+        Log.trace("Serialized state:");
+        Log.trace(result);
+        return result;
+    }
 }

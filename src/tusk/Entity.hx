@@ -1,6 +1,8 @@
 package tusk;
 
 import haxe.ds.StringMap;
+import haxe.Serializer;
+import haxe.Unserializer;
 
 /**
  * Container class for collections of components
@@ -72,5 +74,23 @@ class Entity {
 			Tusk.entityChanged(this);
 		}
 		return this;
+	}
+
+	/**
+	 * Called by the haxe serializer when serializing.
+	 * @param the haxe serializer
+	 */
+	@:keep
+	function hxSerialize(s:Serializer) {
+		s.serialize(components);
+	}
+
+	/**
+	 * Called by the haxe serializer when unserializing.
+	 * @param the haxe unserializer
+	 */
+	@:keep
+	function hxUnserialize(u:Unserializer) {
+		components = u.unserialize();
 	}
 }

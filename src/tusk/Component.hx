@@ -3,6 +3,7 @@ package tusk;
 /**
  * Base class for all components.
  */
+@:autoBuild(tusk.macros.AutoSerializer.apply())
 class Component {
 	/**
 	 * Whether or a not a component is enabled

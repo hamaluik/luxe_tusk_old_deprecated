@@ -29,5 +29,7 @@ class Main extends Game {
     	]));
 
     	Log.info("Done loading entities!");
+
+        Log.info("Savegame state: " + Tusk.serialize());
     }
 }

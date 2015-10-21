@@ -31,6 +31,7 @@ Auto-generated up-to-date documentation can be accessed here: http://blazingmamm
     - [ ] Formatted file logs
 - [ ] Macro-Based Profiling?
 - [ ] Macro-Based Developer Console
+- [ ] Macro-Based Game Saving / Loading
 - [ ] Flexible Rendering
     - [ ] Material system
 - [ ] Asynchronous File Loader

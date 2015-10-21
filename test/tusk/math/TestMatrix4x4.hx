@@ -32,6 +32,18 @@ class TestMatrix4x4 extends BuddySuite {
 				var r:Float = a.buffer[1];
 				r.should.be(2);
 			});
+			it('should be serializable', {
+				var a:Matrix4x4 = new Matrix4x4([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]);
+
+				var s:haxe.Serializer = new haxe.Serializer();
+				s.serialize(a);
+				var serialized:String = s.toString();
+
+				var u:haxe.Unserializer = new haxe.Unserializer(serialized);
+				var b:Matrix4x4 = u.unserialize();
+				var r:Float = b.buffer[11];
+				r.should.be(12);
+			});
 		});
 	}
 }

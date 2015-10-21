@@ -11,6 +11,9 @@ class Float32Array {
 }
 #end
 
+import haxe.Serializer;
+import haxe.Unserializer;
+
 /**
  * A class representing a 4x4 matrix
  */
@@ -84,5 +87,28 @@ class Matrix4x4 {
 			}
 		}
 		return ret;
+	}
+
+	/**
+	 * Called by the haxe serializer when serializing.
+	 * @param the haxe serializer
+	 */
+	@:keep
+	function hxSerialize(s:Serializer) {
+		var arr:Array<Float> = new Array<Float>();
+		for(i in 0...16) {
+			arr.push(buffer[i]);
+		}
+		s.serialize(arr);
+	}
+
+	/**
+	 * Called by the haxe serializer when unserializing.
+	 * @param the haxe unserializer
+	 */
+	@:keep
+	function hxUnserialize(u:Unserializer) {
+		var arr:Array<Float> = u.unserialize();
+		buffer = new Float32Array(arr);
 	}
 }

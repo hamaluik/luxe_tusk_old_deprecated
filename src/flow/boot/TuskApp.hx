@@ -27,6 +27,7 @@ class TuskApp {
 		catch(exception:Exception) {
 			if(exception.fatal) {
 				Log.fatal(exception.message);
+			}
 			else {
 				Log.error(exception);
 			}

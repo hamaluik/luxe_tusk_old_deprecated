@@ -2,6 +2,9 @@ package tusk;
 
 import tusk.events.*;
 
+import haxe.Serializer;
+import haxe.Unserializer;
+
 /**
  * Base class for all processors ('systems')
  */
@@ -85,4 +88,22 @@ class Processor {
 	 * @param  data The data supplied by the event caller
 	 */
 	public function onRender(data:RenderEvent) {}
+
+	/**
+	 * Called by the haxe serializer when serializing.
+	 * @param the haxe serializer
+	 */
+	@:keep
+	function hxSerialize(s:Serializer) {
+		s.serialize(enabled);
+	}
+
+	/**
+	 * Called by the haxe serializer when unserializing.
+	 * @param the haxe unserializer
+	 */
+	@:keep
+	function hxUnserialize(u:Unserializer) {
+		enabled = u.unserialize();
+	}
 }
