@@ -22,16 +22,17 @@ Auto-generated up-to-date documentation can be accessed here: http://blazingmamm
 ## Planned Features
 
 - [ ] Entity-Component-Processor Model
-- [ ] Event System
+- [x] Event System
     - [x] Macro-based automatic event routing for `Game` class children
-    - [ ] Macro-based automatic event routing for `Processor` class children
+    - [x] Macro-based automatic event routing for `Processor` class children
 - [ ] Enhanced Logging
     - [x] Coloured browser console logs
     - [ ] Coloured terminal logs for supported terminals
     - [ ] Formatted file logs
-- [ ] Macro-Based Profiling
+- [ ] Macro-Based Profiling?
 - [ ] Macro-Based Developer Console
-- [ ] Flexible Renderer
+- [ ] Flexible Rendering
+    - [ ] Material system
 - [ ] Asynchronous File Loader
 - [ ] Optional (But Commonly Used) Libraries
     - [ ] Post-processing shaders / effects
@@ -41,6 +42,8 @@ Auto-generated up-to-date documentation can be accessed here: http://blazingmamm
     - [ ] Collision detection
     - [ ] Standard component library
     - [ ] Standard processor library
+- [x] Thorough documentation
+- [ ] Workable samples
 - [ ] Think of more features!
 
 ## Contributing
