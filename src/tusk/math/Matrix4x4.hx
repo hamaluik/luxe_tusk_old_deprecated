@@ -2,17 +2,23 @@ package tusk.math;
 
 import tusk.debug.Assert;
 
+import haxe.Serializer;
+import haxe.Unserializer;
+
 #if !docgen
 import snow.api.buffers.Float32Array;
 #else
-@:dox(hide)
-class Float32Array {
+/*class Float32Array {
 	public function new(?elem:Dynamic) {}
+    @:arrayAccess inline function __get(idx:Int):Float return 0.0;
+}*/
+@:dox(hide)
+abstract Float32Array(Array<Float>) from Array<Float> to Array<Float> {
+    public inline function new(?elements:Int, ?array:Array<Float>) { this = array; }
+    @:arrayAccess inline function get(idx:Int):Float { return 0; }
+    @:arrayAccess inline function set(idx:Int, val:Float) {}
 }
 #end
-
-import haxe.Serializer;
-import haxe.Unserializer;
 
 /**
  * A class representing a 4x4 matrix
@@ -31,7 +37,6 @@ class Matrix4x4 {
 	 * @return               [description]
 	 */
 	public function new(?array:Array<Float>) {
-		#if !docgen
 		if(array != null) {
 			Assert.assert(array.length == 16);
 			buffer = new Float32Array(array);
@@ -39,7 +44,6 @@ class Matrix4x4 {
 		else {
 			buffer = new Float32Array(16);
 		}
-		#end
 	}
 
 	/**
@@ -49,11 +53,9 @@ class Matrix4x4 {
 	 * @return  the matrix's vaues in that location
 	 */
 	public function get(x:Int, y:Int):Float {
-		#if !docgen
 		Assert.assert(x >= 0 && x < 4);
 		Assert.assert(y >= 0 && y < 4);
 		return buffer[(y * 4) + x];
-		#end
 	}
 
 	/**
@@ -63,11 +65,9 @@ class Matrix4x4 {
 	 * @param v The vaue to set
 	 */
 	public function set(x:Int, y:Int, v:Float) {
-		#if !docgen
 		Assert.assert(x >= 0 && x < 4);
 		Assert.assert(y >= 0 && y < 4);
 		buffer[(y * 4) + x] = v;
-		#end
 	}
 
 	/**

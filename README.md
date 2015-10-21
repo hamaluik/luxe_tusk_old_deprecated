@@ -32,6 +32,10 @@ Auto-generated up-to-date documentation can be accessed here: http://blazingmamm
 - [ ] Macro-Based Profiling?
 - [ ] Macro-Based Developer Console
 - [ ] Macro-Based Game Saving / Loading
+    - [x] Serialization
+    - [ ] Unserialization
+    - [ ] File saving
+    - [ ] File loading
 - [ ] Flexible Rendering
     - [ ] Material system
 - [ ] Asynchronous File Loader
