@@ -25,7 +25,11 @@ class TuskApp {
 			snow.init(snowConfig, new Tusk(new {{project.app.main}}()));
 		}
 		catch(exception:Exception) {
-			Log.error(exception);
+			if(exception.fatal) {
+				Log.fatal(exception.message);
+			else {
+				Log.error(exception);
+			}
 		}
 	}
 }

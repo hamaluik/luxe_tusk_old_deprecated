@@ -18,6 +18,11 @@ class Exception {
 	public var message(default, null):String;
 
 	/**
+	 * Whether the exception is fatal or not
+	 */
+	public var fatal(default, null):Bool;
+
+	/**
 	 * The callstack at the time the exception was thrown
 	 */
 	public var stack(default, null):Array<StackItem>;
@@ -31,8 +36,9 @@ class Exception {
 	 * Throw a new exception
 	 * @param  message A message to attach to the exception
 	 */
-	public function new(message:String = '', ?pos:haxe.PosInfos) {
+	public function new(message:String = '', fatal:Bool = false, ?pos:haxe.PosInfos) {
 		this.message = message;
+		this.fatal = fatal;
 		this.stack = CallStack.callStack();
 		this.pos = pos;
 	}
@@ -54,6 +60,6 @@ class Exception {
 	public function toString():String {
 		var stackString:Array<String> = stack.map(translateStackItem);
 		var posInfo:String = pos == null ? "" : (" in class: " + pos.className + " (" + pos.fileName + ") in function " + pos.methodName + "() at line " + pos.lineNumber);
-		return "exception" + posInfo + ": " + message + (showStackTrace ? ("\nstack trace:\n  " + stackString.join("\n  ")) : '');
+		return (fatal ? "fatal " : "") + "exception" + posInfo + ": " + message + (showStackTrace ? ("\nstack trace:\n  " + stackString.join("\n  ")) : '');
 	}
 }
