@@ -30,7 +30,7 @@ class Matrix4x4 {
 	public function new(?array:Array<Float>) {
 		#if !docgen
 		if(array != null) {
-			//Assert.isTrue(array.length == 16);
+			Assert.assert(array.length == 16);
 			buffer = new Float32Array(array);
 		}
 		else {
@@ -40,7 +40,24 @@ class Matrix4x4 {
 	}
 
 	/**
-	 * sets a value in the matrix
+	 * Get a value from the matrix
+	 * @param x the column to set
+	 * @param y the row to set
+	 * @return  the matrix's vaues in that location
+	 */
+	public function get(x:Int, y:Int):Float {
+		#if !docgen
+		Assert.assert(x >= 0 && x < 4);
+		Assert.assert(y >= 0 && y < 4);
+		return buffer[(y * 4) + x];
+		#end
+	}
+
+	/**
+	 * Set a value in the matrix
+	 * @param x the column to set
+	 * @param y the row to set
+	 * @param v The vaue to set
 	 */
 	public function set(x:Int, y:Int, v:Float) {
 		#if !docgen
@@ -48,5 +65,24 @@ class Matrix4x4 {
 		Assert.assert(y >= 0 && y < 4);
 		buffer[(y * 4) + x] = v;
 		#end
+	}
+
+	/**
+	 * Matrix multiplication
+	 * @param  B the other matrix to multiply by
+	 * @return   the resulting matrix
+	 */
+	public function multiplyMatrix(B:Matrix4x4):Matrix4x4 {
+		var ret:Matrix4x4 = new Matrix4x4();
+		for(i in 0...4) {
+			for(j in 0...4) {
+				var s:Float = 0;
+				for(k in 0...4) {
+					s += this.get(i, k) * this.get(k, j);
+				}
+				ret.set(j, i, s);
+			}
+		}
+		return ret;
 	}
 }
