@@ -49,14 +49,6 @@ class TestMatcher extends BuddySuite {
 				m.include(CompA);
 				m.include.bind(CompA).should.throwType(Exception);
 			});
-			it('should take into account a components `enabled` status when matching entities', {
-				var ca:CompA = new CompA();
-				ca.enabled = false;
-				e.push(ca);
-				m.include(CompA);
-				var r:Bool = m.matchesEntity(e);
-				r.should.be(false);
-			});
 
 			after({
 				e = null;

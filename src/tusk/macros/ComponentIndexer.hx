@@ -42,7 +42,7 @@ import haxe.ds.StringMap;
     private static function updateID(name:String) {
         if(!componentMap.exists(name)) {
             componentMap.set(name, nextID);
-            trace(name + ' => ' + nextID);
+            //trace(name + ' => ' + nextID);
             nextID++;
         }
     }

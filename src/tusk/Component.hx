@@ -6,13 +6,5 @@ package tusk;
 @:autoBuild(tusk.macros.AutoSerializer.apply())
 @:autoBuild(tusk.macros.ComponentIndexer.index())
 class Component {
-	/**
-	 * Whether or a not a component is enabled
-	 */
-	public var enabled(default, set):Bool = true;
-	function set_enabled(enabled:Bool):Bool {
-		return this.enabled = enabled;
-	}
-
 	public function new() {}
 }

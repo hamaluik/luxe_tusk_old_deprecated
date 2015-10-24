@@ -16,11 +16,15 @@ class Window {
     public var width:Int;
     public var height:Int;
     public var onrender:Window->Void;
+
+    public function new() {}
 }
 @:dox(hide)
 class Snow {
     public var window:Window;
-    public function new() {}
+    public function new() {
+        window = new Window();
+    }
 }
 @:dox(hide)
 class AppFixedTimestep {
@@ -125,6 +129,13 @@ class Tusk extends AppFixedTimestep {
      * @param entity The entity that was just created
      */
     public static function addEntity(entity:Entity) {
+        // update the game
+        if(instance.game.entities.indexOf(entity) == -1) {
+            instance.game.entities.push(entity);
+            Log.trace("Added entity to game!");
+        }
+
+        // update the processors
         for(processor in instance.game.processors) {
             if(processor.entities.indexOf(entity) == -1 && processor.matcher.matchesEntity(entity)) {
                 processor.entities.push(entity);
@@ -138,6 +149,7 @@ class Tusk extends AppFixedTimestep {
      * @param  entity the changed entity
      */
     public static function entityChanged(entity:Entity) {
+        // update the processors
         for(processor in instance.game.processors) {
             if(processor.entities.indexOf(entity) == -1 && processor.matcher.matchesEntity(entity)) {
                 processor.entities.push(entity);
@@ -155,10 +167,16 @@ class Tusk extends AppFixedTimestep {
      * @param  entity the destroyed entity
      */
     public static function removeEntity(entity:Entity) {
+        // update the processors
         for(processor in instance.game.processors) {
             if(processor.entities.remove(entity)) {
                 Log.trace("Removed entity from processor '" + Type.getClassName(Type.getClass(processor)) + "'!");
             }
+        }
+
+        // update the game
+        if(instance.game.entities.remove(entity)) {
+            Log.trace("Removed entity from game!");
         }
     }
 

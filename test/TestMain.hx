@@ -13,5 +13,5 @@ class TestMain implements Buddy<[
 	TestEventRouter,
 	TestMatrix4x4, TestRandom, TestVector,
 	TestMaterial, TestShader,
-	TestComponent, TestEntity, TestEntityTools, TestMatcher, TestProcessor
+	TestComponent, TestEntity, TestGame, TestMatcher, TestProcessor
 ]>{}

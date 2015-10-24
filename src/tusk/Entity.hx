@@ -8,6 +8,13 @@ import haxe.Unserializer;
  * Container class for collections of components
  */
 class Entity {
+	private static var nextID:Int = 0;
+
+	/**
+	 * The ID of this entity, automatically set when it is created
+	 */
+	public var id(default, null):Int;
+
 	/**
 	 * All the components that currently belong to this entity
 	 */
@@ -20,6 +27,8 @@ class Entity {
 				this.components.set(Type.getClassName(Type.getClass(component)), component);
 			}
 		}
+		id = nextID;
+		nextID++;
 		Tusk.addEntity(this);
 	}
 
@@ -66,14 +75,22 @@ class Entity {
 	}
 
 	/**
-	 * @param  component A component to remove the entity
+	 * @param  type      A component type to remove from the entity
 	 * @return           `this` (useful for chaining)
 	 */
-	public function remove(component:Component):Entity {
-		if(components.remove(Type.getClassName(Type.getClass(component)))) {
+	public function removeType(type:Class<Component>):Entity {
+		if(components.remove(Type.getClassName(type))) {
 			Tusk.entityChanged(this);
 		}
 		return this;
+	}
+
+	/**
+	 * @param  component A component to remove from the entity
+	 * @return           `this` (useful for chaining)
+	 */
+	public function remove(component:Component):Entity {
+		return removeType(Type.getClass(component));
 	}
 
 	/**

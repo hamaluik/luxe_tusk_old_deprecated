@@ -1,5 +1,7 @@
 package tusk;
 
+import tusk.debug.Exception;
+
 /**
  * The matcher class implements the low-level logic for determining if an entity matches a system
  */
@@ -11,49 +13,51 @@ class Matcher {
 	
 	/**
 	 * Chainable function for including component requirements
-	 * @param  componentType<Component> the type of component to include
+	 * @param  type<Component> the type of component to include
 	 * @return                          `this`
 	 */
-	public function include(componentType:Class<Component>):Matcher
+	public function include(type:Class<Component>):Matcher
 	{
+		if(excludes.indexOf(type) >= 0) {
+			throw new Exception("Can't add component '" + Type.getClassName(type) + "' because it is already in the excludes list!");
+		}
+		if(includes.indexOf(type) < 0) {
+			includes.push(type);
+		}
 		return this;
 	}
 	
 	/**
 	 * Chainable function for excluding component requirements
-	 * @param  componentType<Component> the type of component to exclude
+	 * @param  type<Component> the type of component to exclude
 	 * @return                          `this`
 	 */
-	public function exclude(componentType:Class<Component>):Matcher {
+	public function exclude(type:Class<Component>):Matcher {
+		if(includes.indexOf(type) >= 0) {
+			throw new Exception("Can't add component '" + Type.getClassName(type) + "' because it is already in the includes list!");
+		}
+		if(excludes.indexOf(type) < 0) {
+			excludes.push(type);
+		}
 		return this;
 	}
 	
 	/**
 	 * Determines whether or not a component is included in this matcher
-	 * @param  componentType<Component> the type of component to check
+	 * @param  type<Component> the type of component to check
 	 * @return                          whether or not the component is included
 	 */
-	public function isIncluded(componentType:Class<Component>):Bool {
-		for (include in includes) {
-			if (include == componentType) {
-				return true;
-			}
-		}
-		return false;
+	public function isIncluded(type:Class<Component>):Bool {
+		return includes.indexOf(type) > -1;
 	}
 	
 	/**
 	 * Determines whether or not a component is excluded in this matcher
-	 * @param  componentType<Component> the type of component to check
+	 * @param  type<Component> the type of component to check
 	 * @return                          whether or not the component is excluded
 	 */
-	public function isExcluded(componentType:Class<Component>):Bool {
-		for (exclude in excludes) {
-			if (exclude == componentType) {
-				return true;
-			}
-		}
-		return false;
+	public function isExcluded(type:Class<Component>):Bool {
+		return excludes.indexOf(type) > -1;
 	}
 	
 	/**
@@ -63,12 +67,12 @@ class Matcher {
 	 */
 	public function matchesEntity(entity:Entity):Bool {
 		for(include in includes) {
-			if(!entity.hasType(include) || !entity.get(include).enabled) {
+			if(!entity.hasType(include)) {
 				return false;
 			}
 		}
 		for(exclude in excludes) {
-			if(entity.hasType(exclude) && entity.get(exclude).enabled) {
+			if(entity.hasType(exclude)) {
 				return false;
 			}
 		}
