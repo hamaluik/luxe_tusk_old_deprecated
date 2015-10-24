@@ -8,7 +8,6 @@ import tusk.events.*;
  */
 @:autoBuild(tusk.macros.EventConnector.connect())
 class Game {
-
 	/**
 	 * The title of the game
 	 * 

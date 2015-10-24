@@ -2,14 +2,16 @@ package tusk;
 
 import tusk.debug.Log;
 
-#if !docgen
+#if snow
 import snow.types.Types;
 import snow.modules.opengl.GL;
+import snow.system.window.Window;
+#else
+import tusk.Tusk.Window;
 #end
 
 @:dox(hide)
 class SplashScreen {
-    #if !docgen
     private var tuskLib:Tusk;
     private var onDone:Void->Void;
 
@@ -20,14 +22,17 @@ class SplashScreen {
     private var posLocation:Int;
     private var uvLocation:Int;
 
+    #if snow
     var vertexBuffer:GLBuffer;
 
     var logo:snow.system.assets.Asset.AssetImage;
     var logoTexture:GLTexture;
 
     var logoSound:snow.system.audio.Sound;
+    #end
 
     public function new(tuskLib:Tusk, onDone:Void->Void) {
+        #if snow
         this.tuskLib = tuskLib;
         this.onDone = onDone;
 
@@ -99,6 +104,7 @@ class SplashScreen {
 
         GL.enable(GL.DEPTH_TEST);
         GL.enable(GL.BLEND);
+        #end
     }
 
     var started:Bool = false;
@@ -111,6 +117,7 @@ class SplashScreen {
     var done:Bool = false;
 
     public function update(dt:Float) {
+        #if snow
         if(logo == null || logoSound == null || done) {
             return;
         }
@@ -149,9 +156,11 @@ class SplashScreen {
 
         modelMatrix.set(0, 3, -128 + x);
         modelMatrix.set(1, 3, -128 + y);
+        #end
     }
 
-    public function render(window:snow.system.window.Window) {
+    public function render(window:Window) {
+        #if snow
         GL.viewport(0, 0, tuskLib.app.window.width, tuskLib.app.window.height);
 
         if(logo == null || logoSound == null || done) {
@@ -187,6 +196,6 @@ class SplashScreen {
         GL.disableVertexAttribArray(posLocation);
         GL.disableVertexAttribArray(uvLocation);
         GL.useProgram(null);
+        #end
     }
-    #end
 }

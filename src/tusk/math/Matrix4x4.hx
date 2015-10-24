@@ -5,18 +5,24 @@ import tusk.debug.Assert;
 import haxe.Serializer;
 import haxe.Unserializer;
 
-#if !docgen
+#if snow
 import snow.api.buffers.Float32Array;
 #else
-/*class Float32Array {
-	public function new(?elem:Dynamic) {}
-    @:arrayAccess inline function __get(idx:Int):Float return 0.0;
-}*/
 @:dox(hide)
 abstract Float32Array(Array<Float>) from Array<Float> to Array<Float> {
-    public inline function new(?elements:Int, ?array:Array<Float>) { this = array; }
-    @:arrayAccess inline function get(idx:Int):Float { return 0; }
-    @:arrayAccess inline function set(idx:Int, val:Float) {}
+    public inline function new(?elements:Int, ?array:Array<Float>) {
+    	if(elements != null) {
+    		this = new Array<Float>();
+    		for(i in 0...16) {
+    			this.push(0);
+    		}
+    	}
+    	else {
+    		this = array;
+    	}
+    }
+    @:arrayAccess inline function get(idx:Int):Float { return this[idx]; }
+    @:arrayAccess inline function set(idx:Int, val:Float) { this[idx] = val; }
 }
 #end
 

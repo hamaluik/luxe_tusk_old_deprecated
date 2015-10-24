@@ -3,7 +3,7 @@ package tusk.resources;
 import tusk.debug.Exception;
 import tusk.debug.Log;
 
-#if !docgen
+#if snow
 import snow.modules.opengl.GL;
 #else
 @:dox(hide)
@@ -56,7 +56,7 @@ class Shader {
 	 * @return [description]
 	 */
 	public function compile():GLProgram {
-		#if !docgen
+		#if snow
 		if(vertSrc == null) {
 			throw new Exception("Error compiling shader '" + id + "'.vertex: source must be set first!");
 		}
@@ -103,7 +103,7 @@ class Shader {
 	 * @return           the locatino of the attribute in the program
 	 */
 	public function getAttributeLocation(attribute:String):Int {
-		#if !docgen
+		#if snow
 		if(program == null) {
 			throw new Exception("Shader '"+id+"' must be compiled before attribute '"+attribute+"' can be accessed!");
 		}
@@ -119,7 +119,7 @@ class Shader {
 	 * @return          the locatino of the uniform in the program
 	 */
 	public function getUniformLocation(uniform:String):GLUniformLocation {
-		#if !docgen
+		#if snow
 		if(program == null) {
 			throw new Exception("Shader '"+id+"' must be compiled before uniform '"+uniform+"' can be accessed!");
 		}

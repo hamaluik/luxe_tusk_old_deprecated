@@ -2,7 +2,7 @@ package tusk.resources;
 
 import tusk.math.Matrix4x4;
 
-#if !docgen
+#if snow
 import snow.modules.opengl.GL;
 #end
 
@@ -33,14 +33,14 @@ class Material {
 	 * @param transpose Whether the matrix should be transposed or not
 	 */
 	public function setMatrix4x4(name:String, matrix:Matrix4x4, transpose:Bool = false) {
-		#if !docgen
+		#if snow
 		var location:GLUniformLocation = shader.getUniformLocation(name);
 		GL.uniformMatrix4fv(location, transpose, matrix.buffer);
 		#end
 	}
 
 	public function setTexture(name:String, ndx:Int) {
-		#if !docgen
+		#if snow
 		var location:GLUniformLocation = shader.getUniformLocation(name);
 		GL.uniform1i(location, ndx);
 		#end

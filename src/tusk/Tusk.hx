@@ -4,18 +4,35 @@ import tusk.Game;
 import tusk.debug.Log;
 import tusk.events.*;
 
-#if !docgen
+#if snow
 import snow.types.Types;
 import snow.modules.opengl.GL;
 import snow.App.AppFixedTimestep;
 import snow.system.window.Window;
 #else
 @:dox(hide)
-class Window {}
+class Window {
+    public var title:String;
+    public var width:Int;
+    public var height:Int;
+    public var onrender:Window->Void;
+}
+@:dox(hide)
+class Snow {
+    public var window:Window;
+    public function new() {}
+}
 @:dox(hide)
 class AppFixedTimestep {
+    public var app:Snow;
     public var alpha:Float;
-    public function new() {}
+    public function new() {
+        alpha = 0.5;
+        app = new Snow();
+    }
+    public function config(config:AppConfig):AppConfig { return null; }
+    public function ready() {}
+    public function update(dt:Float) {}
 }
 @:dox(hide)
 typedef AppConfig = { window:Window }
@@ -37,7 +54,6 @@ class Tusk extends AppFixedTimestep {
 
     private var splashScreen:tusk.SplashScreen;
 
-    #if !docgen
     @:noCompletion
     public function new(game:Game) {
         super();
@@ -83,7 +99,7 @@ class Tusk extends AppFixedTimestep {
     override public function ready() {
         Log.trace("snõw is ready");
 
-        #if nosplash
+        #if (nosplash || !snow)
         initialize();
         #else
         Log.trace("initializing splash screen");
@@ -103,7 +119,6 @@ class Tusk extends AppFixedTimestep {
     private function render(window:Window) {
         router.onEvent(EventType.Render, { alpha: alpha });
     }
-    #end
 
     /**
      * Called in an entity constructor when it is created (to route the events to the processors)
