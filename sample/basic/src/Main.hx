@@ -13,6 +13,8 @@ class Main extends Game {
     }
 
     override public function onStart(data:StartEvent) {
+        //Log.info("SoundComponent id: " + ComponentIndex.ID(SoundComponent));
+
     	Log.info("Game has started!");
     	Log.info("Loading processors...");
 
@@ -30,6 +32,8 @@ class Main extends Game {
     	]));
 
     	Log.info("Done loading entities!");
+
+        Log.info("SCid: " + SoundComponent.tid);
 
         Log.info("Savegame state: " + Tusk.serialize());
     }
