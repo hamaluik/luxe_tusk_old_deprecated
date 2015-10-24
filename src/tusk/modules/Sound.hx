@@ -2,6 +2,9 @@ package tusk.modules;
 
 import tusk.debug.Log;
 
+/**
+ * Responsible for loading, unloading, and playing sounds in tusk
+ */
 class Sound {
 	private var tusk:Tusk;
 
