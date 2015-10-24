@@ -3,6 +3,7 @@ package tusk;
 import tusk.Game;
 import tusk.debug.Log;
 import tusk.events.*;
+import tusk.modules.*;
 
 #if snow
 import snow.types.Types;
@@ -53,6 +54,8 @@ typedef AppConfig = { window:Window }
 class Tusk extends AppFixedTimestep {
     private static var instance:Tusk;
 
+    public static var sound:Sound;
+
     private var game:Game;
     private var router:EventRouter;
 
@@ -102,6 +105,8 @@ class Tusk extends AppFixedTimestep {
     @:noCompletion
     override public function ready() {
         Log.trace("snõw is ready");
+
+        sound = new Sound(this);
 
         #if (nosplash || !snow)
         initialize();
