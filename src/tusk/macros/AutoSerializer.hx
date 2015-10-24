@@ -12,6 +12,13 @@ import haxe.macro.Expr;
  * @see https://github.com/Masadow/HaxeSerializer
  */
 @:noCompletion class AutoSerializer {
+    /**
+     * Run the auto serializer on the class. Used automatically on all components with:
+     * ```haxe
+     * @:autoBuild(tusk.macros.AutoSerializer.apply())
+     * ```
+     * @return an array of the fields in the class
+     */
     macro public static function apply():Array<Field> {
         var pos = Context.currentPos();
         var fields = Context.getBuildFields();

@@ -3,8 +3,8 @@ package tusk;
 /**
  * Base class for all components.
  */
-//@:autoBuild(tusk.macros.AutoSerializer.apply())
-//@:autoBuild(tusk.macros.ComponentIndexer.index())
+@:autoBuild(tusk.macros.AutoSerializer.apply())
+@:autoBuild(tusk.macros.ComponentIndexer.index())
 class Component {
 	/**
 	 * Whether or a not a component is enabled

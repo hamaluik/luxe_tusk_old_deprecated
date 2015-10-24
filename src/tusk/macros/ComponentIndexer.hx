@@ -5,10 +5,22 @@ import haxe.macro.Expr;
 
 import haxe.ds.StringMap;
 
+/**
+ * At compile-time, assigns each component module a unique
+ * integer number (`tid`) so that components can be looked
+ * up in an `IntMap` rather than a `StringMap`.
+ */
 @:noCompletion class ComponentIndexer {
-    public static var nextID:Int = 0;
-    public static var componentMap:StringMap<Int> = new StringMap<Int>();
+    private static var nextID:Int = 0;
+    private static var componentMap:StringMap<Int> = new StringMap<Int>();
 
+    /**
+     * Index the component. Applied to components using:
+     * ```haxe
+     * @:autoBuild(tusk.macros.ComponentIndexer.index())
+     * ```
+     * @return an array of the fields in the class
+     */
     macro public static function index():Array<Field> {
         var fields = Context.getBuildFields();
         if(Context.getLocalClass() != null) {
@@ -35,7 +47,7 @@ import haxe.ds.StringMap;
         }
     }
 
-    macro public static function ID(e:Expr) {
+    /*macro public static function ID(e:Expr) {
         switch(Context.typeof(e)) {
             case TType(t, params): {
                 var name:String = t.get().module;
@@ -45,5 +57,5 @@ import haxe.ds.StringMap;
             default: throw "Unknown type: " + Context.typeof(e);
         }
         return macro null;
-    }
+    }*/
 }
