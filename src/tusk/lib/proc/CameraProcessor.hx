@@ -15,7 +15,7 @@ class CameraProcessor extends Processor {
 	 * @param  entities a list of all current entities in the game
 	 */
 	public function new(?entities:Array<Entity>) {
-		matcher = new Matcher().include(CameraProjectionComponent).include(CameraViewModelComponent);
+		matcher = new Matcher().include(CameraProjectionComponent.tid).include(CameraViewModelComponent.tid);
 		super(entities);
 	}
 	

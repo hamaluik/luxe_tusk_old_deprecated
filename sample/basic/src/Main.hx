@@ -7,6 +7,8 @@ import tusk.resources.AssetFiles;
 import tusk.lib.proc.*;
 import tusk.lib.comp.*;
 
+import tusk.macros.ComponentIndexer;
+
 class Main extends Game {
     override public function get_title():String {
         return "Tusk (Basic Sample)";
@@ -31,9 +33,14 @@ class Main extends Game {
     		new SoundComponent(false, AssetFiles.sounds___tada__ogg)
     	]));
 
-    	Log.info("Done loading entities!");
 
-        Log.info("SCid: " + SoundComponent.tid);
+    	Log.info("Done loading entities!");
+        
+        /*Log.info("SCid: " + SoundComponent.tid);
+        var c:SoundComponent = new SoundComponent(false, AssetFiles.sounds___tada__ogg);
+        Log.info("SCid_inst: " + c._tid);
+        var cb:Component = c;
+        Log.info('Cid_inst: ' + cb._tid);*/
 
         Log.info("Savegame state: " + Tusk.serialize());
     }

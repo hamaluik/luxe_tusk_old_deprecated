@@ -12,7 +12,7 @@ class SoundProcessor extends Processor {
 	 * @param  entities a list of all current entities in the game
 	 */
 	public function new(?entities:Array<Entity>) {
-		matcher = new Matcher().include(SoundComponent);
+		matcher = new Matcher().include(SoundComponent.tid);
 		super(entities);
 	}
 	
@@ -22,7 +22,7 @@ class SoundProcessor extends Processor {
 	 */
 	override public function onUpdate(data:UpdateEvent):Void {
 		for(entity in entities) {
-			var sound:SoundComponent = cast entity.get(SoundComponent);
+			var sound:SoundComponent = cast entity.get(SoundComponent.tid);
 			if(!sound.loaded) {
 				Tusk.sound.load(sound.id, function() {
 					sound.loaded = true;

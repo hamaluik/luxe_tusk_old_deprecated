@@ -16,4 +16,7 @@ class CameraProjectionComponent extends Component {
 	 * Whether the projection matrix is dirt and needs to be recalculated or not
 	 */
 	public var dirty:Bool;
+
+	public var _derp(get, null):Int;
+	public function get__derp():Int { return 0; };
 }

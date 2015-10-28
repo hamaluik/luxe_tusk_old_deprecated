@@ -3,7 +3,10 @@ package tusk.macros;
 import haxe.macro.Context;
 import haxe.macro.Expr;
 
+using haxe.macro.ExprTools;
+
 import haxe.ds.StringMap;
+import haxe.ds.IntMap;
 
 /**
  * At compile-time, assigns each component module a unique
@@ -13,6 +16,7 @@ import haxe.ds.StringMap;
 @:noCompletion class ComponentIndexer {
     private static var nextID:Int = 0;
     private static var componentMap:StringMap<Int> = new StringMap<Int>();
+    private static var indexMap:IntMap<String> = new IntMap<String>();
 
     /**
      * Index the component. Applied to components using:
@@ -25,37 +29,80 @@ import haxe.ds.StringMap;
         var fields = Context.getBuildFields();
         if(Context.getLocalClass() != null) {
             var name:String = Context.getLocalClass().get().module;
-            updateID(name);
+            ensureID(name);
 
+            // add the static ID
             fields.push({
                 pos: Context.currentPos(),
                 name: "tid",
                 meta: [],
                 kind: FVar(macro: Int, macro $v{componentMap.get(name)}),
-                doc: "The type ID of the component's class.",
+                doc: "The type ID of the component class.",
                 access: [APublic, AStatic, AInline]
+            });
+
+            // override the instance type ID
+            fields.push({
+                pos: Context.currentPos(),
+                name: "get__tid",
+                meta: [],
+                kind: FFun({
+                    ret: macro: Int,
+                    params: [],
+                    expr: macro { return $v{componentMap.get(name)}; },
+                    args: []
+                }),
+                doc: "The type ID of the component's class.",
+                access: [APublic, AOverride]
             });
         }
         return fields;
     }
 
-    private static function updateID(name:String) {
+    private static function ensureID(name:String) {
         if(!componentMap.exists(name)) {
             componentMap.set(name, nextID);
+            indexMap.set(nextID, name);
             //trace(name + ' => ' + nextID);
             nextID++;
         }
     }
 
-    /*macro public static function ID(e:Expr) {
-        switch(Context.typeof(e)) {
-            case TType(t, params): {
-                var name:String = t.get().module;
-                updateID(name);
+    private static function getCompName(e:Expr):String {
+        return switch(e.expr) {
+            case EConst(c):
+                switch(c) {
+                    case CIdent(s): s;
+                    default: null;
+                }
+            case EField(e, field):
+                getCompName(e) + "." + field;
+            default: null;
+        };
+    }
+
+    macro public static function ID(e:Expr):Expr {
+        var compName:String = getCompName(e);
+        var t:haxe.macro.Type = Context.getType(compName);
+        var name:String = switch(t) {
+            case TInst(t, p):
+                t.toString();
+            default: null;
+        }
+        ensureID(name);
+        return macro $v{componentMap.get(name)};
+    }
+
+    macro public static function GetName(e:ExprOf<Int>):Expr {
+        /*trace(e);
+        trace(macro ${e});
+        //var id:Int = $v{e};
+        for(name in componentMap.keys()) {
+            if(componentMap.get(name) == id) {
                 return macro $v{componentMap.get(name)};
             }
-            default: throw "Unknown type: " + Context.typeof(e);
-        }
+        }*/
+        //return macro $v{indexMap.get(e)};
         return macro null;
-    }*/
+    }
 }

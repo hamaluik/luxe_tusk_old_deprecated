@@ -1,63 +1,64 @@
 package tusk;
 
 import tusk.debug.Exception;
+import tusk.macros.ComponentIndexer;
 
 /**
  * The matcher class implements the low-level logic for determining if an entity matches a system
  */
 class Matcher {
-	private var includes:Array<Class<Component>> = new Array<Class<Component>>();
-	private var excludes:Array<Class<Component>> = new Array<Class<Component>>();
+	private var includes:Array<Int> = new Array<Int>();
+	private var excludes:Array<Int> = new Array<Int>();
 
 	public function new() { }
 	
 	/**
 	 * Chainable function for including component requirements
-	 * @param  type<Component> the type of component to include
+	 * @param  tid the tid of component to include
 	 * @return                          `this`
 	 */
-	public function include(type:Class<Component>):Matcher
+	public function include(tid:Int):Matcher
 	{
-		if(excludes.indexOf(type) >= 0) {
-			throw new Exception("Can't add component '" + Type.getClassName(type) + "' because it is already in the excludes list!");
+		if(excludes.indexOf(tid) >= 0) {
+			throw new Exception("Can't add component '" + tid + "' because it is already in the excludes list!");
 		}
-		if(includes.indexOf(type) < 0) {
-			includes.push(type);
+		if(includes.indexOf(tid) < 0) {
+			includes.push(tid);
 		}
 		return this;
 	}
 	
 	/**
 	 * Chainable function for excluding component requirements
-	 * @param  type<Component> the type of component to exclude
+	 * @param  tid the tid of component to exclude
 	 * @return                          `this`
 	 */
-	public function exclude(type:Class<Component>):Matcher {
-		if(includes.indexOf(type) >= 0) {
-			throw new Exception("Can't add component '" + Type.getClassName(type) + "' because it is already in the includes list!");
+	public function exclude(tid:Int):Matcher {
+		if(includes.indexOf(tid) >= 0) {
+			throw new Exception("Can't add component '" + tid + "' because it is already in the includes list!");
 		}
-		if(excludes.indexOf(type) < 0) {
-			excludes.push(type);
+		if(excludes.indexOf(tid) < 0) {
+			excludes.push(tid);
 		}
 		return this;
 	}
 	
 	/**
 	 * Determines whether or not a component is included in this matcher
-	 * @param  type<Component> the type of component to check
+	 * @param  tid the tid of component to check
 	 * @return                          whether or not the component is included
 	 */
-	public function isIncluded(type:Class<Component>):Bool {
-		return includes.indexOf(type) > -1;
+	public function isIncluded(tid:Int):Bool {
+		return includes.indexOf(tid) > -1;
 	}
 	
 	/**
 	 * Determines whether or not a component is excluded in this matcher
-	 * @param  type<Component> the type of component to check
+	 * @param  tid the tid of component to check
 	 * @return                          whether or not the component is excluded
 	 */
-	public function isExcluded(type:Class<Component>):Bool {
-		return excludes.indexOf(type) > -1;
+	public function isExcluded(tid:Int):Bool {
+		return excludes.indexOf(tid) > -1;
 	}
 	
 	/**
