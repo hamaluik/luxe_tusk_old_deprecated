@@ -5,7 +5,7 @@ import tusk.*;
 import tusk.debug.Exception;
 using buddy.Should;
 
-private class CompA extends Component {}
+import fixtures.CompA;
 
 class TestEntity extends BuddySuite {
 	public function new() {
@@ -24,10 +24,10 @@ class TestEntity extends BuddySuite {
 			});
 			it('should be possible to enable or disable it');
 			it('should be possible to add components to it', {
-				var has:Bool = e.hasType(CompA);
+				var has:Bool = e.hasType(CompA.tid);
 				has.should.be(false);
 				e.push.bind(new CompA()).should.not.throwType(Exception);
-				has = e.hasType(CompA);
+				has = e.hasType(CompA.tid);
 				has.should.be(true);
 			});
 			it('shouldn\'t allow adding multiple components of the same type', {
@@ -37,22 +37,22 @@ class TestEntity extends BuddySuite {
 			it('should retrieve a component given its type', {
 				var ca:CompA = new CompA();
 				e.push(ca);
-				var r:CompA = cast e.get(CompA);
+				var r:CompA = cast e.get(CompA.tid);
 				r.should.be(ca);
 			});
 			it('should be able to remove components from an entity', {
 				e.push(new CompA());
-				var has:Bool = e.hasType(CompA);
+				var has:Bool = e.hasType(CompA.tid);
 				has.should.be(true);
-				e.removeType(CompA);
-				has = e.hasType(CompA);
+				e.removeType(CompA.tid);
+				has = e.hasType(CompA.tid);
 				has.should.be(false);
 			});
 			it('should be able to distinguish between inherited and parent component classes', {
 				e.push(new Component());
 				var ca:CompA = new CompA();
 				e.push.bind(ca).should.not.throwType(Exception);
-				e.get(CompA).should.be(ca);
+				e.get(CompA.tid).should.be(ca);
 			});
 
 			after({
