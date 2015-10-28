@@ -34,7 +34,7 @@ class Entity {
 
 	/**
 	 * @param  tid The component type to check
-	 * @return                 Whether the component type belongs to this entity
+	 * @return     Whether the component type belongs to this entity
 	 */
 	public function hasType(tid:Int):Bool {
 		return components.exists(tid);
@@ -42,7 +42,7 @@ class Entity {
 
 	/**
 	 * @param  tid The component to check
-	 * @return                 Whether the type of component belongs to this entity
+	 * @return     Whether the type of component belongs to this entity
 	 */
 	public function has(component:Component):Bool {
 		return hasType(component._tid);
@@ -50,9 +50,9 @@ class Entity {
 
 	/**
 	 * @param  tid A component type
-	 * @return                 The instance of the component attached to this entity
-	 *                         which has the proper type, or `null` if no such component
-	 *                         exists.
+	 * @return     The instance of the component attached to this entity
+	 *             which has the proper type, or `null` if no such component
+	 *             exists.
 	 */
 	public function get(tid:Int):Component {
 		return components.get(tid);
@@ -75,8 +75,8 @@ class Entity {
 	}
 
 	/**
-	 * @param  type      A component type to remove from the entity
-	 * @return           `this` (useful for chaining)
+	 * @param  tid  A component type to remove from the entity
+	 * @return      `this` (useful for chaining)
 	 */
 	public function removeType(tid:Int):Entity {
 		if(components.remove(tid)) {

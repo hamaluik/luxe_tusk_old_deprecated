@@ -15,7 +15,7 @@ class Matcher {
 	/**
 	 * Chainable function for including component requirements
 	 * @param  tid the tid of component to include
-	 * @return                          `this`
+	 * @return     `this`
 	 */
 	public function include(tid:Int):Matcher
 	{
@@ -31,7 +31,7 @@ class Matcher {
 	/**
 	 * Chainable function for excluding component requirements
 	 * @param  tid the tid of component to exclude
-	 * @return                          `this`
+	 * @return     `this`
 	 */
 	public function exclude(tid:Int):Matcher {
 		if(includes.indexOf(tid) >= 0) {
@@ -46,7 +46,7 @@ class Matcher {
 	/**
 	 * Determines whether or not a component is included in this matcher
 	 * @param  tid the tid of component to check
-	 * @return                          whether or not the component is included
+	 * @return     whether or not the component is included
 	 */
 	public function isIncluded(tid:Int):Bool {
 		return includes.indexOf(tid) > -1;
@@ -55,7 +55,7 @@ class Matcher {
 	/**
 	 * Determines whether or not a component is excluded in this matcher
 	 * @param  tid the tid of component to check
-	 * @return                          whether or not the component is excluded
+	 * @return     whether or not the component is excluded
 	 */
 	public function isExcluded(tid:Int):Bool {
 		return excludes.indexOf(tid) > -1;
@@ -82,8 +82,9 @@ class Matcher {
 
 	/**
 	 * Returns a filtered list of entities which match this matcher
-	 * @param  entities<Entity> the full list of entities to examine
-	 * @return                  [description]
+	 * @param  entities  the full list of entities to examine
+	 * @return           a filtered version of the given entities
+	 *                   which match this matcher.
 	 */
 	public function matchEntities(entities:Array<Entity>):Array<Entity> {
 		return entities.filter(function(entity:Entity):Bool {

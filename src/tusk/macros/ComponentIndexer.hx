@@ -13,7 +13,7 @@ import haxe.ds.IntMap;
  * integer number (`tid`) so that components can be looked
  * up in an `IntMap` rather than a `StringMap`.
  */
-@:noCompletion class ComponentIndexer {
+class ComponentIndexer {
     private static var nextID:Int = 0;
     private static var componentMap:StringMap<Int> = new StringMap<Int>();
     private static var indexMap:IntMap<String> = new IntMap<String>();
@@ -81,7 +81,12 @@ import haxe.ds.IntMap;
         };
     }
 
-    macro public static function ID(e:Expr):Expr {
+    /**
+     * Get the integer ID of the given class. Will attempt to find the fully qualified
+     * classname (including module).
+     * @param e<Class<tusk.Component>> a tusk.Component child class (ex: `SoundComponent`)
+     */
+    macro public static function ID(e:ExprOf<Class<tusk.Component>>):ExprOf<Int> {
         var compName:String = getCompName(e);
         var t:haxe.macro.Type = Context.getType(compName);
         var name:String = switch(t) {
@@ -93,7 +98,11 @@ import haxe.ds.IntMap;
         return macro $v{componentMap.get(name)};
     }
 
+
+    @:noCompletion
+    @:dox(hide)
     macro public static function GetName(e:ExprOf<Int>):Expr {
+        // TODO
         /*trace(e);
         trace(macro ${e});
         //var id:Int = $v{e};
