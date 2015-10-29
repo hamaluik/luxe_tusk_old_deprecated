@@ -1,4 +1,4 @@
-package tusk.resources;
+package tusk;
 
 /**
  * Used for code-completion of files in the assets folder
@@ -40,6 +40,6 @@ package tusk.resources;
  * ```
  */
 @:build(tusk.macros.AssetFilesBuilder.build("assets"))
-class AssetFiles {
+class Files {
 
 }

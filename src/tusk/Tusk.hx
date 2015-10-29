@@ -54,7 +54,15 @@ typedef AppConfig = { window:Window }
 class Tusk extends AppFixedTimestep {
     private static var instance:Tusk;
 
+    /**
+     * Sound module
+     */
     public static var sound:Sound;
+
+    /**
+     * The asset manager
+     */
+    public static var assets:Assets;
 
     private var game:Game;
     private var router:EventRouter;
@@ -106,7 +114,9 @@ class Tusk extends AppFixedTimestep {
     override public function ready() {
         Log.trace("snõw is ready");
 
+        // initialize all modules
         sound = new Sound(this);
+        assets = new Assets(this);
 
         #if (nosplash || !snow)
         initialize();

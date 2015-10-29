@@ -2,7 +2,6 @@ import tusk.*;
 
 import tusk.debug.Log;
 import tusk.events.*;
-import tusk.resources.AssetFiles;
 
 import tusk.lib.proc.*;
 import tusk.lib.comp.*;
@@ -15,8 +14,6 @@ class Main extends Game {
     }
 
     override public function onStart(data:StartEvent) {
-        //Log.info("SoundComponent id: " + ComponentIndex.ID(SoundComponent));
-
     	Log.info("Game has started!");
     	Log.info("Loading processors...");
 
@@ -30,9 +27,8 @@ class Main extends Game {
     		new CameraProjectionComponent()
     	]));
     	entities.push(new Entity([
-    		new SoundComponent(false, AssetFiles.sounds___tada__ogg)
+    		new SoundComponent(false, tusk.Files.sounds___tada__ogg)
     	]));
-
 
     	Log.info("Done loading entities!");
         

@@ -1,6 +1,7 @@
 package tusk;
 
 import tusk.debug.Log;
+import tusk.resources.Sound;
 
 #if snow
 import snow.types.Types;
@@ -12,7 +13,7 @@ import tusk.Tusk.Window;
 
 @:dox(hide)
 class SplashScreen {
-    private var tuskLib:Tusk;
+    private var app:Tusk;
     private var onDone:Void->Void;
 
     private var projectionMatrix:tusk.math.Matrix4x4;
@@ -28,21 +29,28 @@ class SplashScreen {
     var logo:snow.system.assets.Asset.AssetImage;
     var logoTexture:GLTexture;
 
-    var logoSound:snow.system.audio.Sound;
+    //var logoSound:snow.system.audio.Sound;
+    var logoSound:Sound;
     #end
 
-    public function new(tuskLib:Tusk, onDone:Void->Void) {
+    public function new(app:Tusk, onDone:Void->Void) {
         #if snow
-        this.tuskLib = tuskLib;
+        this.app = app;
         this.onDone = onDone;
 
-        tuskLib.app.audio.create("assets/sounds/blazingmammothgames.ogg", "blazingmammothgames.ogg")
-            .then(function(sound:snow.system.audio.Sound) {
+        Tusk.assets.loadSound("assets/sounds/blazingmammothgames.ogg")
+            .then(function(sound:Sound) {
                 Log.trace("Logo sound loaded!");
                 logoSound = sound;
             });
 
-        tuskLib.app.assets.image_from_bytes(
+        /*app.app.audio.create("assets/sounds/blazingmammothgames.ogg", "blazingmammothgames.ogg")
+            .then(function(sound:snow.system.audio.Sound) {
+                Log.trace("Logo sound loaded!");
+                logoSound = sound;
+            });*/
+
+        app.app.assets.image_from_bytes(
             "blazingmammothgames.png",
             snow.api.buffers.Uint8Array.fromBytes(haxe.Resource.getBytes("blazingmammothgames.png")))
             .then(function(asset:AssetImage) {
@@ -63,8 +71,8 @@ class SplashScreen {
                 Log.trace("Logo bound to texture!");
             });
 
-        var w:Float = tuskLib.app.window.width;
-        var h:Float = tuskLib.app.window.height;
+        var w:Float = app.app.window.width;
+        var h:Float = app.app.window.height;
         var f:Float = 2;
         var n:Float = 0;
         projectionMatrix = new tusk.math.Matrix4x4([
@@ -127,10 +135,10 @@ class SplashScreen {
 
         if(!started) {
             started = true;
-            tuskLib.app.audio.play('blazingmammothgames.ogg');
-            logoSound.on('end', function(_) {
+            logoSound.onEnd = function() {
                 shaking = false;
-            });
+            };
+            Tusk.sound.play(logoSound);
         }
 
         if(shakeDelay > 0) {
@@ -161,7 +169,7 @@ class SplashScreen {
 
     public function render(window:Window) {
         #if snow
-        GL.viewport(0, 0, tuskLib.app.window.width, tuskLib.app.window.height);
+        GL.viewport(0, 0, app.app.window.width, app.app.window.height);
 
         if(logo == null || logoSound == null || done) {
             GL.clearColor(0.0, 0.0, 0.0, 1.0);
