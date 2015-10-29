@@ -11,13 +11,13 @@ class TestAssert extends BuddySuite {
 				function() {
 					var v:Int = 42;
 					Assert.assert(v == 42);
-				}.should.not.throwType(tusk.debug.AssertException);
+				}.should.not.throwType(tusk.debug.Exception);
 			});
-			it('should throw an AssertException if an assertion fails', {
+			it('should throw an Exception if an assertion fails', {
 				function() {
 					var v:Int = -7;
 					Assert.assert(v >= 0);
-				}.should.throwType(tusk.debug.AssertException);
+				}.should.throwType(tusk.debug.Exception);
 			});
 		});
 	}

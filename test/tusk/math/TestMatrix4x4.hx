@@ -12,12 +12,12 @@ class TestMatrix4x4 extends BuddySuite {
 			it('should provide an \'easy\' interface for constructing matrices', {
 				function(){
 					return new Matrix4x4([0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0,  0, 0, 0, 0]);
-				}.should.not.throwType(AssertException);
+				}.should.not.throwType(Exception);
 			});
 			it('should throw an exception if constructing a matrice with the wrong number of elements', {
 				function(){
 					return new Matrix4x4([0, 0, 0, 0]);
-				}.should.throwType(AssertException);
+				}.should.throwType(Exception);
 			});
 			it('should be able to multliply matrices', {
 				// TODO: better test

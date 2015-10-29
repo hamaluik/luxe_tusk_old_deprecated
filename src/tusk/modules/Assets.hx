@@ -4,6 +4,8 @@ import haxe.ds.StringMap;
 import promhx.Promise;
 import promhx.Deferred;
 
+import tusk.debug.*;
+
 import tusk.resources.*;
 
 class Assets {
@@ -31,11 +33,11 @@ class Assets {
 				def.resolve(sound);
 			},
 			function(snd:snow.system.audio.Sound) {
-				def.throwError(new tusk.debug.FileNotFoundException("Unable to load sound ${path}!"));
+				def.throwError(new Exception("Unable to load sound ${path}!", ExceptionType.FileNotFound));
 			}
 		);
 		#else
-		def.throwError(new tusk.debug.Exception("Sound loading isn't supported without snow!"));
+		def.throwError(new Exception("Sound loading isn't supported without snow!"));
 		#end
 
 		return promise;
@@ -43,13 +45,13 @@ class Assets {
 
 	public function getSound(path:String):Sound {
 		if(!assets.exists(path)) {
-			throw new tusk.debug.AssetNotFoundException("Sound ${path} hasn't been loaded yet!");
+			throw new Exception("Sound ${path} hasn't been loaded yet!", ExceptionType.AssetNotFound);
 		}
 
 		return switch(assets.get(path)) {
 			case Asset.Sound(sound): sound;
 			default: {
-				throw new tusk.debug.Exception("Asset '${path}' isn't a sound!");
+				throw new Exception("Asset '${path}' isn't a sound!", ExceptionType.InvalidAssetType);
 				null;
 			}
 		}

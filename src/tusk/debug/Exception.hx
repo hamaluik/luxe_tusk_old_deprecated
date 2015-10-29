@@ -18,6 +18,11 @@ class Exception {
 	public var message(default, null):String;
 
 	/**
+	 * The type of exception that was thrown
+	 */
+	public var type(default, null):ExceptionType;
+
+	/**
 	 * Whether the exception is fatal or not
 	 */
 	public var fatal(default, null):Bool;
@@ -36,8 +41,9 @@ class Exception {
 	 * Throw a new exception
 	 * @param  message A message to attach to the exception
 	 */
-	public function new(message:String = '', fatal:Bool = false, ?pos:haxe.PosInfos) {
+	public function new(message:String = '', fatal:Bool = false, ?type:ExceptionType, ?pos:haxe.PosInfos) {
 		this.message = message;
+		this.type = type == null ? ExceptionType.Unknown : type;
 		this.fatal = fatal;
 		this.stack = CallStack.callStack();
 		this.pos = pos;
@@ -54,12 +60,22 @@ class Exception {
 		};
 	}
 
+	private function translateExceptionType(type:ExceptionType):String {
+		return switch(type) {
+			case Assert: "assert";
+			case AssetNotFound: "asset not found";
+			case FileNotFound: "file not found";
+			case InvalidAssetType: "invalid asset type";
+			default: "unknown";
+		}
+	}
+
 	/**
 	 * @return The exception in a String in human-readable form.
 	 */
 	public function toString():String {
 		var stackString:Array<String> = stack.map(translateStackItem);
 		var posInfo:String = pos == null ? "" : (" in class: " + pos.className + " (" + pos.fileName + ") in function " + pos.methodName + "() at line " + pos.lineNumber);
-		return (fatal ? "fatal " : "") + "exception" + posInfo + ": " + message + (showStackTrace ? ("\nstack trace:\n  " + stackString.join("\n  ")) : '');
+		return (fatal ? "fatal " : "") + translateExceptionType(type) + " exception" + posInfo + ": " + message + (showStackTrace ? ("\nstack trace:\n  " + stackString.join("\n  ")) : '');
 	}
 }

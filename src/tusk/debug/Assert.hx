@@ -20,7 +20,7 @@ class Assert {
             var pos = Context.currentPos();
             var print = (new haxe.macro.Printer()).printExpr(e);
             return macro {
-                if (!($e)) throw new tusk.debug.AssertException('Assertion error (${$v{pos}}): ${$v{print}}');
+                if (!($e)) throw new tusk.debug.Exception('Assertion error (${$v{pos}}): ${$v{print}}', tusk.debug.ExceptionType.Assert);
             };
 		#else
 			return macro null;
