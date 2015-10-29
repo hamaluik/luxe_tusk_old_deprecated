@@ -12,7 +12,7 @@ import tusk.resources.*;
 
 class Assets {
 	private var tusk:Tusk;
-	private var assets:StringMap<AssetType> = new StringMap<AssetType>();
+	private var assets:StringMap<Asset> = new StringMap<Asset>();
 
 	@:allow(tusk.Tusk)
 	private function new(tusk:Tusk) {
@@ -49,7 +49,7 @@ class Assets {
 		Tusk.sound.load(path,
 			function(snd:snow.system.audio.Sound) {
 				var sound:Sound = new Sound(path, snd);
-				assets.set(path, AssetType.Sound(sound));
+				assets.set(path, sound);
 				def.resolve(sound);
 			},
 			function(snd:snow.system.audio.Sound) {
@@ -66,7 +66,7 @@ class Assets {
 	/**
 	 * Retrieves the instance of an already loaded sound
 	 * @param  path the sound path
-	 * @return      [description]
+	 * @return      the previously-loaded sound
 	 * @throws tusk.debug.Exception if the sound hasn't been loaded, or if `path` points
 	 *                              to an asset which isn't a sound
 	 */
@@ -74,16 +74,20 @@ class Assets {
 		if(!assets.exists(path)) {
 			throw new Exception("Sound '${path}' hasn't been loaded yet!", ExceptionType.AssetNotFound);
 		}
-
-		return switch(assets.get(path)) {
-			case AssetType.Sound(sound): sound;
-			default: {
-				throw new Exception("Asset '${path}' isn't a sound!", ExceptionType.InvalidAssetType);
-				null;
-			}
+		try {
+			return cast(assets.get(path), Sound);
+		}
+		catch(e:String) {
+			throw new Exception("Asset '${path}' isn't a sound!", ExceptionType.InvalidAssetType);
 		}
 	}
 
+	/**
+	 * Load a texture and bind it to a GL texture. If the texture has already been
+	 *  loaded, will return the instance of that texture.
+	 * @param  path the path of the texture asset file
+	 * @return      A promise which, when fulfilled with return the loaded texture
+	 */
 	public function loadTexture(path:String, ?bytes:Bytes):Promise<Texture> {
 		var def = new Deferred<Texture>();
 		var promise = def.promise();
@@ -109,7 +113,7 @@ class Assets {
 		snowPromise.then(
 			function(image:snow.system.assets.Asset.AssetImage) {
 				var texture:tusk.resources.Texture = new tusk.resources.Texture(path, image);
-				assets.set(path, AssetType.Texture(texture));
+				assets.set(path, texture);
 				def.resolve(texture);
 			},
 			function(image:snow.system.assets.Asset.AssetImage) {
@@ -123,17 +127,22 @@ class Assets {
 		return promise;
 	}
 
+	/**
+	 * Retrieves the instance of an already loaded texture
+	 * @param  path the texture path
+	 * @return      the previously-loaded texture
+	 * @throws tusk.debug.Exception if the texture hasn't been loaded, or if `path` points
+	 *                              to an asset which isn't a texture
+	 */
 	public function getTexture(path:String):tusk.resources.Texture {
 		if(!assets.exists(path)) {
 			throw new Exception("Texture '${path}' hasn't been loaded yet!", ExceptionType.AssetNotFound);
 		}
-
-		return switch(assets.get(path)) {
-			case AssetType.Texture(texture): texture;
-			default: {
-				throw new Exception("Asset '${path}' isn't a texture!", ExceptionType.InvalidAssetType);
-				null;
-			}
+		try {
+			return cast(assets.get(path), Texture);
+		}
+		catch(e:String) {
+			throw new Exception("Asset '${path}' isn't a texture!", ExceptionType.InvalidAssetType);
 		}
 	}
 }
