@@ -1,5 +1,7 @@
 import haxe.macro.Context;
 
+using StringTools;
+
 // stolen from haxe/doc/ImportAll.hx
 class ImportAll {
 	private static var skippedFiles:Array<String> = [
@@ -60,6 +62,11 @@ class ImportAll {
 				var full = (pack == "") ? file : pack + "." + file;
 				if( StringTools.endsWith(file, ".hx") ) {
 					var cl = full.substr(0, full.length - 3);
+					if(cl.startsWith("lib.utest")) continue;
+					if(cl.startsWith("utest")) continue;
+					if(cl.startsWith("promhx.mdo")) continue;
+					if(cl.startsWith("promhx.haxe")) continue;
+					if(cl.startsWith("js.promhx")) continue;
 					switch( cl ) {
 					case "ImportAll", "neko.db.MacroManager": continue;
 					case "haxe.TimerQueue": if( Context.defined("neko") || Context.defined("php") || Context.defined("cpp") ) continue;
@@ -72,6 +79,7 @@ class ImportAll {
 					case "sys.db.Sqlite" | "sys.db.Mysql" | "cs.db.AdoNet": if ( Context.defined("cs") ) continue;
 					case "haxe.PythonSyntax" | "haxe.PythonInternal": continue; // temp hack (https://github.com/HaxeFoundation/haxe/issues/3321)
 					}
+					//trace( "loading module: " + cl);
 					Context.getModule(cl);
 				} else if( sys.FileSystem.isDirectory(p + "/" + file) )
 					run(full);

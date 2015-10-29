@@ -10,6 +10,8 @@
 -dce no
 -cp ../src
 -D docgen
+-lib promhx
+-lib utest
 --macro ImportAll.run()
 #-lib snow
 #TestClass
@@ -23,6 +25,11 @@
 
 --interp
 -xml haxe.xml
+
+#--next
+#
+#-cpp cpp/
+#-xml cpp.xml
 
 --next
 
