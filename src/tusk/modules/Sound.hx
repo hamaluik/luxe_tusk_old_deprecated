@@ -41,7 +41,7 @@ class Sound {
      */
     public function play(sound:tusk.resources.Sound) {
     	#if snow
-        tusk.app.audio.play(sound.id);
+        tusk.app.audio.play(sound.path);
         #end
     }
 }

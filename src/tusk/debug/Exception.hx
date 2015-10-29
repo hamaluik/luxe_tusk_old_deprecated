@@ -66,6 +66,7 @@ class Exception {
 			case AssetNotFound: "asset not found";
 			case FileNotFound: "file not found";
 			case InvalidAssetType: "invalid asset type";
+			case NotImplementedYet: "not implemented yet";
 			default: "unknown";
 		}
 	}

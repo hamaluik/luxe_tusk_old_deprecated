@@ -6,4 +6,5 @@ enum ExceptionType {
 	AssetNotFound;
 	FileNotFound;
 	InvalidAssetType;
+	NotImplementedYet;
 }

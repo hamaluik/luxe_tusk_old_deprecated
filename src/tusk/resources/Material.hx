@@ -9,7 +9,7 @@ import snow.modules.opengl.GL;
 /**
  * Defines a material
  */
-class Material {
+class Material extends Asset {
 	/**
 	 * The shader that the material uses
 	 */
@@ -19,7 +19,8 @@ class Material {
 	 * Create a new material!
 	 * @param  shader The material's shader. If not compiled, the material will compile it automatically.
 	 */
-	public function new(shader:Shader) {
+	public function new(path:String, shader:Shader) {
+		super(path);
 		this.shader = shader;
 		if(this.shader.program == null) {
 			this.shader.compile();

@@ -1,19 +1,18 @@
 package tusk.resources;
 
-class Sound {
-	public var id:String;
+class Sound extends Asset {
 	#if snow
 	private var sound:snow.system.audio.Sound;
 	#end
 
 	#if snow
-	public function new(id:String, sound:snow.system.audio.Sound) {
-		this.id = id;
+	public function new(path:String, sound:snow.system.audio.Sound) {
+		super(path);
 		this.sound = sound;
 	}
 	#else
-	public function new(id:String, sound:Dynamic) {
-		this.id = id;
+	public function new(path:String, sound:Dynamic) {
+		super(path);
 	}
 	#end
 

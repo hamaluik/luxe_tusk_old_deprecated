@@ -1,10 +1,14 @@
 package tusk;
 
+import promhx.Promise;
+
 import tusk.debug.Log;
+import tusk.resources.Asset;
+import tusk.resources.Texture;
 import tusk.resources.Sound;
 
 #if snow
-import snow.types.Types;
+//import snow.types.Types;
 import snow.modules.opengl.GL;
 import snow.system.window.Window;
 #else
@@ -26,8 +30,9 @@ class SplashScreen {
     #if snow
     var vertexBuffer:GLBuffer;
 
-    var logo:snow.system.assets.Asset.AssetImage;
-    var logoTexture:GLTexture;
+    //var logo:snow.system.assets.Asset.AssetImage;
+    var logo:Texture;
+    //var logoTexture:GLTexture;
 
     //var logoSound:snow.system.audio.Sound;
     var logoSound:Sound;
@@ -38,38 +43,13 @@ class SplashScreen {
         this.app = app;
         this.onDone = onDone;
 
-        Tusk.assets.loadSound("assets/sounds/blazingmammothgames.ogg")
-            .then(function(sound:Sound) {
-                Log.trace("Logo sound loaded!");
-                logoSound = sound;
-            });
-
-        /*app.app.audio.create("assets/sounds/blazingmammothgames.ogg", "blazingmammothgames.ogg")
-            .then(function(sound:snow.system.audio.Sound) {
-                Log.trace("Logo sound loaded!");
-                logoSound = sound;
-            });*/
-
-        app.app.assets.image_from_bytes(
-            "blazingmammothgames.png",
-            snow.api.buffers.Uint8Array.fromBytes(haxe.Resource.getBytes("blazingmammothgames.png")))
-            .then(function(asset:AssetImage) {
-                Log.trace("Logo loaded!");
-                logo = asset;
-
-                logoTexture = GL.createTexture();
-                GL.bindTexture(GL.TEXTURE_2D, logoTexture);
-                GL.texImage2D(
-                    GL.TEXTURE_2D,
-                    0, GL.RGBA,
-                    asset.image.width, asset.image.height,
-                    0, GL.RGBA,
-                    GL.UNSIGNED_BYTE, asset.image.pixels);
-                GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MAG_FILTER, GL.NEAREST);
-                GL.texParameteri(GL.TEXTURE_2D, GL.TEXTURE_MIN_FILTER, GL.NEAREST);
-                GL.bindTexture (GL.TEXTURE_2D, null);
-                Log.trace("Logo bound to texture!");
-            });
+        var sp:Promise<Sound> = Tusk.assets.loadSound("assets/sounds/blazingmammothgames.ogg");
+        var tp:Promise<Texture> = Tusk.assets.loadTexture("blazingmammothgames.png", haxe.Resource.getBytes("blazingmammothgames.png"));
+        Promise.when(sp, tp).then(function(sound:Sound, texture:Texture) {
+            Log.trace("Splash screen assets loaded!");
+            logoSound = sound;
+            logo = texture;
+        });
 
         var w:Float = app.app.window.width;
         var h:Float = app.app.window.height;
@@ -88,10 +68,10 @@ class SplashScreen {
             0, 0, 1, 0,
             -128, -128, 0, 1]);
 
-        var shader:tusk.resources.Shader = new tusk.resources.Shader("texture",
+        var shader:tusk.resources.Shader = new tusk.resources.Shader("default.texture",
             haxe.Resource.getString("default.texture.vert"),
             haxe.Resource.getString("default.texture.frag"));
-        mat = new tusk.resources.Material(shader);
+        mat = new tusk.resources.Material("default.textured", shader);
 
         GL.useProgram(mat.shader.program);
         posLocation = mat.shader.getAttributeLocation("position");
@@ -184,7 +164,7 @@ class SplashScreen {
         GL.blendFunc(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA);
 
         GL.activeTexture(GL.TEXTURE0);
-        GL.bindTexture(GL.TEXTURE_2D, logoTexture);
+        GL.bindTexture(GL.TEXTURE_2D, logo.texture);
 
         mat.setMatrix4x4("modelView", modelMatrix);
         mat.setMatrix4x4("projection", projectionMatrix);
