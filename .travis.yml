@@ -32,6 +32,7 @@ install:
   # Install haxelibs
   - haxelib install hxcpp
   - haxelib install buddy
+  - haxelib install partials
   - haxelib list
 
 script:
