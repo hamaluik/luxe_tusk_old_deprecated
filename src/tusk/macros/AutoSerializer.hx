@@ -37,13 +37,26 @@ import haxe.macro.Expr;
                 serializers.push(macro s.serialize($i{fieldName}));
                 unserializers.push(macro $i{fieldName} = u.unserialize());
             }*/
+            var doSerialize = true;
+            for(entry in field.meta) {
+                if(entry != null && entry.name == ":dontSerialize") {
+                    doSerialize = false;
+                    break;
+                }
+            }
+            if(!doSerialize) {
+                continue;
+            }
+
             var kindOk:Bool = true;
             switch(field.kind) {
                 case FVar(t, eo): kindOk = true;
                 case FProp(get , set, t, eo): kindOk = true;
                 default: kindOk = false;
             }
-            if(   kindOk
+
+            if(   doSerialize
+               && kindOk
                && field.access != null
                && field.access.indexOf(Access.APublic) > -1
                && field.access.indexOf(Access.AStatic) == -1

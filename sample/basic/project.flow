@@ -12,8 +12,7 @@
 
 		build: {
 			dependencies: {
-				tusk: '*',
-				promhx: '*'
+				tusk: '*'
 			},
 			defines: ['assertions']
 		},

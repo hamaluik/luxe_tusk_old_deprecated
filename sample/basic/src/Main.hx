@@ -27,7 +27,7 @@ class Main extends Game {
     		new CameraProjectionComponent()
     	]));
     	entities.push(new Entity([
-    		new SoundComponent(false, tusk.Files.sounds___tada__ogg)
+    		new SoundComponent(tusk.Files.sounds___tada__ogg)
     	]));
 
     	Log.info("Done loading entities!");
