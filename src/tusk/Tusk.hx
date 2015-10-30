@@ -154,6 +154,7 @@ class Tusk extends AppFixedTimestep {
         for(processor in instance.game.processors) {
             if(processor.entities.indexOf(entity) == -1 && processor.matcher.matchesEntity(entity)) {
                 processor.entities.push(entity);
+                processor.onEntityChanged(entity, Entity.ChangeEvent.EntityAdded);
                 Log.trace("Added entity to processor '" + Type.getClassName(Type.getClass(processor)) + "'!");
             }
         }
@@ -163,15 +164,17 @@ class Tusk extends AppFixedTimestep {
      * Called whenever an entity changes (when its component-composition changes) (to route the events to the processors)
      * @param  entity the changed entity
      */
-    public static function entityChanged(entity:Entity) {
+    public static function entityChanged(entity:Entity, event:Entity.ChangeEvent) {
         // update the processors
         for(processor in instance.game.processors) {
             if(processor.entities.indexOf(entity) == -1 && processor.matcher.matchesEntity(entity)) {
                 processor.entities.push(entity);
+                processor.onEntityChanged(entity, event);
                 Log.trace("Added entity to processor '" + Type.getClassName(Type.getClass(processor)) + "'!");
             }
             else if(processor.entities.indexOf(entity) != -1 && !processor.matcher.matchesEntity(entity)) {
                 processor.entities.remove(entity);
+                processor.onEntityChanged(entity, event);
                 Log.trace("Removed entity from processor '" + Type.getClassName(Type.getClass(processor)) + "'!");
             }
         }
@@ -185,6 +188,7 @@ class Tusk extends AppFixedTimestep {
         // update the processors
         for(processor in instance.game.processors) {
             if(processor.entities.remove(entity)) {
+                processor.onEntityChanged(entity, Entity.ChangeEvent.EntityRemoved);
                 Log.trace("Removed entity from processor '" + Type.getClassName(Type.getClass(processor)) + "'!");
             }
         }

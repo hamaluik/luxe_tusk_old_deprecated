@@ -5,6 +5,16 @@ import haxe.Serializer;
 import haxe.Unserializer;
 
 /**
+ * Enum describing the changes that an entity undergoes
+ */
+enum ChangeEvent {
+	EntityAdded;
+	EntityRemoved;
+	ComponentAdded(component:Component);
+	ComponentRemoved(component:Component);
+}
+
+/**
  * Container class for collections of components
  */
 class Entity {
@@ -70,7 +80,7 @@ class Entity {
 			throw new tusk.debug.Exception("Can't add component '" + componentName + "' because entity already has it!");
 		}
 		components.set(component._tid, component);
-		Tusk.entityChanged(this);
+		Tusk.entityChanged(this, ChangeEvent.ComponentAdded(component));
 		return this;
 	}
 
@@ -80,7 +90,8 @@ class Entity {
 	 */
 	public function removeType(tid:Int):Entity {
 		if(components.remove(tid)) {
-			Tusk.entityChanged(this);
+			var component:Component = get(tid);
+			Tusk.entityChanged(this, ChangeEvent.ComponentRemoved(component));
 		}
 		return this;
 	}

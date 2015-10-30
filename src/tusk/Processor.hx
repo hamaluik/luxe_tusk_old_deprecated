@@ -66,6 +66,13 @@ class Processor {
 	public function onDisabled():Void {}
 
 	/**
+	 * Override this to hook into the event when the game changes an entity
+	 * @param  entity                  the entity that was changed
+	 * @param  event.ChangeEvent       the event describing the change
+	 */
+	public function onEntityChanged(entity:Entity, event:Entity.ChangeEvent):Void {}
+
+	/**
 	 * Override to hook into when the application is ready
 	 * @param  data The data supplied by the event caller
 	 */

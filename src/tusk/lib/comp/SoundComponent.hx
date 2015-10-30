@@ -8,11 +8,10 @@ import tusk.Component;
 class SoundComponent extends Component {
 	public var loaded:Bool = false;
 	public var playing:Bool = false;
-	public var id:String = "";
+	public var path:String = "";
 
-	public function new(playing:Bool, id:String) {
-		this.playing = playing;
-		this.id = id;
+	public function new(path:String) {
+		this.path = path;
 		super();
 	}
 }
