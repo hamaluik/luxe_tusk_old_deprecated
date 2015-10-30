@@ -11,7 +11,8 @@
 -cp ../src
 -D docgen
 -lib promhx
--lib utest
+#-lib utest
+-lib partials
 --macro ImportAll.run()
 #-lib snow
 #TestClass

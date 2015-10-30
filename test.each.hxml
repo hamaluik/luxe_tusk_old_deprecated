@@ -1,4 +1,5 @@
 -lib buddy
+-lib partials
 -D testing
 -D assertions
 -main TestMain
