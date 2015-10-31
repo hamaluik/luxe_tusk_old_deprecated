@@ -1,5 +1,7 @@
 package tusk.math;
 
+using tusk.math.MathTools;
+
 import haxe.Serializer;
 import haxe.Unserializer;
 
@@ -106,6 +108,22 @@ class Vector {
 		y /= scalar;
 		z /= scalar;
 		return this;
+	}
+
+	/**
+	 * Linearly interpolate between two vectors
+	 * @param  v1    The lower vector
+	 * @param  v2    The upper vector
+	 * @param  alpha How much to interpolate by, clamped to the range `[0, 1]`
+	 * @return       A new vector, `alpha` "percent" of the way from `v1` to `v2`
+	 */
+	public static inline function lerp(v1:Vector, v2:Vector, alpha:Float):Vector {
+		alpha = alpha.clamp(0, 1);
+		return new Vector(
+			v1.x + (v2.x - v1.x) * alpha,
+			v1.y + (v2.y - v1.y) * alpha,
+			v1.z + (v2.z - v1.z) * alpha
+		);
 	}
 
 	/**

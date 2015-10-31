@@ -10,7 +10,11 @@ import tusk.debug.*;
 
 import tusk.resources.*;
 
-@:partials(tusk.modules.partials.Textures, tusk.modules.partials.Sounds)
+@:partials(
+	tusk.modules.partials.Textures,
+	tusk.modules.partials.Sounds,
+	tusk.modules.partials.Materials,
+	tusk.modules.partials.Meshes)
 class Assets implements partials.Partial {
 	private var app:Tusk;
 	private var assets:StringMap<Asset> = new StringMap<Asset>();

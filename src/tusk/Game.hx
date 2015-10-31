@@ -46,7 +46,7 @@ class Game {
 	 * @param  type<Processor> The class of the processor
 	 * @return                 A boolean indicating its existence in the game
 	 */
-	function processorExists(type:Class<Processor>):Bool {
+	/*function processorExists(type:Class<Processor>):Bool {
 		//return processors.filter(function(p:Processor):Bool{ return Type.getClass(p) == type; }).length > 0;
 		for(processor in processors) {
 			if(Type.getClass(processor) == type) {
@@ -54,6 +54,10 @@ class Game {
 			}
 		}
 		return false;
+	}*/
+
+	function hasProcessor(processor:Processor):Bool {
+		return processors.indexOf(processor) > -1;
 	}
 
 	/**
@@ -61,8 +65,9 @@ class Game {
 	 * @param  processor [description]
 	 * @return           [description]
 	 */
+	// todo: allow multiple processors of the same type
 	function useProcessor(processor:Processor) {
-		if(processorExists(Type.getClass(processor))) {
+		if(hasProcessor(processor)) {
 			throw new tusk.debug.Exception("Can't add processor '" + Type.getClassName(Type.getClass(processor)) + "' because it already exists!");
 		}
 		processor.___connectRoutes();

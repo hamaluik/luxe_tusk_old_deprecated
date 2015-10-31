@@ -52,7 +52,7 @@ typedef AppConfig = { window:Window }
  * Generally responsible for showing the splash screen and emitting events.
  */
 class Tusk extends AppFixedTimestep {
-    private static var instance:Tusk;
+    public static var instance:Tusk;
 
     /**
      * Sound module
@@ -64,7 +64,11 @@ class Tusk extends AppFixedTimestep {
      */
     public static var assets:Assets;
 
-    private var game:Game;
+    /**
+     * The current instance of the running game!
+     */
+    public var game(default, null):Game;
+
     private var router:EventRouter;
 
     private var splashScreen:tusk.SplashScreen;
