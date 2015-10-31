@@ -7,8 +7,10 @@ import tusk.macros.ComponentIndexer;
  * The matcher class implements the low-level logic for determining if an entity matches a system
  */
 class Matcher {
+	// TODO: custom matcher callback
 	private var includes:Array<Int> = new Array<Int>();
 	private var excludes:Array<Int> = new Array<Int>();
+	private var customMatcher:Entity->Bool = null;
 
 	public function new() { }
 	
@@ -40,6 +42,17 @@ class Matcher {
 		if(excludes.indexOf(tid) < 0) {
 			excludes.push(tid);
 		}
+		return this;
+	}
+
+	/**
+	 * Allow fine-grained matching functionality by supplying a matching callback function
+	 * @param  cb->Bool A callback which takes an entity and returns whether or not it
+	 *                  should be matched or not.
+	 * @return          `this`
+	 */
+	public function custom(customMatcher:Entity->Bool):Matcher {
+		this.customMatcher = customMatcher;
 		return this;
 	}
 	
@@ -76,6 +89,9 @@ class Matcher {
 			if(entity.hasType(exclude)) {
 				return false;
 			}
+		}
+		if(customMatcher != null) {
+			return customMatcher(entity);
 		}
 		return true;
 	}

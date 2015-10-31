@@ -49,6 +49,20 @@ class TestMatcher extends BuddySuite {
 				m.include(CompA.tid);
 				m.exclude.bind(CompA.tid).should.throwType(Exception);
 			});
+			it('should allow you to implement a custom matcher callback', {
+				m.custom(function(ent:Entity):Bool {
+					if(!ent.hasType(CompA.tid)) return false;
+					var comp:CompA = cast ent.get(CompA.tid);
+					return comp.val == 42;
+				});
+				var c:CompA = new CompA();
+				e.push(c);
+				var r:Bool = m.matchesEntity(e);
+				r.should.be(false);
+				c.val = 42;
+				r = m.matchesEntity(e);
+				r.should.be(true);
+			});
 
 			after({
 				e = null;
