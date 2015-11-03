@@ -84,6 +84,13 @@ abstract Vec3(Array<Float>) {
 		this = arr;
 	}
 
+	public function set(?x:Float, ?y:Float, ?z:Float):Vec3 {
+		if(x != null) this[0] = x;
+		if(y != null) this[1] = y;
+		if(z != null) this[2] = z;
+		return cast this;
+	}
+
 	public function zero():Vec3 {
 		for(i in 0...3) {
 			this[i] = 0;
@@ -97,6 +104,19 @@ abstract Vec3(Array<Float>) {
 
 	public function length():Float {
 		return Math.sqrt(sqrLength());
+	}
+
+	public function normalize():Vec3 {
+		var l:Float = length();
+		if(l != 0) {
+			this[0] /= l;
+			this[1] /= l;
+			this[2] /= l;
+		}
+		else {
+			zero();
+		}
+		return cast this;
 	}
 
 	public function clone():Vec3 {
@@ -121,11 +141,30 @@ abstract Vec3(Array<Float>) {
 		return cast this;
 	}
 
+	/**
+	 * Calculates the cross product of `this` and `b`
+	 * @param  b the input vector
+	 * @return   `this` ✕ `b` <= this
+	 */
 	public function cross(b:Vec3):Vec3 {
-		
+		// cache ourself
+		var x:Float = this[0];
+		var y:Float = this[1];
+		var z:Float = this[2];
+
+		this[0] = (y * b[2]) - (z * b[1]);
+		this[1] = (z * b[0]) - (x * b[2]);
+		this[2] = (x * b[1]) - (y * b[0]);
+
+		return cast this;
 	}
 
-	public function dot(b:Vec3):Vec3 {
+	/**
+	 * Calculates the dot product
+	 * @param  b the vector to dot with
+	 * @return   `this · b`
+	 */
+	public function dot(b:Vec3):Float {
 		return (this[0] * b[0]) + (this[1] * b[1]) + (this[2] * b[2]);
 	}
 
