@@ -67,6 +67,7 @@ class ImportAll {
 					if(cl.startsWith("promhx.mdo")) continue;
 					if(cl.startsWith("promhx.haxe")) continue;
 					if(cl.startsWith("js.promhx")) continue;
+					if(cl.startsWith("sample.")) continue;
 					switch( cl ) {
 					case "ImportAll", "neko.db.MacroManager": continue;
 					case "haxe.TimerQueue": if( Context.defined("neko") || Context.defined("php") || Context.defined("cpp") ) continue;
@@ -80,7 +81,13 @@ class ImportAll {
 					case "haxe.PythonSyntax" | "haxe.PythonInternal": continue; // temp hack (https://github.com/HaxeFoundation/haxe/issues/3321)
 					}
 					//trace( "loading module: " + cl);
-					Context.getModule(cl);
+					try {
+						Context.getModule(cl);
+					}
+					catch(exc:Dynamic) {
+						trace("Couldn't get module: " + cl);
+						//throw(exc);
+					}
 				} else if( sys.FileSystem.isDirectory(p + "/" + file) )
 					run(full);
 			}

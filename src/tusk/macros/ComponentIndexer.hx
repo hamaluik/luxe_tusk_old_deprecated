@@ -27,35 +27,46 @@ class ComponentIndexer {
      */
     macro public static function index():Array<Field> {
         var fields = Context.getBuildFields();
-        if(Context.getLocalClass() != null) {
-            var name:String = Context.getLocalClass().get().module;
-            ensureID(name);
+        var name:String = Context.getLocalClass().get().module;
+        ensureID(name);
 
-            // add the static ID
-            fields.push({
-                pos: Context.currentPos(),
-                name: "tid",
-                meta: [],
-                kind: FVar(macro: Int, macro $v{componentMap.get(name)}),
-                doc: "The type ID of the component class.",
-                access: [APublic, AStatic, AInline]
-            });
-
-            // override the instance type ID
-            fields.push({
-                pos: Context.currentPos(),
-                name: "get__tid",
-                meta: [],
-                kind: FFun({
-                    ret: macro: Int,
-                    params: [],
-                    expr: macro { return $v{componentMap.get(name)}; },
-                    args: []
-                }),
-                doc: "The type ID of the component's class.",
-                access: [APublic, AOverride]
-            });
+        // find the tid field
+        var staticTIDField:Field = null;
+        for(field in fields) {
+            if(field.name == "tid") {
+                staticTIDField = field;
+                break;
+            }
         }
+
+        // add the static ID
+        if(staticTIDField != null) {
+            fields.remove(staticTIDField);
+        }
+        staticTIDField = {
+            pos: Context.currentPos(),
+            name: "tid",
+            meta: [],
+            kind: FVar(macro: Int, macro $v{componentMap.get(name)}),
+            doc: "The type ID of the component class.",
+            access: [APublic, AStatic, AInline]
+        };
+        fields.push(staticTIDField);
+
+        // override the instance type ID
+        fields.push({
+            pos: Context.currentPos(),
+            name: "get__tid",
+            meta: [],
+            kind: FFun({
+                ret: macro: Int,
+                params: [],
+                expr: macro { return $v{componentMap.get(name)}; },
+                args: []
+            }),
+            doc: "The type ID of the component's class.",
+            access: [APublic, AOverride]
+        });
         return fields;
     }
 

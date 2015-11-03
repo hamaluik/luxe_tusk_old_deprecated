@@ -11,11 +11,10 @@
 -cp ../src
 -D docgen
 -lib promhx
-#-lib utest
 -lib partials
 --macro ImportAll.run()
+#ImportManual
 #-lib snow
-#TestClass
 
 --each
 
