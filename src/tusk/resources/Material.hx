@@ -1,6 +1,6 @@
 package tusk.resources;
 
-import tusk.math.Matrix4x4;
+import tusk.math.Mat4;
 
 #if snow
 import snow.modules.opengl.GL;
@@ -33,10 +33,10 @@ class Material extends Asset {
 	 * @param matrix    The matrix data (4x4!)
 	 * @param transpose Whether the matrix should be transposed or not
 	 */
-	public function setMatrix4x4(name:String, matrix:Matrix4x4, transpose:Bool = false) {
+	public function setMat4(name:String, matrix:Mat4, transpose:Bool = false) {
 		#if snow
 		var location:GLUniformLocation = shader.getUniformLocation(name);
-		GL.uniformMatrix4fv(location, transpose, matrix.buffer);
+		GL.uniformMatrix4fv(location, transpose, matrix.toFloat32Array());
 		#end
 	}
 

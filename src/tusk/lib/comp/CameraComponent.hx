@@ -1,7 +1,7 @@
 package tusk.lib.comp;
 
 import tusk.Component;
-import tusk.math.Matrix4x4;
+import tusk.math.Mat4;
 
 /**
  * A tŭsk standard libary component for defining a camera
@@ -10,13 +10,13 @@ class CameraComponent extends Component {
 	/**
 	 * The computed projection matrix
 	 */
-	public var projectionMatrix:Matrix4x4 = new Matrix4x4();
+	public var projectionMatrix:Mat4 = new Mat4();
 	public var projectionMatrixDirty:Bool = true;
 
 	/**
 	 * The computed view model matrix
 	 */
-	public var viewModelMatrix:Matrix4x4 = new Matrix4x4();
+	public var viewModelMatrix:Mat4 = new Mat4();
 	public var viewModelMatrixDirty:Bool = true;
 
 	public var minX:Float;

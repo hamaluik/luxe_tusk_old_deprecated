@@ -1,20 +1,20 @@
 package tusk.resources;
 
-/*#if snow
-import snow.types.Types;
-import snow.modules.opengl.GL;
-#end*/
-
 class Texture extends Asset {
 	#if snow
 	private var image:snow.system.assets.Asset.AssetImage;
 	public var texture(default, null):snow.modules.opengl.GL.GLTexture;
 	#end
 
+	public var width:Int = 0;
+	public var height:Int = 0;
+
 	#if snow
 	public function new(path:String, image:snow.system.assets.Asset.AssetImage) {
 		super(path);
 		this.image = image;
+		this.width = image.image.width;
+		this.height = image.image.height;
 
         texture = snow.modules.opengl.GL.createTexture();
         snow.modules.opengl.GL.bindTexture(snow.modules.opengl.GL.TEXTURE_2D, texture);

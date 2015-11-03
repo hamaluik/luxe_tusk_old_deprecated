@@ -63,7 +63,7 @@ class CameraProcessor extends Processor {
 				var h = camera.height;
 				var f = camera.far;
 				var n = camera.near;
-				camera.projectionMatrix = new tusk.math.Matrix4x4([
+				camera.projectionMatrix = new tusk.math.Mat4([
 					(2.0/w), 0, 0, 0,
 					0, (2.0/h), 0, 0,
 					0, 0, (1/(f-n)), (-n/(f-n)),
@@ -73,7 +73,7 @@ class CameraProcessor extends Processor {
 			}
 
 			if(camera.viewModelMatrixDirty) {
-		        camera.viewModelMatrix = new tusk.math.Matrix4x4([
+		        camera.viewModelMatrix = new tusk.math.Mat4([
 		            1, 0, 0, 0,
 		            0, 1, 0, 0,
 		            0, 0, 1, 0,

@@ -6,6 +6,7 @@ import tusk.debug.Log;
 import tusk.resources.Asset;
 import tusk.resources.Texture;
 import tusk.resources.Sound;
+import tusk.math.Mat4;
 
 #if snow
 //import snow.types.Types;
@@ -20,8 +21,8 @@ class SplashScreen {
     private var app:Tusk;
     private var onDone:Void->Void;
 
-    private var projectionMatrix:tusk.math.Matrix4x4;
-    private var modelMatrix:tusk.math.Matrix4x4;
+    private var projectionMatrix:Mat4;
+    private var modelMatrix:Mat4;
     private var mat:tusk.resources.Material;
 
     private var posLocation:Int;
@@ -43,30 +44,27 @@ class SplashScreen {
         this.app = app;
         this.onDone = onDone;
 
-        var sp:Promise<Sound> = Tusk.assets.loadSound("assets/sounds/blazingmammothgames.ogg");
-        var tp:Promise<Texture> = Tusk.assets.loadTexture("blazingmammothgames.png", haxe.Resource.getBytes("blazingmammothgames.png"));
-        Promise.when(sp, tp).then(function(sound:Sound, texture:Texture) {
-            Log.trace("Splash screen assets loaded!");
-            logoSound = sound;
-            logo = texture;
-        });
-
         var w:Float = app.app.window.width;
         var h:Float = app.app.window.height;
         var f:Float = 2;
         var n:Float = 0;
-        projectionMatrix = new tusk.math.Matrix4x4([
+        projectionMatrix = new Mat4([
             (2.0/w), 0, 0, 0,
             0, (2.0/h), 0, 0,
             0, 0, (1/(f-n)), (-n/(f-n)),
             0, 0, 0, 1
         ]);
 
-        modelMatrix = new tusk.math.Matrix4x4([
-            1, 0, 0, 0,
-            0, 1, 0, 0,
-            0, 0, 1, 0,
-            -128, -128, 0, 1]);
+        modelMatrix = new Mat4().identity();
+
+        var sp:Promise<Sound> = Tusk.assets.loadSound("assets/sounds/blazingmammothgames.ogg");
+        var tp:Promise<Texture> = Tusk.assets.loadTexture("blazingmammothgames.png", haxe.Resource.getBytes("blazingmammothgames.png"));
+        Promise.when(sp, tp).then(function(sound:Sound, texture:Texture) {
+            Log.trace("Splash screen assets loaded!");
+            logoSound = sound;
+            logo = texture;
+            modelMatrix.translate(-logo.width / 2, -logo.height / 2);
+        });
 
         var shader:tusk.resources.Shader = new tusk.resources.Shader("default.texture",
             haxe.Resource.getString("default.texture.vert"),
@@ -142,8 +140,8 @@ class SplashScreen {
             }
         }
 
-        modelMatrix.set(0, 3, -128 + x);
-        modelMatrix.set(1, 3, -128 + y);
+        modelMatrix.set(3, 0, -128 + x);
+        modelMatrix.set(3, 1, -128 + y);
         #end
     }
 
@@ -166,8 +164,8 @@ class SplashScreen {
         GL.activeTexture(GL.TEXTURE0);
         GL.bindTexture(GL.TEXTURE_2D, logo.texture);
 
-        mat.setMatrix4x4("modelView", modelMatrix);
-        mat.setMatrix4x4("projection", projectionMatrix);
+        mat.setMat4("modelView", modelMatrix);
+        mat.setMat4("projection", projectionMatrix);
         mat.setTexture("texture", 0);
 
         GL.enableVertexAttribArray(posLocation);
