@@ -45,7 +45,7 @@ typedef AppConfig = { window:Window }
 
 /**
  * The main application lives here.
- * 
+ *
  * It should mostly be a one-way relationship from here to children of the `Game` class
  * (width the exception of hooking up events).
  *

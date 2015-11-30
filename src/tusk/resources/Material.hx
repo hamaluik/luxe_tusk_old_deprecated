@@ -1,6 +1,6 @@
 package tusk.resources;
 
-import tusk.math.Mat4;
+import glm.Mat4;
 
 #if snow
 import snow.modules.opengl.GL;
@@ -36,7 +36,7 @@ class Material extends Asset {
 	public function setMat4(name:String, matrix:Mat4, transpose:Bool = false) {
 		#if snow
 		var location:GLUniformLocation = shader.getUniformLocation(name);
-		GL.uniformMatrix4fv(location, transpose, matrix.toFloat32Array());
+		GL.uniformMatrix4fv(location, transpose, new snow.api.buffers.Float32Array(matrix.toArrayColMajor()));
 		#end
 	}
 

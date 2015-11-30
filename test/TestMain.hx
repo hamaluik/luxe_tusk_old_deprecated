@@ -11,7 +11,7 @@ using buddy.Should;
 class TestMain implements Buddy<[
 	TestAssert, TestException,
 	TestEventRouter,
-	TestMat4, TestRandom, TestVec3,
+	TestRandom,
 	TestMaterial, TestShader,
 	TestComponent, TestEntity, TestGame, TestMatcher, TestProcessor
 ]>{}

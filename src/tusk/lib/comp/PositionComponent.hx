@@ -1,7 +1,7 @@
 package tusk.lib.comp;
 
 import tusk.Component;
-import tusk.math.Vec3;
+import glm.Vec3;
 
 /**
  * A tŭsk standard libary component for defining a position

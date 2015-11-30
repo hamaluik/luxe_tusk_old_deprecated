@@ -63,21 +63,23 @@ class CameraProcessor extends Processor {
 				var h = camera.height;
 				var f = camera.far;
 				var n = camera.near;
-				camera.projectionMatrix = new tusk.math.Mat4([
+				/*camera.projectionMatrix = new tusk.math.Mat4([
 					(2.0/w), 0, 0, 0,
 					0, (2.0/h), 0, 0,
 					0, 0, (1/(f-n)), (-n/(f-n)),
 					0, 0, 0, 1
-				]);
+				]);*/
+				camera.projectionMatrix = glm.Projection.ortho(-w/2, w/2, -h/2, h/2, n, f);
 				camera.projectionMatrixDirty = false;
 			}
 
 			if(camera.viewModelMatrixDirty) {
-		        camera.viewModelMatrix = new tusk.math.Mat4([
+		        /*camera.viewModelMatrix = new tusk.math.Mat4([
 		            1, 0, 0, 0,
 		            0, 1, 0, 0,
 		            0, 0, 1, 0,
-		            -pos.position.x, -pos.position.y, -pos.position.z, 1]);
+		            -pos.position.x, -pos.position.y, -pos.position.z, 1]);*/
+				camera.viewModelMatrix = glm.GLM.translate(-1 * pos.position);
 		        camera.viewModelMatrixDirty = false;
 			}
 		}

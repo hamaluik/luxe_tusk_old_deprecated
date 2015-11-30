@@ -1,7 +1,7 @@
 package tusk.lib.comp;
 
 import tusk.Component;
-import tusk.math.Mat4;
+import glm.Mat4;
 
 /**
  * A tŭsk standard libary component for defining a camera

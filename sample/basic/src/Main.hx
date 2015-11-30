@@ -6,8 +6,6 @@ import tusk.events.*;
 import tusk.lib.proc.*;
 import tusk.lib.comp.*;
 
-import tusk.math.Vector;
-
 import tusk.macros.ComponentIndexer;
 
 class Main extends Game {
@@ -27,7 +25,7 @@ class Main extends Game {
 
 		entities.push(new Entity([
 			new PositionComponent(
-				new Vector(0, 0, 0)
+				new glm.Vec3()
 			),
 			new CameraComponent(
 				0, 0, 1, 1,

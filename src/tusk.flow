@@ -22,7 +22,8 @@
 			dependencies: {
 				snow: '*',
 				promhx: '*',
-				partials: '*'
+				partials: '*',
+				glm: '*'
 			},
 			defines: ['log_fatal', 'log_error', 'log_warning', 'log_info', 'assertions'],
 			files: {

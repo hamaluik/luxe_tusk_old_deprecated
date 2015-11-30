@@ -6,7 +6,11 @@ import tusk.debug.Log;
 import tusk.resources.Asset;
 import tusk.resources.Texture;
 import tusk.resources.Sound;
-import tusk.math.Mat4;
+
+import glm.GLM;
+import glm.Mat4;
+import glm.Vec2;
+import glm.Vec3;
 
 #if snow
 //import snow.types.Types;
@@ -47,15 +51,9 @@ class SplashScreen {
         var w:Float = app.app.window.width;
         var h:Float = app.app.window.height;
         var f:Float = 2;
-        var n:Float = 0;
-        projectionMatrix = new Mat4([
-            (2.0/w), 0, 0, 0,
-            0, (2.0/h), 0, 0,
-            0, 0, (1/(f-n)), (-n/(f-n)),
-            0, 0, 0, 1
-        ]);
-
-        modelMatrix = new Mat4().identity();
+        var n:Float = -2;
+        projectionMatrix = glm.Projection.ortho(-w/2, w/2, -h/2, h/2, n, f);
+        modelMatrix = GLM.translate(new Vec3(-128, -128));
 
         var sp:Promise<Sound> = Tusk.assets.loadSound("assets/sounds/blazingmammothgames.ogg");
         var tp:Promise<Texture> = Tusk.assets.loadTexture("blazingmammothgames.png", haxe.Resource.getBytes("blazingmammothgames.png"));
@@ -63,7 +61,6 @@ class SplashScreen {
             Log.trace("Splash screen assets loaded!");
             logoSound = sound;
             logo = texture;
-            modelMatrix.translate(-logo.width / 2, -logo.height / 2);
         });
 
         var shader:tusk.resources.Shader = new tusk.resources.Shader("default.texture",
@@ -133,6 +130,8 @@ class SplashScreen {
         else {
             cooldown -= dt;
             if(cooldown <= 0) {
+                x = 0;
+                y = 0;
                 done = true;
                 GL.clearColor(0.0, 0.0, 0.0, 1.0);
                 GL.clear(GL.COLOR_BUFFER_BIT | GL.DEPTH_BUFFER_BIT);
@@ -140,8 +139,8 @@ class SplashScreen {
             }
         }
 
-        modelMatrix.set(3, 0, -128 + x);
-        modelMatrix.set(3, 1, -128 + y);
+        // move the logo around a bit
+        modelMatrix = GLM.translate(new Vec3(x - 128, y - 128));
         #end
     }
 
