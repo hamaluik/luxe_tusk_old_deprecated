@@ -20,12 +20,16 @@ class TransformComponent extends Component {
 	public var lastScale:Vec3 = new Vec3(1.0);
 
 	public var modelMatrix:Mat4 = new Mat4(1.0);
-	public var modelMatrixDirty:Bool = true;
+	//public var modelMatrixDirty:Bool = true;
 
 	public function new(?position:Vec3, ?rotation:Quat, ?scale:Vec3) {
 		if(position != null) this.position = position;
 		if(rotation != null) this.rotation = rotation;
 		if(scale != null) this.scale = scale;
+
+		lastPosition = this.position;
+		lastRotation = this.rotation;
+		lastScale = this.scale;
 		super();
 	}
 }

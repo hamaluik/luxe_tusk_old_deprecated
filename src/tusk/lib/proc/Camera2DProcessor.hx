@@ -49,15 +49,19 @@ class Camera2DProcessor extends Processor {
 
 			// check if the projection-view matrix is dirty
 			if(transform.position != transform.lastPosition || transform.rotation != transform.lastRotation) {
-				camera.projectionViewMatrixDirty = true;
+				camera.viewMatrixDirty = true;
 			}
 
-			// if we need to update the projection-view matrix, do so
-			if(camera.projectionViewMatrixDirty) {
-				var projection:Mat4 = Projection.ortho(camera.min.x, camera.max.x, camera.min.y, camera.max.y, camera.near, camera.far);
-				var view:Mat4 = GLM.translate(-1 * transform.position) * Mat4.fromMat3(Mat3.fromQuat(transform.rotation));
-				camera.projectionViewMatrix = projection * view;
-				camera.projectionViewMatrixDirty = false;
+			// if we need to update the projection matrix, do so
+			if(camera.projectionMatrixDirty) {
+				camera.projectionMatrix = Projection.ortho(camera.min.x, camera.max.x, camera.min.y, camera.max.y, camera.near, camera.far);
+				camera.projectionMatrixDirty = false;
+			}
+
+			// if we need to update the view matrix, do so
+			if(camera.viewMatrixDirty) {
+				camera.viewMatrix = GLM.translate(-1 * transform.position) * Mat4.fromMat3(Mat3.fromQuat(transform.rotation));
+				camera.viewMatrixDirty = false;
 			}
 		}
 	}

@@ -7,9 +7,7 @@ import snow.modules.opengl.GL;
 import snow.modules.opengl.GL.GLBuffer;
 #end
 
-import haxe.ds.StringMap;
-
-typedef RenderCallback = Mat4->Mat4->GLBuffer->Int->Void;
+typedef RenderCallback = Mat4->Mat4->Mat4->GLBuffer->Int->Void;
 
 /**
  * Defines a material
@@ -25,7 +23,10 @@ class Material extends Asset {
 	 */
 	public var onRender:RenderCallback = null;
 
-	public var textures:StringMap<Texture> = new StringMap<Texture>();
+	/**
+	 * An array of textures used by the material
+	 */
+	public var textures:Array<Texture> = null;
 
 	/**
 	 * Create a new material!

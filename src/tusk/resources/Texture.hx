@@ -29,7 +29,7 @@ class Texture extends Asset {
         snow.modules.opengl.GL.bindTexture (snow.modules.opengl.GL.TEXTURE_2D, null);
 	}
 	#else
-	public function new(path:String, sound:Dynamic) {
+	public function new(path:String, image:Dynamic) {
 		super(path);
 	}
 	#end

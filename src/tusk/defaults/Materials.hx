@@ -1,4 +1,4 @@
-package tusk;
+package tusk.defaults;
 
 import glm.Mat4;
 
@@ -23,18 +23,18 @@ class Materials {
 		var posLocation:Int = mat.shader.getAttributeLocation("position");
 		var uvLocation:Int = mat.shader.getAttributeLocation("uv");
 
-		mat.onRender = function(projectionViewMatrix:Mat4, modelMatrix:Mat4, vertexBuffer:GLBuffer, vertexCount:Int) {
+		mat.onRender = function(projectionMatrix:Mat4, viewMatrix:Mat4, modelMatrix:Mat4, vertexBuffer:GLBuffer, vertexCount:Int) {
 			GL.useProgram(mat.shader.program);
 			GL.blendFunc(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA);
 
-			if(mat.textures.iterator().hasNext()) {
+			if(mat.textures != null && mat.textures.length > 0) {
 				GL.activeTexture(GL.TEXTURE0);
-				// NOTE: WE ARE EXPECTING AT LEAST 1 TEXTURE TO BE SET IN THE MATERIAL
-				GL.bindTexture(GL.TEXTURE_2D, mat.textures.iterator().next().texture);
+				GL.bindTexture(GL.TEXTURE_2D, mat.textures[0].texture);
 			}
 
-			mat.setMat4("modelView", modelMatrix);
-			mat.setMat4("projection", projectionViewMatrix);
+			mat.setMat4("projection", projectionMatrix);
+			mat.setMat4("view", viewMatrix);
+			mat.setMat4("model", modelMatrix);
 			mat.setTexture("texture", 0);
 
 			GL.enableVertexAttribArray(posLocation);

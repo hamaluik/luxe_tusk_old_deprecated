@@ -12,8 +12,11 @@ class Camera2DComponent extends Component {
 	/**
 	 * The combined projection and view matrices for this camera
 	 */
-	public var projectionViewMatrix:Mat4 = new Mat4(1.0);
-	public var projectionViewMatrixDirty:Bool = true;
+	public var projectionMatrix:Mat4 = new Mat4(1.0);
+	public var projectionMatrixDirty:Bool = true;
+
+	public var viewMatrix:Mat4 = new Mat4(1.0);
+	public var viewMatrixDirty:Bool = true;
 
 	public var min:Vec2;
 	public var max:Vec2;
@@ -26,7 +29,8 @@ class Camera2DComponent extends Component {
 		this.max  = max;
 		this.near = near;
 		this.far  = far;
-		projectionViewMatrixDirty = true;
+		projectionMatrixDirty = true;
+		viewMatrixDirty = true;
 		super();
 	}
 }

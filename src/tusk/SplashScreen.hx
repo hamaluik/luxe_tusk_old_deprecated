@@ -5,6 +5,7 @@ import promhx.Promise;
 import tusk.debug.Log;
 import tusk.resources.Asset;
 import tusk.resources.Texture;
+import tusk.resources.Font;
 import tusk.resources.Sound;
 
 import glm.GLM;
@@ -26,6 +27,7 @@ class SplashScreen {
     private var onDone:Void->Void;
 
     private var projectionMatrix:Mat4;
+    private var viewMatrix:Mat4;
     private var modelMatrix:Mat4;
     private var mat:tusk.resources.Material;
 
@@ -53,10 +55,11 @@ class SplashScreen {
         var f:Float = 2;
         var n:Float = -2;
         projectionMatrix = glm.Projection.ortho(-w/2, w/2, -h/2, h/2, n, f);
-        modelMatrix = GLM.translate(new Vec3(-128, -128));
+        viewMatrix = new Mat4(1.0);
+        modelMatrix = new Mat4(1.0);
 
-        var sp:Promise<Sound> = Tusk.assets.loadSound("assets/sounds/blazingmammothgames.ogg");
-        var tp:Promise<Texture> = Tusk.assets.loadTexture("blazingmammothgames.png", haxe.Resource.getBytes("blazingmammothgames.png"));
+        var sp:Promise<Sound> = Tusk.assets.loadSound('assets/sounds/blazingmammothgames.ogg');
+        var tp:Promise<Texture> = Tusk.assets.loadTexture('blazingmammothgames.png', haxe.Resource.getBytes('blazingmammothgames.png'));
         Promise.when(sp, tp).then(function(sound:Sound, texture:Texture) {
             Log.trace("Splash screen assets loaded!");
             logoSound = sound;
@@ -75,13 +78,13 @@ class SplashScreen {
         vertexBuffer = GL.createBuffer();
         GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer);
         GL.bufferData(GL.ARRAY_BUFFER, new snow.api.buffers.Float32Array([
-               0,    0,  0.5,   0.0,  1.0,
-             256,    0,  0.5,   1.0,  1.0,
-             256,  256,  0.5,   1.0,  0.0,
+            -128, -128,  0.5,   0.0,  1.0,
+             128, -128,  0.5,   1.0,  1.0,
+             128,  128,  0.5,   1.0,  0.0,
 
-             256,  256,  0.5,   1.0,  0.0,
-               0,  256,  0.5,   0.0,  0.0,
-               0,    0,  0.5,   0.0,  1.0
+             128,  128,  0.5,   1.0,  0.0,
+            -128,  128,  0.5,   0.0,  0.0,
+            -128, -128,  0.5,   0.0,  1.0
         ]), GL.STATIC_DRAW);
         GL.bindBuffer(GL.ARRAY_BUFFER, null);
 
@@ -140,7 +143,7 @@ class SplashScreen {
         }
 
         // move the logo around a bit
-        modelMatrix = GLM.translate(new Vec3(x - 128, y - 128));
+        modelMatrix = GLM.translate(new Vec3(x, y));
         #end
     }
 
@@ -163,8 +166,9 @@ class SplashScreen {
         GL.activeTexture(GL.TEXTURE0);
         GL.bindTexture(GL.TEXTURE_2D, logo.texture);
 
-        mat.setMat4("modelView", modelMatrix);
         mat.setMat4("projection", projectionMatrix);
+        mat.setMat4("view", viewMatrix);
+        mat.setMat4("model", modelMatrix);
         mat.setTexture("texture", 0);
 
         GL.enableVertexAttribArray(posLocation);

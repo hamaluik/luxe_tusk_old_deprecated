@@ -78,7 +78,7 @@ class Renderer2DProcessor extends Processor {
 				var material:MaterialComponent = cast entity.get(MaterialComponent.tid);
 
 				// render!
-				material.material.onRender(camera.projectionViewMatrix, transform.modelMatrix, mesh.vertexBuffer, mesh.mesh.vertices.length);
+				material.material.onRender(camera.projectionMatrix, camera.viewMatrix, transform.modelMatrix, mesh.vertexBuffer, mesh.mesh.vertices.length);
 			}
 		}
 	}

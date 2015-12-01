@@ -20,8 +20,9 @@ class Main extends Game {
 		Log.info("Game has started!");
 
 		Log.info("Loading primitives and default materials...");
-		tusk.Primitives.loadQuad();
-		tusk.Materials.loadUnlitTextured();
+		tusk.defaults.Primitives.loadQuad(32);
+		tusk.defaults.Materials.loadUnlitTextured();
+		tusk.defaults.Fonts.loadSubatomic_Screen();
 		Log.info("Done loading primitives and default materials!");
 
 		Log.info("Loading processors...");
@@ -29,6 +30,7 @@ class Main extends Game {
 		this.useProcessor(new MaterialProcessor());
 		this.useProcessor(new Camera2DProcessor());
 		this.useProcessor(new TransformProcessor());
+		this.useProcessor(new CircleProcessor());
 		this.useProcessor(new Renderer2DProcessor(new Vec4(0.25, 0.25, 0.25, 1.0)));
 		Log.info("Done loading processors!");
 
@@ -38,7 +40,7 @@ class Main extends Game {
 		var h:Float = Tusk.instance.app.window.height;
 		entities.push(new Entity([
 			new TransformComponent(),
-			new Camera2DComponent(new Vec2(w, h) / -2.0, new Vec2(w, h), -100, 100)
+			new Camera2DComponent(new Vec2(w, h) / -2.0, new Vec2(w, h) / 2.0, -100, 100)
 		]));
 
 		// load the sprite texture
@@ -46,7 +48,8 @@ class Main extends Game {
 		Log.info("Loading Dennie sprite!");
 		Tusk.assets.loadTexture(tusk.Files.sprites___Dennie__png)
 			.then(function(t:Texture) {
-				mc.material.textures.set("texture", t);
+				mc.material.textures = new Array<Texture>();
+				mc.material.textures.push(t);
 				Log.info("Loaded Dennie sprite!");
 			}).catchError(function(err) {
 				Log.error("Unable to load Dennie sprite!");
@@ -54,7 +57,7 @@ class Main extends Game {
 
 		// create a sprite
 		entities.push(new Entity([
-			new TransformComponent(new Vec3(), Quat.identity(), new Vec3(256, 256, 256)),
+			new TransformComponent(new Vec3(), Quat.identity(), new Vec3(2, 2, 2)),
 			new MeshComponent("quad"),
 			mc
 		]));

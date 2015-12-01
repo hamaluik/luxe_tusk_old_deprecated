@@ -15,7 +15,9 @@
 			flags: [
 				"-resource flow/assets/shaders/unlit.textured.vert@unlit.textured.vert",
 				"-resource flow/assets/shaders/unlit.textured.frag@unlit.textured.frag",
-				"-resource flow/assets/images/blazingmammothgames.png@blazingmammothgames.png"
+				"-resource flow/assets/images/blazingmammothgames.png@blazingmammothgames.png",
+				"-resource flow/assets/fonts/Subatomic_Screen.png@Subatomic_Screen.png",
+				"-resource flow/assets/fonts/Subatomic_Screen.fnt@Subatomic_Screen.fnt"
 			],
 			dependencies: {
 				snow: '*',
