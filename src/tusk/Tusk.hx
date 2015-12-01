@@ -69,7 +69,7 @@ class Tusk extends AppFixedTimestep {
      */
     public var game(default, null):Game;
 
-    private var router:EventRouter;
+    public static var router:EventRouter;
 
     private var splashScreen:tusk.SplashScreen;
 
@@ -77,18 +77,18 @@ class Tusk extends AppFixedTimestep {
     public function new(game:Game) {
         super();
         instance = this;
-        this.router = new EventRouter();
+        router = new EventRouter();
         this.game = game;
     }
 
     @:noCompletion
     public static function routeEvent(type:EventType, handler:EventHandler) {
-        instance.router.registerHandler(type, handler);
+        router.registerHandler(type, handler);
     }
 
     @:noCompletion
     public static function unrouteEvent(type:EventType, handler:EventHandler) {
-        instance.router.unregisterHandler(type, handler);
+        router.unregisterHandler(type, handler);
     }
 
     @:noCompletion
@@ -110,8 +110,8 @@ class Tusk extends AppFixedTimestep {
         Log.trace("connecting game routes");
         game.___connectRoutes();
 
-        Log.trace("firing start event");
-        router.onEvent(EventType.Start, {});
+        Log.trace("firing load event");
+        router.onEvent(EventType.Load, {});
     }
 
     @:noCompletion
@@ -177,8 +177,8 @@ class Tusk extends AppFixedTimestep {
                 Log.trace("Added entity to processor '" + Type.getClassName(Type.getClass(processor)) + "'!");
             }
             else if(processor.entities.indexOf(entity) != -1 && !processor.matcher.matchesEntity(entity)) {
-                processor.entities.remove(entity);
                 processor.onEntityChanged(entity, event);
+                processor.entities.remove(entity);
                 Log.trace("Removed entity from processor '" + Type.getClassName(Type.getClass(processor)) + "'!");
             }
         }

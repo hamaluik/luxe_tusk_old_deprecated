@@ -4,7 +4,12 @@ import glm.Mat4;
 
 #if snow
 import snow.modules.opengl.GL;
+import snow.modules.opengl.GL.GLBuffer;
 #end
+
+import haxe.ds.StringMap;
+
+typedef RenderCallback = Mat4->Mat4->GLBuffer->Int->Void;
 
 /**
  * Defines a material
@@ -14,6 +19,13 @@ class Material extends Asset {
 	 * The shader that the material uses
 	 */
 	public var shader(default, null):Shader;
+
+	/**
+	 * A callback function to be used when rendering this material
+	 */
+	public var onRender:RenderCallback = null;
+
+	public var textures:StringMap<Texture> = new StringMap<Texture>();
 
 	/**
 	 * Create a new material!
@@ -40,6 +52,11 @@ class Material extends Asset {
 		#end
 	}
 
+	/**
+	 * Uses GL to set a texture in the shaders
+	 * @param name the name of the texture to set
+	 * @param ndx  which slot to place it in
+	 */
 	public function setTexture(name:String, ndx:Int) {
 		#if snow
 		var location:GLUniformLocation = shader.getUniformLocation(name);

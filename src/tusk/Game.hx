@@ -92,7 +92,7 @@ class Game {
 	 * Override to hook into when the application is ready
 	 * @param  data The data supplied by the event caller
 	 */
-	public function onStart(data:StartEvent) {}
+	public function onLoad(data:LoadEvent) {}
 
 	/**
 	 * Override to hook into when the application is being destroyed

@@ -2,22 +2,25 @@ package tusk.lib.comp;
 
 import tusk.Component;
 import tusk.resources.Mesh;
-import tusk.resources.Material;
+
+#if snow
+import snow.modules.opengl.GL;
+import snow.modules.opengl.GL.GLBuffer;
+#end
 
 /**
  * A tŭsk standard libary component for defining a mesh
  */
 class MeshComponent extends Component {
 	public var meshPath:String;
-	public var materialPath:String;
 	@:dontSerialize
 	public var mesh:Mesh;
-	@:dontSerialize
-	public var material:Material;
 
-	public function new(meshPath:String, materialPath:String) {
+	public var vertexBuffer:GLBuffer = null;
+	public var bufferDirty:Bool = true;
+
+	public function new(meshPath:String) {
 		this.meshPath = meshPath;
-		this.materialPath = materialPath;
 		super();
 	}
 }

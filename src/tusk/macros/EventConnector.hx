@@ -54,7 +54,8 @@ import haxe.macro.Expr;
         // now find all our methods to auto-connect
         for(field in fields) {
             switch(field.name) {
-                case 'onStart',
+                case 'onLoad',
+                     'onStart',
                      'onUpdate',
                      'onRender',
                      'onDestroy': {

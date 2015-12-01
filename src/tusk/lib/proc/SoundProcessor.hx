@@ -13,18 +13,5 @@ class SoundProcessor extends Processor {
 	}
 	
 	override public function onUpdate(data:UpdateEvent):Void {
-		/*for(entity in entities) {
-			var sound:SoundComponent = cast entity.get(SoundComponent.tid);
-			if(!sound.loaded) {
-				Tusk.sound.load(sound.id, function() {
-					sound.loaded = true;
-				});
-			}
-			else if(!sound.playing) {
-				sound.playing = true;
-				Log.info("Playing sound: '" + sound.id + "'...");
-				Tusk.sound.play(sound.id);
-			}
-		}*/
 	}
 }

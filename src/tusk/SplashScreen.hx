@@ -63,10 +63,10 @@ class SplashScreen {
             logo = texture;
         });
 
-        var shader:tusk.resources.Shader = new tusk.resources.Shader("default.texture",
-            haxe.Resource.getString("default.texture.vert"),
-            haxe.Resource.getString("default.texture.frag"));
-        mat = new tusk.resources.Material("default.textured", shader);
+        var shader:tusk.resources.Shader = new tusk.resources.Shader("unlit.textured",
+            haxe.Resource.getString("unlit.textured.vert"),
+            haxe.Resource.getString("unlit.textured.frag"));
+        mat = new tusk.resources.Material("unlit.textured", shader);
 
         GL.useProgram(mat.shader.program);
         posLocation = mat.shader.getAttributeLocation("position");
@@ -96,7 +96,7 @@ class SplashScreen {
     var shakeAmplitude:Float = 10;
 
     var shakeDelay:Float = 0.5;
-    var cooldown:Float = 3;
+    var cooldown:Float = 1;
     var done:Bool = false;
 
     public function update(dt:Float) {

@@ -14,7 +14,7 @@
 			dependencies: {
 				tusk: '*'
 			},
-			defines: ['assertions']
+			defines: ['assertions', 'nosplash']
 		},
 
 		files: {
