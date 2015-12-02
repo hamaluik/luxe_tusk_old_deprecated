@@ -4,10 +4,12 @@ import tusk.resources.Mesh;
 import glm.Vec2;
 import glm.Vec3;
 
+import promhx.Promise;
+
 class Primitives {
 	private function new(){}
 
-	public static function loadQuad(unitSize:Float=1.0) {
+	public static function loadQuad(unitSize:Float=1.0):Promise<Mesh> {
 		var m:Mesh = new Mesh("quad");
 
 		m.vertices = new Array<Vec3>();
@@ -28,6 +30,6 @@ class Primitives {
 		m.uvs.push(new Vec2(0.0, 0.0));
 		m.uvs.push(new Vec2(0.0, 1.0));
 
-		Tusk.assets.loadMesh("quad", m);
+		return Tusk.assets.loadMesh("quad", m);
 	}
 }

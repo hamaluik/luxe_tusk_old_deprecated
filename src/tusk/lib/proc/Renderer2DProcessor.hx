@@ -69,7 +69,6 @@ class Renderer2DProcessor extends Processor {
 		GL.clearColor(clearColour.r, clearColour.g, clearColour.b, clearColour.a);
 		GL.clear(GL.COLOR_BUFFER_BIT | GL.DEPTH_BUFFER_BIT);
 
-		var identity:Mat4 = Mat4.identity();
 		for(camera in Camera2DProcessor.cameras) {
 			for(entity in entities) {
 				// get our components

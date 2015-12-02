@@ -60,6 +60,7 @@ import haxe.macro.Expr;
                      'onRender',
                      'onDestroy': {
                      	connectEvent(connectField, field);
+                        disconnectEvent(disconnectField, field);
                      }
             }
         }
@@ -90,7 +91,7 @@ import haxe.macro.Expr;
 
     /**
      * Assuming we've found events to disconnect, use this to insert
-     * the routing expression into the connection method
+     * the routing expression into the disconnection method
      * @param connectField the field corresponding to the `___disconnectRoutes` method
      * @param eventField   the field corresponding to the detected event method
      */

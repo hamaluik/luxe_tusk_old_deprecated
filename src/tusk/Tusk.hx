@@ -5,6 +5,9 @@ import tusk.debug.Log;
 import tusk.events.*;
 import tusk.modules.*;
 
+import promhx.Deferred;
+import promhx.Promise;
+
 #if snow
 import snow.types.Types;
 import snow.modules.opengl.GL;
@@ -52,7 +55,7 @@ typedef AppConfig = { window:Window }
  * Generally responsible for showing the splash screen and emitting events.
  */
 class Tusk extends AppFixedTimestep {
-    public static var instance:Tusk;
+    public static var instance:Tusk = null;
 
     /**
      * Sound module
@@ -67,18 +70,19 @@ class Tusk extends AppFixedTimestep {
     /**
      * The current instance of the running game!
      */
-    public var game(default, null):Game;
+    public static var game(default, null):Game;
 
+    /**
+     * The event router
+     */
     public static var router:EventRouter;
 
-    private var splashScreen:tusk.SplashScreen;
-
     @:noCompletion
-    public function new(game:Game) {
+    public function new(_game:Game) {
         super();
-        instance = this;
         router = new EventRouter();
-        this.game = game;
+        game = _game;
+        instance = this;
     }
 
     @:noCompletion
@@ -101,17 +105,6 @@ class Tusk extends AppFixedTimestep {
     }
 
     private function initialize() {
-        Log.trace("splash screen done");
-        splashScreen = null;
-
-        Log.trace("connecting rendering callback");
-        app.window.onrender = render;
-
-        Log.trace("connecting game routes");
-        game.___connectRoutes();
-
-        Log.trace("firing load event");
-        router.onEvent(EventType.Load, {});
     }
 
     @:noCompletion
@@ -122,20 +115,15 @@ class Tusk extends AppFixedTimestep {
         sound = new Sound(this);
         assets = new Assets(this);
 
-        #if (nosplash || !snow)
-        initialize();
-        #else
-        Log.trace("initializing splash screen");
-        splashScreen = new tusk.SplashScreen(this, initialize);
-        app.window.onrender = splashScreen.render;
-        #end
+        Log.trace("connecting rendering callback");
+        app.window.onrender = render;
+
+        Log.trace("setting up game");
+        game.setup();
     }
 
     @:noCompletion
     override public function update(dt:Float) {
-        if(splashScreen != null) {
-            splashScreen.update(dt);
-        }
         router.onEvent(EventType.Update, { dt: dt });
     }
 
@@ -143,19 +131,36 @@ class Tusk extends AppFixedTimestep {
         router.onEvent(EventType.Render, { alpha: alpha });
     }
 
+    public static function loadScene(scene:Scene):Promise<Dynamic> {
+        game.currentScene = scene;
+        game.currentScene.sceneDone = new Deferred<Dynamic>();
+
+        scene.___connectRoutes();
+        router.onEvent(EventType.Load, {});
+
+        return scene.sceneDone.promise().then(function(data:Dynamic) {
+            router.onEvent(EventType.Destroy);
+            for(processor in game.currentScene.processors) {
+                processor.___disconnectRoutes();
+            }
+            game.currentScene.___disconnectRoutes();
+            return game.currentScene.sceneDone.promise();
+        });
+    }
+
     /**
      * Called in an entity constructor when it is created (to route the events to the processors)
      * @param entity The entity that was just created
      */
     public static function addEntity(entity:Entity) {
-        // update the game
-        if(instance.game.entities.indexOf(entity) == -1) {
-            instance.game.entities.push(entity);
-            Log.trace("Added entity to game!");
+        // update the scene
+        if(game.currentScene.entities.indexOf(entity) == -1) {
+            game.currentScene.entities.push(entity);
+            Log.trace("Added entity to scene!");
         }
 
         // update the processors
-        for(processor in instance.game.processors) {
+        for(processor in game.currentScene.processors) {
             if(processor.entities.indexOf(entity) == -1 && processor.matcher.matchesEntity(entity)) {
                 processor.entities.push(entity);
                 processor.onEntityChanged(entity, Entity.ChangeEvent.EntityAdded);
@@ -170,7 +175,7 @@ class Tusk extends AppFixedTimestep {
      */
     public static function entityChanged(entity:Entity, event:Entity.ChangeEvent) {
         // update the processors
-        for(processor in instance.game.processors) {
+        for(processor in game.currentScene.processors) {
             if(processor.entities.indexOf(entity) == -1 && processor.matcher.matchesEntity(entity)) {
                 processor.entities.push(entity);
                 processor.onEntityChanged(entity, event);
@@ -190,7 +195,7 @@ class Tusk extends AppFixedTimestep {
      */
     public static function removeEntity(entity:Entity) {
         // update the processors
-        for(processor in instance.game.processors) {
+        for(processor in game.currentScene.processors) {
             if(processor.entities.remove(entity)) {
                 processor.onEntityChanged(entity, Entity.ChangeEvent.EntityRemoved);
                 Log.trace("Removed entity from processor '" + Type.getClassName(Type.getClass(processor)) + "'!");
@@ -198,8 +203,8 @@ class Tusk extends AppFixedTimestep {
         }
 
         // update the game
-        if(instance.game.entities.remove(entity)) {
-            Log.trace("Removed entity from game!");
+        if(game.currentScene.entities.remove(entity)) {
+            Log.trace("Removed entity from scene!");
         }
     }
 
@@ -210,8 +215,9 @@ class Tusk extends AppFixedTimestep {
     public static function serialize():String {
         Log.trace("Serializing game state...");
         var s = new haxe.Serializer();
-        s.serialize(instance.game.processors);
-        s.serialize(instance.game.entities);
+        // TODO: serialize the scenes too!
+        s.serialize(game.currentScene.processors);
+        s.serialize(game.currentScene.entities);
         var result:String = s.toString();
         Log.trace("Serialized state:");
         Log.trace(result);

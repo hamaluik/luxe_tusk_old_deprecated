@@ -5,6 +5,8 @@ import glm.Mat4;
 import tusk.resources.Shader;
 import tusk.resources.Material;
 
+import promhx.Promise;
+
 #if snow
 import snow.modules.opengl.GL;
 import snow.modules.opengl.GL.GLBuffer;
@@ -13,7 +15,7 @@ import snow.modules.opengl.GL.GLBuffer;
 class Materials {
 	private function new() {}
 
-	public static function loadUnlitTextured() {
+	public static function loadUnlitTextured():Promise<Material> {
 		var shader:tusk.resources.Shader = new tusk.resources.Shader("unlit.textured",
 			haxe.Resource.getString("unlit.textured.vert"),
 			haxe.Resource.getString("unlit.textured.frag"));
@@ -53,6 +55,6 @@ class Materials {
 			GL.useProgram(null);
 		}
 
-		Tusk.assets.loadMaterial("unlit.textured", mat);
+		return Tusk.assets.loadMaterial("unlit.textured", mat);
 	}
 }
