@@ -32,7 +32,6 @@ class Materials {
 		var posLocation:Int = mat.shader.getAttributeLocation("position");
 		var uvLocation:Int = mat.shader.getAttributeLocation("uv");
 
-		//mat.onRender = function(projectionMatrix:Mat4, viewMatrix:Mat4, modelMatrix:Mat4, vertexBuffer:GLBuffer, vertexCount:Int) {
 		mat.onRender = function(setupUniforms:SetupRenderUniformsCallback, vertexBuffer:GLBuffer, vertexCount:Int) {
 			GL.useProgram(mat.shader.program);
 			GL.blendFunc(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA);
@@ -61,6 +60,43 @@ class Materials {
 		}
 
 		return Tusk.assets.loadMaterial("unlit.textured", mat);
+	}
+
+	public static function loadEffectFadeout():Promise<Material> {
+		if(Tusk.assets.isLoaded("effect.fadeout")) {
+			var d:Deferred<Material> = new Deferred<Material>();
+			d.resolve(Tusk.assets.getMaterial("effect.fadeout"));
+			return d.promise();
+		}
+
+		var shader:Shader = new Shader("effect.fadeout",
+			haxe.Resource.getString("unlit.textured.vert"),
+			haxe.Resource.getString("effect.fadeout.frag"));
+		var mat = new Material("effect.fadeout", shader);
+
+		GL.useProgram(mat.shader.program);
+		var posLocation:Int = mat.shader.getAttributeLocation("position");
+
+		mat.onRender = function(setupUniforms:SetupRenderUniformsCallback, vertexBuffer:GLBuffer, vertexCount:Int) {
+			GL.useProgram(mat.shader.program);
+			GL.blendFunc(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA);
+
+			setupUniforms(mat);
+
+			GL.enableVertexAttribArray(posLocation);
+			GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer);
+
+			GL.vertexAttribPointer(posLocation, 3, GL.FLOAT, false, 5*4, 0);
+
+			GL.drawArrays(GL.TRIANGLES, 0, vertexCount);
+
+			GL.bindTexture(GL.TEXTURE_2D, null);
+			GL.bindBuffer(GL.ARRAY_BUFFER, null);
+			GL.disableVertexAttribArray(posLocation);
+			GL.useProgram(null);
+		}
+
+		return Tusk.assets.loadMaterial("effect.fadeout", mat);
 	}
 
 	public static function loadEffectCircleOut():Promise<Material> {

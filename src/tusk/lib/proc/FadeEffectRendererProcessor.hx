@@ -25,19 +25,19 @@ import snow.modules.opengl.GL;
 /**
  * Processor which fills out camera matrices for the renderer
  */
-class CircleEffectRendererProcessor extends Processor {
+class FadeEffectRendererProcessor extends Processor {
 	public function new(?entities:Array<Entity>) {
-		matcher = new Matcher().include(MaterialComponent.tid).include(MeshComponent.tid).include(CircleEffectComponent.tid).include(TransformComponent.tid);
+		matcher = new Matcher().include(MaterialComponent.tid).include(MeshComponent.tid).include(FadeEffectComponent.tid).include(TransformComponent.tid);
 		super(entities);
 	}
 
 	override public function onUpdate(data:UpdateEvent) {
 		for(entity in entities) {
-			var circleEffect:CircleEffectComponent = cast entity.get(CircleEffectComponent.tid);
-			circleEffect.t += data.dt;
+			var fadeEffect:FadeEffectComponent = cast entity.get(FadeEffectComponent.tid);
+			fadeEffect.t += data.dt;
 
-			if(circleEffect.t >= 1.0 && !circleEffect.done.isResolved()) {
-				circleEffect.finish();
+			if(fadeEffect.t >= 1.0 && !fadeEffect.done.isResolved()) {
+				fadeEffect.finish();
 			}
 		}
 	}
@@ -49,17 +49,15 @@ class CircleEffectRendererProcessor extends Processor {
 				var transform:TransformComponent = cast entity.get(TransformComponent.tid);
 				var mesh:MeshComponent = cast entity.get(MeshComponent.tid);
 				var material:MaterialComponent = cast entity.get(MaterialComponent.tid);
-				var circleEffect:CircleEffectComponent = cast entity.get(CircleEffectComponent.tid);
+				var fadeEffect:FadeEffectComponent = cast entity.get(FadeEffectComponent.tid);
 
 				// render!
 				material.material.onRender(function(mat:Material) {
 					mat.setMat4("projection", camera.projectionMatrix);
 					mat.setMat4("view", camera.viewMatrix);
 					mat.setMat4("model", transform.modelMatrix);
-					material.material.setVec2('resolutionCenter',
-						new glm.Vec2(Tusk.instance.app.window.width, Tusk.instance.app.window.height) / 2.0);
-					material.material.setFloat('circleDistance',
-						tusk.math.Ease.InOutCubic(circleEffect.circleIn ? circleEffect.t : (1.0 - circleEffect.t), 0, 1024, 1.0));
+					material.material.setFloat('fadeAlpha',
+						tusk.math.Ease.InOutCubic(fadeEffect.fadeIn ? (1.0 - fadeEffect.t) : fadeEffect.t, 0, 1, 1.0));
 				}, mesh.vertexBuffer, mesh.mesh.vertices.length);
 			}
 		}

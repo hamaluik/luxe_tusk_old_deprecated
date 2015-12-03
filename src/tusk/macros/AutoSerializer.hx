@@ -67,6 +67,21 @@ import haxe.macro.Expr;
             }
         }
 
+        var serializeFunctionExists:Bool = false;
+        var unSerializeFunctionExists:Bool = false;
+        /*for(field in fields) {
+            if(field.name == 'hxSerialize') {
+                serializeFunctionExists = true;
+            }
+            else if(field.name == 'hxUnserialize') {
+                unSerializeFunctionExists = true;
+            }
+        }*/
+        if(Context.getLocalClass().get().superClass.t.get().name == 'PromiseComponent') {
+            serializeFunctionExists = true;
+            unSerializeFunctionExists = true;
+        }
+
         // add the hxSerialize field
         var hxSerialize:FieldType = FFun({
             ret: null,
@@ -88,7 +103,7 @@ import haxe.macro.Expr;
             meta: [],
             kind: hxSerialize,
             doc: null,
-            access: [APublic]
+            access: serializeFunctionExists ? [APublic, AOverride] : [APublic]
         });
 
         // add the hxUnserialize field
@@ -112,7 +127,7 @@ import haxe.macro.Expr;
             meta: [],
             kind: hxSerialize,
             doc: null,
-            access: [APublic]
+            access: unSerializeFunctionExists ? [APublic, AOverride] : [APublic]
         });
 
         return fields;

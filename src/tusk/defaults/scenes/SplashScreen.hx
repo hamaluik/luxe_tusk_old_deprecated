@@ -89,7 +89,7 @@ class SplashScreen extends Scene {
 				new MaterialComponent(circleOutMat.path),
 				cec
 			]));
-			cec.effectDone.promise().pipe(function(_) {
+			cec.done.pipe(function(_) {
 				logoEnt.push(new SplashScreen_ShakeComponent());
 				logoEnt.push(new SoundComponent(roar.path, true));
 				var timer:TimedPromiseComponent = new TimedPromiseComponent(4.297);
@@ -98,8 +98,8 @@ class SplashScreen extends Scene {
 			}).pipe(function(_) {
 				cec.t = 0;
 				cec.circleIn = false;
-				cec.effectDone = new promhx.Deferred<Bool>();
-				return cec.effectDone.promise();
+				cec.reset();
+				return cec.done;
 			}).then(function(_) {
 				sceneDone.resolve(this);
 			});
