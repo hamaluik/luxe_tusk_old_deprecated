@@ -19,7 +19,7 @@ class Game {
 		return "Unbranded Tusk Game";
 	}
 
-	public var currentScene:Scene = null;
+	public var currentScenes:Array<Scene> = new Array<Scene>();
 
 	public function new() {}
 	public function setup() {}

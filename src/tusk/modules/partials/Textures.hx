@@ -22,11 +22,11 @@ class Textures implements partials.Partial {
 
 		if(bytes == null) {
 			// load from path
-			snowPromise = app.app.assets.image(path);
+			snowPromise = Tusk.instance.app.assets.image(path);
 		}
 		else {
 			// load from bytes
-			snowPromise = app.app.assets.image_from_bytes(path, snow.api.buffers.Uint8Array.fromBytes(bytes));
+			snowPromise = Tusk.instance.app.assets.image_from_bytes(path, snow.api.buffers.Uint8Array.fromBytes(bytes));
 		}
 		// resolve the promise
 		snowPromise.then(

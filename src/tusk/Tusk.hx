@@ -112,8 +112,8 @@ class Tusk extends AppFixedTimestep {
         Log.trace("snõw is ready");
 
         // initialize all modules
-        sound = new Sound(this);
-        assets = new Assets(this);
+        sound = new Sound();
+        assets = new Assets();
 
         Log.trace("connecting rendering callback");
         app.window.onrender = render;
@@ -131,36 +131,52 @@ class Tusk extends AppFixedTimestep {
         router.onEvent(EventType.Render, { alpha: alpha });
     }
 
-    public static function loadScene(scene:Scene):Promise<Dynamic> {
-        game.currentScene = scene;
-        game.currentScene.sceneDone = new Deferred<Dynamic>();
-
-        scene.___connectRoutes();
-        router.onEvent(EventType.Load, {});
-
-        return scene.sceneDone.promise().then(function(data:Dynamic) {
-            router.onEvent(EventType.Destroy);
-            for(processor in game.currentScene.processors) {
-                processor.___disconnectRoutes();
+    public static function pushScene(scene:Scene):Promise<Scene> {
+        for(s in game.currentScenes) {
+            if(s == scene) {
+                throw new tusk.debug.Exception('Scene is already running!');
             }
-            game.currentScene.___disconnectRoutes();
-            return game.currentScene.sceneDone.promise();
-        });
+        }
+        game.currentScenes.push(scene);
+
+        scene.sceneDone = new Deferred<Scene>();
+        scene.___connectRoutes();
+        router.onEvent(EventType.Load, { scene: scene });
+
+        return scene.sceneDone.promise();
+    }
+
+    public static function removeScene(scene:Scene) {
+        if(!game.currentScenes.remove(scene)) {
+            return;
+        }
+
+        router.onEvent(EventType.Destroy, { scene: scene });
+        for(processor in scene.processors) {
+            processor.___disconnectRoutes();
+        }
+        scene.___disconnectRoutes();
+        for(entity in scene.entities) {
+            removeEntity(entity);
+        }
+        if(!scene.sceneDone.isResolved()) {
+            scene.sceneDone.resolve(scene);
+        }
     }
 
     /**
      * Called in an entity constructor when it is created (to route the events to the processors)
      * @param entity The entity that was just created
      */
-    public static function addEntity(entity:Entity) {
+    public static function addEntity(entity:Entity, scene:Scene) {
         // update the scene
-        if(game.currentScene.entities.indexOf(entity) == -1) {
-            game.currentScene.entities.push(entity);
+        if(scene.entities.indexOf(entity) == -1) {
+            scene.entities.push(entity);
             Log.trace("Added entity to scene!");
         }
 
         // update the processors
-        for(processor in game.currentScene.processors) {
+        for(processor in scene.processors) {
             if(processor.entities.indexOf(entity) == -1 && processor.matcher.matchesEntity(entity)) {
                 processor.entities.push(entity);
                 processor.onEntityChanged(entity, Entity.ChangeEvent.EntityAdded);
@@ -175,16 +191,18 @@ class Tusk extends AppFixedTimestep {
      */
     public static function entityChanged(entity:Entity, event:Entity.ChangeEvent) {
         // update the processors
-        for(processor in game.currentScene.processors) {
-            if(processor.entities.indexOf(entity) == -1 && processor.matcher.matchesEntity(entity)) {
-                processor.entities.push(entity);
-                processor.onEntityChanged(entity, event);
-                Log.trace("Added entity to processor '" + Type.getClassName(Type.getClass(processor)) + "'!");
-            }
-            else if(processor.entities.indexOf(entity) != -1 && !processor.matcher.matchesEntity(entity)) {
-                processor.onEntityChanged(entity, event);
-                processor.entities.remove(entity);
-                Log.trace("Removed entity from processor '" + Type.getClassName(Type.getClass(processor)) + "'!");
+        for(scene in game.currentScenes) {
+            for(processor in scene.processors) {
+                if(processor.entities.indexOf(entity) == -1 && processor.matcher.matchesEntity(entity)) {
+                    processor.entities.push(entity);
+                    processor.onEntityChanged(entity, event);
+                    Log.trace("Added entity to processor '" + Type.getClassName(Type.getClass(processor)) + "'!");
+                }
+                else if(processor.entities.indexOf(entity) != -1 && !processor.matcher.matchesEntity(entity)) {
+                    processor.onEntityChanged(entity, event);
+                    processor.entities.remove(entity);
+                    Log.trace("Removed entity from processor '" + Type.getClassName(Type.getClass(processor)) + "'!");
+                }
             }
         }
     }
@@ -195,16 +213,18 @@ class Tusk extends AppFixedTimestep {
      */
     public static function removeEntity(entity:Entity) {
         // update the processors
-        for(processor in game.currentScene.processors) {
-            if(processor.entities.remove(entity)) {
-                processor.onEntityChanged(entity, Entity.ChangeEvent.EntityRemoved);
-                Log.trace("Removed entity from processor '" + Type.getClassName(Type.getClass(processor)) + "'!");
+        for(scene in game.currentScenes) {
+            for(processor in scene.processors) {
+                if(processor.entities.remove(entity)) {
+                    processor.onEntityChanged(entity, Entity.ChangeEvent.EntityRemoved);
+                    Log.trace("Removed entity from processor '" + Type.getClassName(Type.getClass(processor)) + "'!");
+                }
             }
-        }
 
-        // update the game
-        if(game.currentScene.entities.remove(entity)) {
-            Log.trace("Removed entity from scene!");
+            // update the game
+            if(scene.entities.remove(entity)) {
+                Log.trace("Removed entity from scene!");
+            }
         }
     }
 
@@ -216,8 +236,8 @@ class Tusk extends AppFixedTimestep {
         Log.trace("Serializing game state...");
         var s = new haxe.Serializer();
         // TODO: serialize the scenes too!
-        s.serialize(game.currentScene.processors);
-        s.serialize(game.currentScene.entities);
+        /*s.serialize(game.currentScene.processors);
+        s.serialize(game.currentScene.entities);*/
         var result:String = s.toString();
         Log.trace("Serialized state:");
         Log.trace(result);

@@ -7,7 +7,7 @@ import promhx.Deferred;
 
 @:autoBuild(tusk.macros.EventConnector.connect())
 class Scene {
-	public var sceneDone:Deferred<Dynamic>;
+	public var sceneDone:Deferred<Scene>;
 
 	/**
 	 * All the processors used in the scene

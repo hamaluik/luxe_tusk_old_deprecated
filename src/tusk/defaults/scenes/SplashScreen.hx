@@ -1,4 +1,4 @@
-package tusk;
+package tusk.defaults.scenes;
 
 import tusk.debug.Log;
 
@@ -6,16 +6,20 @@ import promhx.Promise;
 import promhx.Stream;
 
 import tusk.lib.comp.Camera2DComponent;
+import tusk.lib.comp.CircleEffectComponent;
 import tusk.lib.comp.MaterialComponent;
 import tusk.lib.comp.MeshComponent;
 import tusk.lib.comp.SoundComponent;
 import tusk.lib.comp.SplashScreen_ShakeComponent;
+import tusk.lib.comp.TimedPromiseComponent;
 import tusk.lib.comp.TransformComponent;
 import tusk.lib.proc.Camera2DProcessor;
+import tusk.lib.proc.CircleEffectRendererProcessor;
 import tusk.lib.proc.MaterialProcessor;
 import tusk.lib.proc.MeshProcessor;
 import tusk.lib.proc.Renderer2DProcessor;
 import tusk.lib.proc.SplashScreen_RoarShakeProcessor;
+import tusk.lib.proc.TimedPromiseProcessor;
 import tusk.lib.proc.TransformProcessor;
 
 import tusk.resources.Mesh;
@@ -41,41 +45,64 @@ class SplashScreen extends Scene {
 			tusk.defaults.Materials.loadUnlitTextured(),
 			tusk.defaults.Fonts.loadSubatomic_Screen(),
 			Tusk.assets.loadTexture('blazingmammothgames.png', haxe.Resource.getBytes('blazingmammothgames.png')),
-			Tusk.assets.loadSound('assets/sounds/blazingmammothgames.ogg')
-		).then(function(quad:Mesh, mat:Material, font:Font, logo:Texture, roar:Sound) {
+			Tusk.assets.loadSound('assets/sounds/blazingmammothgames.ogg'),
+			tusk.defaults.Materials.loadEffectCircleOut()
+		).then(function(quad:Mesh, mat:Material, font:Font, logo:Texture, roar:Sound, circleOutMat:Material) {
 			// set the material's texture
 			mat.textures = new Array<Texture>();
 			mat.textures.push(logo);
 
 			// load processors
-			this.useProcessor(new SplashScreen_RoarShakeProcessor(function() {
-					sceneDone.resolve(null);
-			}));
+			this.useProcessor(new TimedPromiseProcessor());
+			this.useProcessor(new SplashScreen_RoarShakeProcessor());
 			this.useProcessor(new tusk.lib.proc.SoundProcessor());
 			this.useProcessor(new MeshProcessor());
 			this.useProcessor(new MaterialProcessor());
 			this.useProcessor(new Camera2DProcessor());
 			this.useProcessor(new TransformProcessor());
 			this.useProcessor(new Renderer2DProcessor(new Vec4(1.0, 1.0, 1.0, 1.0)));
+			this.useProcessor(new CircleEffectRendererProcessor());
 
 			// create the camera
 			var w:Float = Tusk.instance.app.window.width;
 			var h:Float = Tusk.instance.app.window.height;
-			entities.push(new Entity([
+			entities.push(new Entity(this, [
 				new TransformComponent(),
 				new Camera2DComponent(new Vec2(w, h) / -2.0, new Vec2(w, h) / 2.0, -100, 100)
 			]));
 
 			// create the logo
-			var sc:SoundComponent = new SoundComponent(roar.path);
-			sc.play = true;
-			entities.push(new Entity([
+			var logoEnt:Entity = new Entity(this, [
 				new TransformComponent(new Vec3(), Quat.identity(), new Vec3(256, 256, 256)),
 				new MeshComponent(quad.path),
 				new MaterialComponent(mat.path),
-				new SplashScreen_ShakeComponent(),
-				sc
+				/*new SplashScreen_ShakeComponent(),
+				sc*/
+			]);
+			entities.push(logoEnt);
+
+			// create the circle effect
+			var cec:CircleEffectComponent = new CircleEffectComponent(true);
+			entities.push(new Entity(this, [
+				new TransformComponent(new Vec3(0, 0, 0.1), Quat.identity(), new Vec3(1024, 1024, 1024)),
+				new MeshComponent(quad.path),
+				new MaterialComponent(circleOutMat.path),
+				cec
 			]));
+			cec.effectDone.promise().pipe(function(_) {
+				logoEnt.push(new SplashScreen_ShakeComponent());
+				logoEnt.push(new SoundComponent(roar.path, true));
+				var timer:TimedPromiseComponent = new TimedPromiseComponent(4.297);
+				entities.push(new Entity(this, [timer]));
+				return timer.done;
+			}).pipe(function(_) {
+				cec.t = 0;
+				cec.circleIn = false;
+				cec.effectDone = new promhx.Deferred<Bool>();
+				return cec.effectDone.promise();
+			}).then(function(_) {
+				sceneDone.resolve(this);
+			});
 
 			// tell the processors we've started
 			Tusk.router.onEvent(tusk.events.EventType.Start);

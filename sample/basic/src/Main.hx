@@ -11,8 +11,11 @@ import tusk.macros.ComponentIndexer;
 
 import glm.*;
 
+import promhx.Promise;
+
 import haxe.ds.StringMap;
-import tusk.TechScreen;
+import tusk.defaults.scenes.TechScreen;
+import tusk.defaults.scenes.SplashScreen;
 
 class Main extends Game {
 	override public function get_title():String {
@@ -24,9 +27,16 @@ class Main extends Game {
 	override public function setup() {
 		Log.info('Setting up game...');
 
+		var tech:Scene = new TechScreen();
+		var splash:Scene = new SplashScreen();
 		scenes.set('menu', new Menu());
-		Tusk.loadScene(new TechScreen())
-			.pipe(function(_) { return Tusk.loadScene(new SplashScreen()); })
-			.then(function(_) { return Tusk.loadScene(scenes.get('menu')); });
+		Tusk.pushScene(tech)
+			.pipe(function(_) { 
+				Tusk.removeScene(tech);
+				return Tusk.pushScene(splash);
+			}).pipe(function(_) {
+				Tusk.removeScene(splash);
+				return Tusk.pushScene(scenes.get('menu'));
+			});
 	}
 }

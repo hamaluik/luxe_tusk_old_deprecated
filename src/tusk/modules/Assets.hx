@@ -17,13 +17,10 @@ import tusk.resources.*;
 	tusk.modules.partials.Meshes/*,
 	tusk.modules.partials.Fonts*/)
 class Assets implements partials.Partial {
-	private var app:Tusk;
 	private var assets:StringMap<Asset> = new StringMap<Asset>();
 
 	@:allow(tusk.Tusk)
-	private function new(app:Tusk) {
-		this.app = app;
-	}
+	private function new() {}
 
 	/**
 	 * Utility for determining if an asset has been loaded
@@ -49,7 +46,7 @@ class Assets implements partials.Partial {
 
 		if(fntContents == null) {
 			// load from path
-			snowPromise = app.app.assets.text(path);
+			snowPromise = Tusk.instance.app.assets.text(path);
 		}
 		else {
 			// load from string

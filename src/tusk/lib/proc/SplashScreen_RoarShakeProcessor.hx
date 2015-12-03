@@ -7,11 +7,8 @@ import tusk.events.*;
 import tusk.lib.comp.*;
 
 class SplashScreen_RoarShakeProcessor extends Processor {
-	private var onDone:Void->Void;
-
-	public function new(?entities:Array<Entity>, onDone:Void->Void) {
-		matcher = new Matcher().include(TransformComponent.tid).include(MeshComponent.tid);
-		this.onDone = onDone;
+	public function new(?entities:Array<Entity>) {
+		matcher = new Matcher().include(TransformComponent.tid).include(MeshComponent.tid).include(SplashScreen_ShakeComponent.tid);
 		super(entities);
 	}
 	
@@ -44,13 +41,6 @@ class SplashScreen_RoarShakeProcessor extends Processor {
 					// move it!
 					t.position.x = (Math.random() * 2 - 1) * 10 * a;
 					t.position.y = (Math.random() * 2 - 1) * 10 * a;
-				}
-			}
-			else {
-				s.cooldownTimer -= data.dt;
-				if(s.cooldownTimer <= 0 && onDone != null) {
-					onDone();
-					onDone = null;
 				}
 			}
 		}

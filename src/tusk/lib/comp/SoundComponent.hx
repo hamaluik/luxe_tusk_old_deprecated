@@ -12,8 +12,9 @@ class SoundComponent extends Component {
 	public var playing:Bool = false;
 	public var path:String = "";
 
-	public function new(path:String) {
+	public function new(path:String, play:Bool) {
 		this.path = path;
+		this.play = play;
 		super();
 	}
 }

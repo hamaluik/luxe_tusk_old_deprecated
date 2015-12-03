@@ -1,5 +1,6 @@
 package tusk.resources;
 
+import glm.Vec2;
 import glm.Mat4;
 
 #if snow
@@ -7,7 +8,9 @@ import snow.modules.opengl.GL;
 import snow.modules.opengl.GL.GLBuffer;
 #end
 
-typedef RenderCallback = Mat4->Mat4->Mat4->GLBuffer->Int->Void;
+//typedef RenderCallback = Mat4->Mat4->Mat4->GLBuffer->Int->Void;
+typedef SetupRenderUniformsCallback = Material->Void;
+typedef RenderCallback = SetupRenderUniformsCallback->GLBuffer->Int->Void;
 
 /**
  * Defines a material
@@ -38,6 +41,20 @@ class Material extends Asset {
 		if(this.shader.program == null) {
 			this.shader.compile();
 		}
+	}
+
+	public function setFloat(name:String, v:Float) {
+		#if snow
+		var location:GLUniformLocation = shader.getUniformLocation(name);
+		GL.uniform1f(location, v);
+		#end
+	}
+
+	public function setVec2(name:String, vec:Vec2) {
+		#if snow
+		var location:GLUniformLocation = shader.getUniformLocation(name);
+		GL.uniform2f(location, vec.x, vec.y);
+		#end
 	}
 
 	/**

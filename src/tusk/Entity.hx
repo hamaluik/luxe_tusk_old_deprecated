@@ -26,11 +26,16 @@ class Entity {
 	public var id(default, null):Int;
 
 	/**
+	 * What scene this entity currently belongs to
+	 */
+	public var scene:Scene = null;
+
+	/**
 	 * All the components that currently belong to this entity
 	 */
 	private var components:IntMap<Component>;
 
-	public function new(?components:Array<Component>) {
+	public function new(scene:Scene, ?components:Array<Component>) {
 		this.components = new IntMap<Component>();
 		if(components != null) {
 			for(component in components) {
@@ -39,7 +44,8 @@ class Entity {
 		}
 		id = nextID;
 		nextID++;
-		Tusk.addEntity(this);
+		this.scene = scene;
+		Tusk.addEntity(this, scene);
 	}
 
 	/**

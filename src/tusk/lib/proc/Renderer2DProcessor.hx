@@ -34,7 +34,7 @@ class Renderer2DProcessor extends Processor {
 		super(entities);
 	}
 
-	override public function onStart(data:StartEvent):Void {
+	private function checkBuffers() {
 		for(entity in entities) {
 			// get our components
 			var mesh:MeshComponent = cast entity.get(MeshComponent.tid);
@@ -56,12 +56,21 @@ class Renderer2DProcessor extends Processor {
 				}
 				GL.bufferData(GL.ARRAY_BUFFER, new snow.api.buffers.Float32Array(data), GL.STATIC_DRAW);
 				GL.bindBuffer(GL.ARRAY_BUFFER, null);
+				mesh.bufferDirty = false;
 			}
 		}
+	}
+
+	override public function onStart(data:StartEvent):Void {
+		checkBuffers();
 
 		// enable GL modes
 		GL.enable(GL.DEPTH_TEST);
 		GL.enable(GL.BLEND);
+	}
+
+	override public function onEntityChanged(entity:Entity, event:Entity.ChangeEvent):Void {
+		checkBuffers();
 	}
 
 	override public function onRender(data:RenderEvent) {
@@ -77,7 +86,12 @@ class Renderer2DProcessor extends Processor {
 				var material:MaterialComponent = cast entity.get(MaterialComponent.tid);
 
 				// render!
-				material.material.onRender(camera.projectionMatrix, camera.viewMatrix, transform.modelMatrix, mesh.vertexBuffer, mesh.mesh.vertices.length);
+				material.material.onRender(function(mat:Material) {
+					mat.setMat4("projection", camera.projectionMatrix);
+					mat.setMat4("view", camera.viewMatrix);
+					mat.setMat4("model", transform.modelMatrix);
+					mat.setTexture("texture", 0);
+				}, mesh.vertexBuffer, mesh.mesh.vertices.length);
 			}
 		}
 	}

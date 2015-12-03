@@ -6,12 +6,8 @@ import tusk.debug.Log;
  * Responsible for loading, unloading, and playing sounds in tusk
  */
 class Sound {
-	private var tusk:Tusk;
-
 	@:allow(tusk.Tusk)
-	private function new(tusk:Tusk) {
-		this.tusk = tusk;
-	}
+	private function new() {}
 
 	/**
 	 * Loads a sound, and alerts a callback when it has loaded
@@ -22,7 +18,7 @@ class Sound {
 	@:allow(tusk.modules.Assets)
     #if snow
     private function load(path:String, onLoadComplete:snow.system.audio.Sound->Void, onError:snow.system.audio.Sound->Void) {
-		tusk.app.audio.create(path, path)
+		Tusk.instance.app.audio.create(path, path)
 			.then(function(sound:snow.system.audio.Sound) {
 				Log.trace("Loaded sound: " + path);
 				onLoadComplete(sound);
@@ -41,7 +37,7 @@ class Sound {
      */
     public function play(sound:tusk.resources.Sound) {
     	#if snow
-        tusk.app.audio.play(sound.path);
+        Tusk.instance.app.audio.play(sound.path);
         #end
     }
 }

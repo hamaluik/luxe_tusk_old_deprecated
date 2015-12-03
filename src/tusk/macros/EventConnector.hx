@@ -35,7 +35,7 @@ import haxe.macro.Expr;
                 name: '___connectRoutes',
                 doc: null, meta: [], access: [AOverride, APublic],
                 pos: Context.currentPos(),
-                kind: FFun({ params:[], args:[], ret:null, expr:macro { tusk.debug.Log.info('Connecting routes for \'' + Type.getClassName(Type.getClass(this)) + '\'...'); } })
+                kind: FFun({ params:[], args:[], ret:null, expr:macro { tusk.debug.Log.trace('Connecting routes for \'' + Type.getClassName(Type.getClass(this)) + '\'...'); } })
             };
             fields.push(connectField);
         }
@@ -46,7 +46,7 @@ import haxe.macro.Expr;
                 name: '___disconnectRoutes',
                 doc: null, meta: [], access: [AOverride, APublic],
                 pos: Context.currentPos(),
-                kind: FFun({ params:[], args:[], ret:null, expr:macro { tusk.debug.Log.info('Disconnecting routes for \'' + Type.getClassName(Type.getClass(this)) + '\'...'); } })
+                kind: FFun({ params:[], args:[], ret:null, expr:macro { tusk.debug.Log.trace('Disconnecting routes for \'' + Type.getClassName(Type.getClass(this)) + '\'...'); } })
             };
             fields.push(disconnectField);
         }
