@@ -5,6 +5,9 @@ package tusk;
  */
 @:autoBuild(tusk.macros.AutoSerializer.apply())
 @:autoBuild(tusk.macros.ComponentIndexer.index())
+#if editor
+@:autoBuild(tusk.macros.ComponentInspector.build())
+#end
 class Component {
 	/**
 	 * The ID type of the component class
