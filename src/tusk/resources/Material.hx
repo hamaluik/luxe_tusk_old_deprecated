@@ -1,7 +1,10 @@
 package tusk.resources;
 
 import glm.Vec2;
+import glm.Vec4;
 import glm.Mat4;
+
+import haxe.EnumFlags;
 
 #if snow
 import snow.modules.opengl.GL;
@@ -11,6 +14,11 @@ import snow.modules.opengl.GL.GLBuffer;
 //typedef RenderCallback = Mat4->Mat4->Mat4->GLBuffer->Int->Void;
 typedef SetupRenderUniformsCallback = Material->Void;
 typedef RenderCallback = SetupRenderUniformsCallback->GLBuffer->Int->Void;
+
+enum AttributeTypes {
+	Pos3;
+	UV;
+}
 
 /**
  * Defines a material
@@ -30,6 +38,12 @@ class Material extends Asset {
 	 * An array of textures used by the material
 	 */
 	public var textures:Array<Texture> = null;
+
+	/**
+	 * Keep track of what types of common attributes the material has, for
+	 * the normal mesh processor.
+	 */
+	public var attributeFlags:EnumFlags<AttributeTypes> = new EnumFlags<AttributeTypes>();
 
 	/**
 	 * Create a new material!
@@ -54,6 +68,13 @@ class Material extends Asset {
 		#if snow
 		var location:GLUniformLocation = shader.getUniformLocation(name);
 		GL.uniform2f(location, vec.x, vec.y);
+		#end
+	}
+
+	public function setVec4(name:String, vec:Vec4) {
+		#if snow
+		var location:GLUniformLocation = shader.getUniformLocation(name);
+		GL.uniform4f(location, vec.x, vec.y, vec.z, vec.w);
 		#end
 	}
 

@@ -11,6 +11,7 @@ import tusk.lib.comp.MaterialComponent;
 import tusk.lib.comp.MeshComponent;
 import tusk.lib.comp.SoundComponent;
 import tusk.lib.comp.SplashScreen_ShakeComponent;
+import tusk.lib.comp.TextComponent;
 import tusk.lib.comp.TimedPromiseComponent;
 import tusk.lib.comp.TransformComponent;
 import tusk.lib.proc.Camera2DProcessor;
@@ -19,6 +20,7 @@ import tusk.lib.proc.MaterialProcessor;
 import tusk.lib.proc.MeshProcessor;
 import tusk.lib.proc.Renderer2DProcessor;
 import tusk.lib.proc.SplashScreen_RoarShakeProcessor;
+import tusk.lib.proc.TextProcessor;
 import tusk.lib.proc.TimedPromiseProcessor;
 import tusk.lib.proc.TransformProcessor;
 
@@ -42,15 +44,19 @@ class SplashScreen extends Scene {
 		// load the resources
 		Promise.when(
 			tusk.defaults.Primitives.loadQuad(),
+			tusk.defaults.Primitives.loadTextMesh(),
 			tusk.defaults.Materials.loadUnlitTextured(),
 			tusk.defaults.Fonts.loadSubatomic_Screen(),
+			tusk.defaults.Materials.loadTextBasic(),
 			Tusk.assets.loadTexture('blazingmammothgames.png', haxe.Resource.getBytes('blazingmammothgames.png')),
 			Tusk.assets.loadSound('assets/sounds/blazingmammothgames.ogg'),
 			tusk.defaults.Materials.loadEffectCircleOut()
-		).then(function(quad:Mesh, mat:Material, font:Font, logo:Texture, roar:Sound, circleOutMat:Material) {
+		).then(function(quad:Mesh, textMesh:Mesh, mat:Material, font:Font, fontMat:Material, logo:Texture, roar:Sound, circleOutMat:Material) {
 			// set the material's texture
 			mat.textures = new Array<Texture>();
 			mat.textures.push(logo);
+			fontMat.textures = new Array<Texture>();
+			fontMat.textures.push(font.texture);
 
 			// load processors
 			this.useProcessor(new TimedPromiseProcessor());
@@ -60,6 +66,7 @@ class SplashScreen extends Scene {
 			this.useProcessor(new MaterialProcessor());
 			this.useProcessor(new Camera2DProcessor());
 			this.useProcessor(new TransformProcessor());
+			this.useProcessor(new TextProcessor());
 			this.useProcessor(new Renderer2DProcessor(new Vec4(1.0, 1.0, 1.0, 1.0)));
 			this.useProcessor(new CircleEffectRendererProcessor());
 
@@ -75,11 +82,17 @@ class SplashScreen extends Scene {
 			var logoEnt:Entity = new Entity(this, [
 				new TransformComponent(new Vec3(), Quat.identity(), new Vec3(256, 256, 256)),
 				new MeshComponent(quad.path),
-				new MaterialComponent(mat.path),
-				/*new SplashScreen_ShakeComponent(),
-				sc*/
+				new MaterialComponent(mat.path)
 			]);
 			entities.push(logoEnt);
+
+			// create the text
+			entities.push(new Entity(this, [
+				new TransformComponent(new Vec3(0, -64, 0.05), Quat.identity(), new Vec3(3, 3, 3)),
+				new MeshComponent(textMesh.path),
+				new MaterialComponent(fontMat.path),
+				new TextComponent(font, 'Blazing Mammoth Games', TextAlign.Centre)
+			]));
 
 			// create the circle effect
 			var cec:CircleEffectComponent = new CircleEffectComponent(true);

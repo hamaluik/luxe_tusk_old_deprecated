@@ -34,43 +34,10 @@ class Renderer2DProcessor extends Processor {
 		super(entities);
 	}
 
-	private function checkBuffers() {
-		for(entity in entities) {
-			// get our components
-			var mesh:MeshComponent = cast entity.get(MeshComponent.tid);
-
-			// build the mesh buffer if that is necessary
-			if(mesh.bufferDirty || mesh.vertexBuffer == null) {
-				mesh.vertexBuffer = GL.createBuffer();
-				GL.bindBuffer(GL.ARRAY_BUFFER, mesh.vertexBuffer);
-				var data:Array<Float> = new Array<Float>();
-				for(i in 0...mesh.mesh.vertices.length) {
-					// add the position
-					data.push(mesh.mesh.vertices[i].x);
-					data.push(mesh.mesh.vertices[i].y);
-					data.push(mesh.mesh.vertices[i].z);
-
-					// add the uvs
-					data.push(mesh.mesh.uvs[i].x);
-					data.push(mesh.mesh.uvs[i].y);
-				}
-				GL.bufferData(GL.ARRAY_BUFFER, new snow.api.buffers.Float32Array(data), GL.STATIC_DRAW);
-				GL.bindBuffer(GL.ARRAY_BUFFER, null);
-				mesh.bufferDirty = false;
-			}
-		}
-	}
-
 	override public function onStart(data:StartEvent):Void {
-		checkBuffers();
-
 		// enable GL modes
 		GL.enable(GL.DEPTH_TEST);
 		GL.enable(GL.BLEND);
-	}
-
-	override public function onEntityChanged(entity:Entity, event:Entity.ChangeEvent):Void {
-		checkBuffers();
 	}
 
 	override public function onRender(data:RenderEvent) {
@@ -91,6 +58,13 @@ class Renderer2DProcessor extends Processor {
 					mat.setMat4("view", camera.viewMatrix);
 					mat.setMat4("model", transform.modelMatrix);
 					mat.setTexture("texture", 0);
+
+					if(entity.hasType(TextComponent.tid)) {
+						var tc:TextComponent = cast entity.get(TextComponent.tid);
+						//js.Lib.debug();
+						mat.setVec4("colour", tc.colour);
+					}
+
 				}, mesh.vertexBuffer, mesh.mesh.vertices.length);
 			}
 		}

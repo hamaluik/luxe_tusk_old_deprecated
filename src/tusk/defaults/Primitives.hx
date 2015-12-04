@@ -10,6 +10,19 @@ import promhx.Promise;
 class Primitives {
 	private function new(){}
 
+	public static function loadTextMesh():Promise<Mesh> {
+		if(Tusk.assets.isLoaded("text")) {
+			var d:Deferred<Mesh> = new Deferred<Mesh>();
+			d.resolve(Tusk.assets.getMesh("text"));
+			return d.promise();
+		}
+
+		var m:Mesh = new Mesh("text");
+		m.vertices = new Array<Vec3>();
+		m.uvs = new Array<Vec2>();
+		return Tusk.assets.loadMesh("text", m);
+	}
+
 	public static function loadQuad(unitSize:Float=1.0):Promise<Mesh> {
 		if(Tusk.assets.isLoaded("quad")) {
 			var d:Deferred<Mesh> = new Deferred<Mesh>();

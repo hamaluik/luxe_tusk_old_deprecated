@@ -13,6 +13,7 @@ class FontChar {
 	public var id:Int;
 	public var minUV:Vec2 = new Vec2();
 	public var maxUV:Vec2 = new Vec2();
+	public var size:Vec2 = new Vec2();
 	public var offset:Vec2 = new Vec2();
 	public var xAdvance:Float;
 
@@ -84,14 +85,15 @@ class Font extends Asset {
 							case 'id': char.id = Std.parseInt(idValue[1]);
 							case 'x': char.minUV.x = Std.parseFloat(idValue[1]) / font.imageWidth;
 							case 'y': char.minUV.y = Std.parseFloat(idValue[1]) / font.imageHeight;
-							case 'width': char.maxUV.x = Std.parseFloat(idValue[1]) / font.imageWidth;
-							case 'height': char.maxUV.y = Std.parseFloat(idValue[1]) / font.imageHeight;
+							case 'width': char.size.x = Std.parseFloat(idValue[1]);
+							case 'height': char.size.y = Std.parseFloat(idValue[1]);
 							case 'xoffset': char.offset.x = Std.parseFloat(idValue[1]);
 							case 'yoffset': char.offset.y = Std.parseFloat(idValue[1]);
 							case 'xadvance': char.xAdvance = Std.parseFloat(idValue[1]);
 						}
 					}
-					char.maxUV.addVec2(char.minUV);
+					char.maxUV = char.minUV.clone().addVec2(
+						new Vec2(char.size.x / font.imageWidth, char.size.y / font.imageHeight));
 					font.chars.set(char.id, char);
 				}
 			}

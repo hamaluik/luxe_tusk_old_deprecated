@@ -30,13 +30,14 @@ class Main extends Game {
 		var tech:Scene = new TechScreen();
 		var splash:Scene = new SplashScreen();
 		scenes.set('menu', new Menu());
-		Tusk.pushScene(tech)
+		/*Tusk.pushScene(tech)
 			.pipe(function(_) { 
 				Tusk.removeScene(tech);
 				return Tusk.pushScene(splash);
 			}).pipe(function(_) {
 				Tusk.removeScene(splash);
 				return Tusk.pushScene(scenes.get('menu'));
-			});
+			});*/
+		Tusk.pushScene(splash);
 	}
 }

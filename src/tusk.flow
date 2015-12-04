@@ -15,6 +15,8 @@
 			flags: [
 				"-resource flow/assets/shaders/unlit.textured.vert@unlit.textured.vert",
 				"-resource flow/assets/shaders/unlit.textured.frag@unlit.textured.frag",
+				"-resource flow/assets/shaders/unlit.textured.coloured.vert@unlit.textured.coloured.vert",
+				"-resource flow/assets/shaders/unlit.textured.coloured.frag@unlit.textured.coloured.frag",
 				"-resource flow/assets/shaders/effect.circleout.frag@effect.circleout.frag",
 				"-resource flow/assets/shaders/effect.fadeout.frag@effect.fadeout.frag",
 				"-resource flow/assets/images/blazingmammothgames.png@blazingmammothgames.png",
