@@ -52,6 +52,10 @@ class Renderer2DProcessor extends Processor {
 				var mesh:MeshComponent = cast entity.get(MeshComponent.tid);
 				var material:MaterialComponent = cast entity.get(MaterialComponent.tid);
 
+				if(mesh.mesh == null) {
+					continue;
+				}
+
 				// render!
 				material.material.onRender(function(mat:Material) {
 					mat.setMat4("projection", camera.projectionMatrix);

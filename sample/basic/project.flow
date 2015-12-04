@@ -11,10 +11,11 @@
 		},
 
 		build: {
+			flags: ['-dce full'],
 			dependencies: {
 				tusk: '*'
 			},
-			defines: ['assertions']
+			defines: ['assertions', 'editor']
 		},
 
 		files: {

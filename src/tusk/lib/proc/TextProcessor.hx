@@ -23,6 +23,9 @@ class TextProcessor extends Processor {
 			if(text.textDirty) {
 				var mesh:MeshComponent = cast entity.get(MeshComponent.tid);
 				mesh.bufferDirty = true;
+				if(mesh.mesh == null) {
+					mesh.mesh = Tusk.assets.getMesh(mesh.meshPath);
+				}
 				mesh.mesh.vertices = new Array<Vec3>();
 				mesh.mesh.uvs = new Array<Vec2>();
 
@@ -40,36 +43,41 @@ class TextProcessor extends Processor {
 					case Centre: -textWidth / 2.0;
 				}
 				var yPos:Float = 0;
+				var yTop:Float = yPos + text.font.baseLine;
 
 				for(i in 0...text.text.length) {
 					var code:Int = text.text.charCodeAt(i);
 					var char:FontChar = text.font.chars.get(code);
+					var offset:Vec3 = new Vec3(
+						char.offset.x,
+						yTop - char.size.y - char.offset.y,
+						0);
 
 					//    2
 					//  / |
 					// 0--1
-					mesh.mesh.vertices.push(new Vec3(xPos - char.offset.x, yPos - char.offset.y));
+					mesh.mesh.vertices.push(new Vec3(xPos, yPos) + offset);
 					mesh.mesh.uvs.push(new Vec2(char.minUV.x, char.maxUV.y));
-					mesh.mesh.vertices.push(new Vec3(xPos - char.offset.x + char.size.x, yPos - char.offset.y));
+					mesh.mesh.vertices.push(new Vec3(xPos + char.size.x, yPos) + offset);
 					mesh.mesh.uvs.push(new Vec2(char.maxUV.x, char.maxUV.y));
-					mesh.mesh.vertices.push(new Vec3(xPos - char.offset.x + char.size.x, yPos - char.offset.y + char.size.y));
+					mesh.mesh.vertices.push(new Vec3(xPos + char.size.x, yPos + char.size.y) + offset);
 					mesh.mesh.uvs.push(new Vec2(char.maxUV.x, char.minUV.y));
 
 					// 1--0
 					// | /  
 					// 2   
-					mesh.mesh.vertices.push(new Vec3(xPos - char.offset.x + char.size.x, yPos - char.offset.y + char.size.y));
+					mesh.mesh.vertices.push(new Vec3(xPos + char.size.x, yPos + char.size.y) + offset);
 					mesh.mesh.uvs.push(new Vec2(char.maxUV.x, char.minUV.y));
-					mesh.mesh.vertices.push(new Vec3(xPos - char.offset.x, yPos - char.offset.y + char.size.y));
+					mesh.mesh.vertices.push(new Vec3(xPos, yPos + char.size.y) + offset);
 					mesh.mesh.uvs.push(new Vec2(char.minUV.x, char.minUV.y));
-					mesh.mesh.vertices.push(new Vec3(xPos - char.offset.x, yPos - char.offset.y));
+					mesh.mesh.vertices.push(new Vec3(xPos, yPos) + offset);
 					mesh.mesh.uvs.push(new Vec2(char.minUV.x, char.maxUV.y));
 
 					xPos += char.xAdvance;
 				}
 
-				Log.info('Text is ${xPos} units big');
-				Log.info('There are ${mesh.mesh.vertices.length} vertices in the text mesh!');
+				//Log.info('Text is ${xPos} units big');
+				//Log.info('There are ${mesh.mesh.vertices.length} vertices in the text mesh!');
 				text.textDirty = false;
 			}
 		}

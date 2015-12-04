@@ -51,6 +51,10 @@ class FadeEffectRendererProcessor extends Processor {
 				var material:MaterialComponent = cast entity.get(MaterialComponent.tid);
 				var fadeEffect:FadeEffectComponent = cast entity.get(FadeEffectComponent.tid);
 
+				if(mesh.mesh == null) {
+					continue;
+				}
+
 				// render!
 				material.material.onRender(function(mat:Material) {
 					mat.setMat4("projection", camera.projectionMatrix);

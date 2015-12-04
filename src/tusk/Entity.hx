@@ -4,6 +4,10 @@ import haxe.ds.IntMap;
 import haxe.Serializer;
 import haxe.Unserializer;
 
+#if editor
+import tusk.editor.EditorEvent;
+#end
+
 /**
  * Enum describing the changes that an entity undergoes
  */
@@ -17,8 +21,10 @@ enum ChangeEvent {
 /**
  * Container class for collections of components
  */
-class Entity {
+class Entity {	
 	private static var nextID:Int = 0;
+
+	public var name(default, null):String = null;
 
 	/**
 	 * The ID of this entity, automatically set when it is created
@@ -33,9 +39,14 @@ class Entity {
 	/**
 	 * All the components that currently belong to this entity
 	 */
-	private var components:IntMap<Component>;
+	public var components:IntMap<Component>;
 
-	public function new(scene:Scene, ?components:Array<Component>) {
+    #if editor
+    public var componentsChanged:EditorEvent = new EditorEvent();
+    #end
+
+	public function new(scene:Scene, ?name:String, ?components:Array<Component>) {
+		this.name = name;
 		this.components = new IntMap<Component>();
 		if(components != null) {
 			for(component in components) {

@@ -30,7 +30,7 @@ import glm.Vec4;
 import glm.Quat;
 
 class TechScreen extends Scene {
-	public function new() { super(); }
+	public function new() { super("Technology"); }
 
 	override public function onLoad(_) {
 		Log.info("Loading tech screen...");
@@ -58,13 +58,13 @@ class TechScreen extends Scene {
 			// create the camera
 			var w:Float = Tusk.instance.app.window.width;
 			var h:Float = Tusk.instance.app.window.height;
-			entities.push(new Entity(this, [
+			entities.push(new Entity(this, 'Camera', [
 				new TransformComponent(),
 				new Camera2DComponent(new Vec2(w, h) / -2.0, new Vec2(w, h) / 2.0, -100, 100)
 			]));
 
 			// create the screen
-			var imageEntity:Entity = new Entity(this, [
+			var imageEntity:Entity = new Entity(this, 'Image', [
 				new TransformComponent(new Vec3(), Quat.identity(), new Vec3(1024, 1024, 1024)),
 				new MeshComponent(quad.path),
 				new MaterialComponent(mat.path),
@@ -72,7 +72,7 @@ class TechScreen extends Scene {
 			entities.push(imageEntity);
 
 			var fec:FadeEffectComponent = new FadeEffectComponent(true);
-			entities.push(new Entity(this, [
+			entities.push(new Entity(this, 'Fader', [
 				new TransformComponent(new Vec3(0, 0, 0.1), Quat.identity(), new Vec3(1024, 1024, 1024)),
 				new MeshComponent(quad.path),
 				new MaterialComponent(fadeOutMat.path),
@@ -80,7 +80,7 @@ class TechScreen extends Scene {
 			]));
 			fec.done.pipe(function(_) {
 				var timer:TimedPromiseComponent = new TimedPromiseComponent(3.0);
-				entities.push(new Entity(this, [timer]));
+				entities.push(new Entity(this, 'Timer', [timer]));
 				return timer.done;
 			}).pipe(function(_) {
 				fec.t = 0;

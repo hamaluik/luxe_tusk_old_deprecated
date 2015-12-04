@@ -51,6 +51,10 @@ class CircleEffectRendererProcessor extends Processor {
 				var material:MaterialComponent = cast entity.get(MaterialComponent.tid);
 				var circleEffect:CircleEffectComponent = cast entity.get(CircleEffectComponent.tid);
 
+				if(mesh.mesh == null) {
+					continue;
+				}
+
 				// render!
 				material.material.onRender(function(mat:Material) {
 					mat.setMat4("projection", camera.projectionMatrix);

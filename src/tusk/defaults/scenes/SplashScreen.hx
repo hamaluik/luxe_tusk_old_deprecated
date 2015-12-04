@@ -36,7 +36,7 @@ import glm.Vec4;
 import glm.Quat;
 
 class SplashScreen extends Scene {
-	public function new() { super(); }
+	public function new() { super("Tusk Splash Screen"); }
 
 	override public function onLoad(_) {
 		Log.info("Loading splash screen..");
@@ -62,24 +62,24 @@ class SplashScreen extends Scene {
 			this.useProcessor(new TimedPromiseProcessor());
 			this.useProcessor(new SplashScreen_RoarShakeProcessor());
 			this.useProcessor(new tusk.lib.proc.SoundProcessor());
-			this.useProcessor(new MeshProcessor());
 			this.useProcessor(new MaterialProcessor());
 			this.useProcessor(new Camera2DProcessor());
 			this.useProcessor(new TransformProcessor());
 			this.useProcessor(new TextProcessor());
+			this.useProcessor(new MeshProcessor());
 			this.useProcessor(new Renderer2DProcessor(new Vec4(1.0, 1.0, 1.0, 1.0)));
 			this.useProcessor(new CircleEffectRendererProcessor());
 
 			// create the camera
 			var w:Float = Tusk.instance.app.window.width;
 			var h:Float = Tusk.instance.app.window.height;
-			entities.push(new Entity(this, [
+			entities.push(new Entity(this, 'Camera', [
 				new TransformComponent(),
 				new Camera2DComponent(new Vec2(w, h) / -2.0, new Vec2(w, h) / 2.0, -100, 100)
 			]));
 
 			// create the logo
-			var logoEnt:Entity = new Entity(this, [
+			var logoEnt:Entity = new Entity(this, 'Logo', [
 				new TransformComponent(new Vec3(), Quat.identity(), new Vec3(256, 256, 256)),
 				new MeshComponent(quad.path),
 				new MaterialComponent(mat.path)
@@ -87,8 +87,8 @@ class SplashScreen extends Scene {
 			entities.push(logoEnt);
 
 			// create the text
-			entities.push(new Entity(this, [
-				new TransformComponent(new Vec3(0, -64, 0.05), Quat.identity(), new Vec3(3, 3, 3)),
+			entities.push(new Entity(this, 'Logo Text', [
+				new TransformComponent(new Vec3(0, -96, 0.05), Quat.identity(), new Vec3(3, 3, 3)),
 				new MeshComponent(textMesh.path),
 				new MaterialComponent(fontMat.path),
 				new TextComponent(font, 'Blazing Mammoth Games', TextAlign.Centre)
@@ -96,7 +96,7 @@ class SplashScreen extends Scene {
 
 			// create the circle effect
 			var cec:CircleEffectComponent = new CircleEffectComponent(true);
-			entities.push(new Entity(this, [
+			entities.push(new Entity(this, 'Circle Effect', [
 				new TransformComponent(new Vec3(0, 0, 0.1), Quat.identity(), new Vec3(1024, 1024, 1024)),
 				new MeshComponent(quad.path),
 				new MaterialComponent(circleOutMat.path),
@@ -106,7 +106,7 @@ class SplashScreen extends Scene {
 				logoEnt.push(new SplashScreen_ShakeComponent());
 				logoEnt.push(new SoundComponent(roar.path, true));
 				var timer:TimedPromiseComponent = new TimedPromiseComponent(4.297);
-				entities.push(new Entity(this, [timer]));
+				entities.push(new Entity(this, 'Timer', [timer]));
 				return timer.done;
 			}).pipe(function(_) {
 				cec.t = 0;

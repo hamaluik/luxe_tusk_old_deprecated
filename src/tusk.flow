@@ -28,7 +28,8 @@
 				snow: '*',
 				promhx: '*',
 				partials: '*',
-				glm: '*'
+				glm: '*',
+				react: '*'
 			},
 			defines: ['log_fatal', 'log_error', 'log_warning', 'log_info', 'assertions'],
 			files: {
@@ -39,7 +40,12 @@
 			}
 		},
 		files: {
-			splashSound: 'flow/assets/sounds/blazingmammothgames.ogg => assets/sounds/blazingmammothgames.ogg'
+			splashSound: 'flow/assets/sounds/blazingmammothgames.ogg => assets/sounds/blazingmammothgames.ogg',
+			index: {
+				path: 'flow/boot/index.html => index.html',
+				template: 'project',
+				not_listed: true
+			}
 		}
 	}
 }

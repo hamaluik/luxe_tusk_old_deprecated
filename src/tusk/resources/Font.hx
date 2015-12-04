@@ -46,50 +46,50 @@ class Font extends Asset {
 			if(parts.length < 1) continue;
 			switch(parts[0]) {
 				case 'info': {
-					for(part in parts) {
-						var idValue:Array<String> = part.split('=');
-						if(idValue.length != 2) continue;
-						switch(idValue[0]) {
-							case 'face': font.face = idValue[1];
-							case 'size': font.size = Std.parseFloat(idValue[1]);
+					for(infoPart in parts) {
+						var infoValue:Array<String> = infoPart.split('=');
+						if(infoValue.length != 2) continue;
+						switch(infoValue[0]) {
+							case 'face': font.face = infoValue[1];
+							case 'size': font.size = Std.parseFloat(infoValue[1]);
 						}
 					}
 				}
 				case 'common': {
-					for(part in parts) {
-						var idValue:Array<String> = part.split('=');
-						if(idValue.length != 2) continue;
-						switch(idValue[0]) {
-							case 'lineHeight': font.lineHeight = Std.parseFloat(idValue[1]);
-							case 'baseLine': font.baseLine = Std.parseFloat(idValue[1]);
-							case 'scaleW': font.imageWidth = Std.parseFloat(idValue[1]);
-							case 'scaleH': font.imageHeight = Std.parseFloat(idValue[1]);
+					for(commonPart in parts) {
+						var commonValue:Array<String> = commonPart.split('=');
+						if(commonValue.length != 2) continue;
+						switch(commonValue[0]) {
+							case 'lineHeight': font.lineHeight = Std.parseFloat(commonValue[1]);
+							case 'base': font.baseLine = Std.parseFloat(commonValue[1]);
+							case 'scaleW': font.imageWidth = Std.parseFloat(commonValue[1]);
+							case 'scaleH': font.imageHeight = Std.parseFloat(commonValue[1]);
 						}
 					}
 				}
 				case 'page': {
-					for(part in parts) {
-						var idValue:Array<String> = part.split('=');
-						if(idValue.length != 2) continue;
-						switch(idValue[0]) {
-							case 'file': font.imageFileName = idValue[1].replace('"', '');
+					for(charPart in parts) {
+						var pageValue:Array<String> = charPart.split('=');
+						if(pageValue.length != 2) continue;
+						switch(pageValue[0]) {
+							case 'file': font.imageFileName = pageValue[1].replace('"', '');
 						}
 					}
 				}
 				case 'char': {
 					var char:FontChar = new FontChar();
 					for(part in parts) {
-						var idValue:Array<String> = part.split('=');
-						if(idValue.length != 2) continue;
-						switch(idValue[0]) {
-							case 'id': char.id = Std.parseInt(idValue[1]);
-							case 'x': char.minUV.x = Std.parseFloat(idValue[1]) / font.imageWidth;
-							case 'y': char.minUV.y = Std.parseFloat(idValue[1]) / font.imageHeight;
-							case 'width': char.size.x = Std.parseFloat(idValue[1]);
-							case 'height': char.size.y = Std.parseFloat(idValue[1]);
-							case 'xoffset': char.offset.x = Std.parseFloat(idValue[1]);
-							case 'yoffset': char.offset.y = Std.parseFloat(idValue[1]);
-							case 'xadvance': char.xAdvance = Std.parseFloat(idValue[1]);
+						var charValue:Array<String> = part.split('=');
+						if(charValue.length != 2) continue;
+						switch(charValue[0]) {
+							case 'id': char.id = Std.parseInt(charValue[1]);
+							case 'x': char.minUV.x = Std.parseFloat(charValue[1]) / font.imageWidth;
+							case 'y': char.minUV.y = Std.parseFloat(charValue[1]) / font.imageHeight;
+							case 'width': char.size.x = Std.parseFloat(charValue[1]);
+							case 'height': char.size.y = Std.parseFloat(charValue[1]);
+							case 'xoffset': char.offset.x = Std.parseFloat(charValue[1]);
+							case 'yoffset': char.offset.y = Std.parseFloat(charValue[1]);
+							case 'xadvance': char.xAdvance = Std.parseFloat(charValue[1]);
 						}
 					}
 					char.maxUV = char.minUV.clone().addVec2(

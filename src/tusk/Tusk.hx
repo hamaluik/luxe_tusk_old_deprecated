@@ -8,6 +8,11 @@ import tusk.modules.*;
 import promhx.Deferred;
 import promhx.Promise;
 
+#if editor
+import tusk.editor.Editor;
+import tusk.editor.EditorEvent;
+#end
+
 #if snow
 import snow.types.Types;
 import snow.modules.opengl.GL;
@@ -104,8 +109,12 @@ class Tusk extends AppFixedTimestep {
         return config;
     }
 
-    private function initialize() {
-    }
+    /*private function initialize() {
+    }*/
+
+    #if editor
+    public static var scenesChanged:EditorEvent = new EditorEvent();
+    #end
 
     @:noCompletion
     override public function ready() {
@@ -117,6 +126,11 @@ class Tusk extends AppFixedTimestep {
 
         Log.trace("connecting rendering callback");
         app.window.onrender = render;
+
+        #if editor
+        Log.trace('setting up editor');
+        Editor.init();
+        #end
 
         Log.trace("setting up game");
         game.setup();
@@ -143,6 +157,10 @@ class Tusk extends AppFixedTimestep {
         scene.___connectRoutes();
         router.onEvent(EventType.Load, { scene: scene });
 
+        #if editor
+        scenesChanged.trigger();
+        #end
+
         return scene.sceneDone.promise();
     }
 
@@ -162,6 +180,10 @@ class Tusk extends AppFixedTimestep {
         if(!scene.sceneDone.isResolved()) {
             scene.sceneDone.resolve(scene);
         }
+
+        #if editor
+        scenesChanged.trigger();
+        #end
     }
 
     /**
@@ -171,7 +193,11 @@ class Tusk extends AppFixedTimestep {
     public static function addEntity(entity:Entity, scene:Scene) {
         // update the scene
         if(scene.entities.indexOf(entity) == -1) {
-            scene.entities.push(entity);
+            #if editor
+            scene.entitiesChanged.trigger();
+            entity.componentsChanged.trigger();
+            #end
+
             Log.trace("Added entity to scene!");
         }
 
@@ -205,6 +231,9 @@ class Tusk extends AppFixedTimestep {
                 }
             }
         }
+        #if editor
+        entity.componentsChanged.trigger();
+        #end
     }
 
     /**
@@ -223,6 +252,10 @@ class Tusk extends AppFixedTimestep {
 
             // update the game
             if(scene.entities.remove(entity)) {
+                #if editor
+                scene.entitiesChanged.trigger();
+                entity.componentsChanged.trigger();
+                #end
                 Log.trace("Removed entity from scene!");
             }
         }

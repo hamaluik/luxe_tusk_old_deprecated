@@ -5,8 +5,14 @@ import tusk.events.*;
 
 import promhx.Deferred;
 
+#if editor
+import tusk.editor.EditorEvent;
+#end
+
 @:autoBuild(tusk.macros.EventConnector.connect())
 class Scene {
+	public var name(default, null):String = null;
+
 	public var sceneDone:Deferred<Scene>;
 
 	/**
@@ -19,9 +25,18 @@ class Scene {
 	 */
 	public var entities:Array<Entity>;
 
-	public function new() {
+    #if editor
+    public var entitiesChanged:EditorEvent = new EditorEvent();
+    #end
+
+	public function new(?name:String) {
+		this.name = name;
 		processors = new Array<Processor>();
 		entities = new Array<Entity>();
+
+		#if editor
+		entitiesChanged.trigger();
+		#end
 	}
 
 	/**

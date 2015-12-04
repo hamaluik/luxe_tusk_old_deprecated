@@ -5,7 +5,7 @@ import tusk.Scene;
 
 class Menu extends Scene {
 	public function new() {
-		super();
+		super('Menu');
 	}
 
 	override public function onLoad(_) {

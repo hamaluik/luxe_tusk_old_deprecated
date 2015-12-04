@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="icon" href="favicon.png"/>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" type="text/css">
+		<style>
+			body {
+				background: black;
+				color: white;
+			}
+			#window1 {
+				margin: 1em auto 0 auto;
+			}
+			{{#each project.build.defines}}{{#if this '==' 'editor'}}
+			#window1 {
+				margin: 1em auto 0 320px;
+			}
+			#editor {
+				position: absolute;
+				top: 1em;
+				left: 1em;
+			}
+			.controls {
+				width: 100%;
+				text-align: center;
+				margin-bottom: 1em;
+			}
+			ul {
+				line-height: 1em;
+				margin-top: 0.25em !important;
+				margin-left: 0.5em !important;
+				list-style-type: none;
+			}
+			li {
+				margin-bottom: 0.25em !important;
+			}
+			{{/if}}{{/each}}
+		</style>
+		{{#each project.app.web.libs~}}
+			<script type="text/javascript" src="{{this}}"></script>
+		{{/each}}
+	</head>
+	<body>
+		{{#each project.build.defines}}{{#if this '==' 'editor'}}
+		<div id="editor"></div>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.2/react.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.2/react-dom.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser.js"></script>
+		{{/if}}{{/each}}
+		<script src="./{{project.app.name}}{{#if project.app.web.min}}.min{{/if}}.js"></script>
+	</body>
+</html>
