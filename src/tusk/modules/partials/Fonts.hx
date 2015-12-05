@@ -4,7 +4,7 @@ import tusk.resources.*;
 
 class Fonts implements partials.Partial {
 
-	public function loadFont(path:String, ?fntContents:String):Promise<Font> {
+	public function loadFont(path:String, ?fntContents:String, ?texture:Texture):Promise<Font> {
 		var def:Deferred<Font> = new Deferred<Font>();
 		var promise = def.promise();
 
@@ -29,9 +29,9 @@ class Fonts implements partials.Partial {
 		}
 		// resolve the promise
 		snowPromise.then(
-			function(contents:String) {
+		 	function(contents:String) {
 				// process the contents into a font
-				Font.load(path, contents).then(function(font:Font) {
+				Font.load(path, contents, texture).then(function(font:Font) {
 					// store it
 					assets.set(path, font);
 					def.resolve(font);
@@ -40,11 +40,11 @@ class Fonts implements partials.Partial {
 				});
 			},
 			function(contents:String) {
-				def.throwError(new Exception("Unable to load font '${path}'!", ExceptionType.FileNotFound));
+				def.throwError(new Exception('Unable to load font \'${path}\'!', ExceptionType.FileNotFound));
 			}
 		);
 		#else
-		def.throwError(new Exception("Font loading isn't supported without snow!"));
+		def.throwError(new Exception('Font loading isn\'t supported without snow!'));
 		#end
 
 		return promise;

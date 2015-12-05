@@ -35,7 +35,7 @@ class Font extends Asset {
 	public var chars(default, null):IntMap<FontChar> = new IntMap<FontChar>();
 
 	#if snow
-	public static function load(path:String, contents:String):Promise<Font> {
+	public static function load(path:String, contents:String, ?texture:Texture):Promise<Font> {
 		var def:Deferred<Font> = new Deferred<Font>();
 		var promise = def.promise();
 		var font:Font = new Font(path);
@@ -101,12 +101,18 @@ class Font extends Asset {
 
 		// ok, font information should be loaded
 		// now load the texture
-		var basePath:String = Path.directory(path);
-		var texturePath:String = Path.join([basePath, font.imageFileName]);
-		Tusk.assets.loadTexture(texturePath).then(function(fontTexture:Texture) {
-			font.texture = fontTexture;
+		if(texture == null) {
+			var basePath:String = Path.directory(path);
+			var texturePath:String = Path.join([basePath, font.imageFileName]);
+			Tusk.assets.loadTexture(texturePath).then(function(fontTexture:Texture) {
+				font.texture = fontTexture;
+				def.resolve(font);
+			});
+		}
+		else {
+			font.texture = texture;
 			def.resolve(font);
-		});
+		}
 
 		return promise;
 	}

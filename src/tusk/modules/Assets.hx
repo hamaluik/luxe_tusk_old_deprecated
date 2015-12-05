@@ -28,6 +28,7 @@ class Assets implements partials.Partial {
 	 * @return      whether it has been loaded or not
 	 */
 	public function isLoaded(path:String):Bool {
-		return assets.exists(path);
+		var exists:Bool = assets.exists(path);
+		return exists;
 	}
 }

@@ -7,6 +7,7 @@ import api.react.ReactMacro.jsx;
 
 import js.html.Element;
 
+import haxe.ds.StringMap;
 using StringTools;
 
 typedef ComponentState = {
@@ -31,7 +32,7 @@ class ComponentView extends ReactComponentOfPropsAndState<ComponentProps, Compon
 		return jsx('
 			<li className="component">
 				<div onClick=$toggleExpand>${renderExpander()} ${name}</div>
-				${renderComponent()}
+				<ul>${renderComponent()}</ul>
 			</li>
 		');
 	}
@@ -47,8 +48,28 @@ class ComponentView extends ReactComponentOfPropsAndState<ComponentProps, Compon
 	}
 
 	private function renderComponent() {
+		/*var i:Dynamic = Reflect.field(props.component, 'inspectFields');
+		var ix:Dynamic = Reflect.callMethod(props.component, i, []);
+		var ti:tusk.lib.comp.TransformComponent = cast props.component;
+		var x:StringMap<String> = ti.inspectFields();
+		var c:Class<Dynamic> = Type.getClass(props.component);
+		var cn:String = Type.getClassName(c);
+		for(field in Type.getInstanceFields(Type.getClass(props.component))) {
+			trace(field + ': ' + Type.typeof(Reflect.field(props.component, field)));
+		}
+		Type.getS
+		js.Lib.debug();*/
+		//var inspectors:StringMap<String> = cast Reflect.callMethod(props.component, Reflect.field(props.component, 'inspectFields'), []);
+		//js.Lib.debug();
+		
+		var meta:Dynamic<Array<Dynamic>> = haxe.rtti.Meta.getType(Type.getClass(props.component));
+		var fields:Array<String> = cast meta.inspectorFields;
+		var types:Array<String> = cast meta.inspectorTypes;
+
 		if(state.expanded) {
-			return jsx('<span>Inspectors...</span>');
+			return [for(i in 0...fields.length) {
+				jsx('<li key=${i}>${fields[i]}:${types[i]}</li>');
+			}];
 		}
 		return null;
 	}

@@ -2,7 +2,7 @@ package tusk.modules.partials;
 
 class Textures implements partials.Partial {
 	/**
-	 * Load a texture and bind it to a GL texture. If the texture has already been
+	 * Load a texture. If the texture has already been
 	 *  loaded, will return the instance of that texture.
 	 * @param  path the path of the texture asset file
 	 * @return      A promise which, when fulfilled with return the loaded texture
@@ -36,11 +36,11 @@ class Textures implements partials.Partial {
 				def.resolve(texture);
 			},
 			function(image:snow.system.assets.Asset.AssetImage) {
-				def.throwError(new Exception("Unable to load texture '${path}'!", ExceptionType.FileNotFound));
+				def.throwError(new Exception('Unable to load texture \'${path}\'!', ExceptionType.FileNotFound));
 			}
 		);
 		#else
-		def.throwError(new Exception("Texture loading isn't supported without snow!"));
+		def.throwError(new Exception('Texture loading isn\'t supported without snow!'));
 		#end
 
 		return promise;
