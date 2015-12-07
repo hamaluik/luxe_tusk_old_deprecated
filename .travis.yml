@@ -5,12 +5,7 @@ env:
     matrix:
     - TARGET=interp
     - TARGET=cpp
-    - TARGET=cs
-    - TARGET=java
-    - TARGET=neko
     - TARGET=node
-    - TARGET=php
-    - TARGET=python
 
 # Test with Haxe 3.2.1 and Haxe development.
 haxe:
@@ -25,18 +20,15 @@ matrix:
 install:
   # install haxelibs
   - haxelib install buddy
+  - haxelib install partials
+  - haxelib install glm
 
   # apt packages for each target
   - sudo apt-get update
   - sh -c "if [ '$TARGET' = 'cpp' ]; then sudo apt-get install gcc-multilib g++-multilib -y; fi"
-  - sh -c "if [ '$TARGET' = 'cs' ]; then sudo apt-get install mono-devel -y; fi"
-  - sh -c "if [ '$TARGET' = 'php' ]; then sudo apt-get install php5-cli -y; fi"
-  - sh -c "if [ '$TARGET' = 'python' ]; then sudo apt-get install python3 -y; fi"
 
   # haxelib dependencies for each target
   - sh -c "if [ '$TARGET' = 'cpp' ]; then haxelib install hxcpp; fi"
-  - sh -c "if [ '$TARGET' = 'java' ]; then haxelib install hxjava; fi"
-  - sh -c "if [ '$TARGET' = 'cs' ]; then haxelib install hxcs; fi"
 
 script:
   - haxe test.${TARGET}.hxml

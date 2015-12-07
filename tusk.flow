@@ -9,20 +9,21 @@
 		version: '1.0.0-prealpha',
 		author: 'FuzzyWuzzie',
 		app: {
-			icon: 'flow/icons/ => tusk'
+			icon: 'src/flow/icons/ => tusk',
+			codepaths: ['src']
 		},
 		build: {
 			flags: [
-				"-resource flow/assets/shaders/unlit.textured.vert@unlit.textured.vert",
-				"-resource flow/assets/shaders/unlit.textured.frag@unlit.textured.frag",
-				"-resource flow/assets/shaders/unlit.textured.coloured.vert@unlit.textured.coloured.vert",
-				"-resource flow/assets/shaders/unlit.textured.coloured.frag@unlit.textured.coloured.frag",
-				"-resource flow/assets/shaders/effect.circleout.frag@effect.circleout.frag",
-				"-resource flow/assets/shaders/effect.fadeout.frag@effect.fadeout.frag",
-				"-resource flow/assets/images/blazingmammothgames.png@blazingmammothgames.png",
-				"-resource flow/assets/images/technologies.png@technologies.png",
-				"-resource flow/assets/fonts/Subatomic_Screen.png@Subatomic_Screen.png",
-				"-resource flow/assets/fonts/Subatomic_Screen.fnt@Subatomic_Screen.fnt"
+				"-resource src/flow/assets/shaders/unlit.textured.vert@unlit.textured.vert",
+				"-resource src/flow/assets/shaders/unlit.textured.frag@unlit.textured.frag",
+				"-resource src/flow/assets/shaders/unlit.textured.coloured.vert@unlit.textured.coloured.vert",
+				"-resource src/flow/assets/shaders/unlit.textured.coloured.frag@unlit.textured.coloured.frag",
+				"-resource src/flow/assets/shaders/effect.circleout.frag@effect.circleout.frag",
+				"-resource src/flow/assets/shaders/effect.fadeout.frag@effect.fadeout.frag",
+				"-resource src/flow/assets/images/blazingmammothgames.png@blazingmammothgames.png",
+				"-resource src/flow/assets/images/technologies.png@technologies.png",
+				"-resource src/flow/assets/fonts/Subatomic_Screen.png@Subatomic_Screen.png",
+				"-resource src/flow/assets/fonts/Subatomic_Screen.fnt@Subatomic_Screen.fnt"
 			],
 			dependencies: {
 				snow: '*',
@@ -34,15 +35,15 @@
 			defines: ['log_fatal', 'log_error', 'log_warning', 'log_info', 'assertions'],
 			files: {
 				boot: {
-					path: 'flow/boot/TuskApp.hx => haxe/TuskApp.hx',
+					path: 'src/flow/boot/TuskApp.hx => haxe/TuskApp.hx',
 					template: ['project']
 				}
 			}
 		},
 		files: {
-			splashSound: 'flow/assets/sounds/blazingmammothgames.ogg => assets/sounds/blazingmammothgames.ogg',
+			splashSound: 'src/flow/assets/sounds/blazingmammothgames.ogg => assets/sounds/blazingmammothgames.ogg',
 			index: {
-				path: 'flow/boot/index.html => index.html',
+				path: 'src/flow/boot/index.html => index.html',
 				template: 'project',
 				not_listed: true
 			}

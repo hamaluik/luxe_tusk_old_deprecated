@@ -60,6 +60,8 @@ typedef AppConfig = { window:Window }
  * Generally responsible for showing the splash screen and emitting events.
  */
 class Tusk extends AppFixedTimestep {
+    public inline static var version:String = tusk.macros.Version.current();
+
     public static var instance:Tusk = null;
 
     /**

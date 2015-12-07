@@ -20,7 +20,7 @@ class TuskApp {
 		};
 		
 		// initialize!
-		Log.info('initializing game...');
+        Log.info('Starting tŭsk ' + Tusk.version);
 		try {
 			snow.init(snowConfig, new Tusk(new {{project.app.main}}()));
 		}
