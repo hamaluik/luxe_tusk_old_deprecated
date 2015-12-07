@@ -19,6 +19,7 @@ class MeshProcessor extends Processor {
 	}
 
 	override public function onUpdate(data:UpdateEvent) {
+		#if snow
 		for(entity in entities) {
 			// get our components
 			var mesh:MeshComponent = cast entity.get(MeshComponent.tid);
@@ -51,5 +52,6 @@ class MeshProcessor extends Processor {
 				mesh.bufferDirty = false;
 			}
 		}
+		#end
 	}
 }

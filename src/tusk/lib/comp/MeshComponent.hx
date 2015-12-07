@@ -6,6 +6,8 @@ import tusk.resources.Mesh;
 #if snow
 import snow.modules.opengl.GL;
 import snow.modules.opengl.GL.GLBuffer;
+#else
+typedef GLBuffer = Int;
 #end
 
 /**
@@ -17,7 +19,7 @@ class MeshComponent extends Component {
 	public var mesh:Mesh;
 
 	@:dontSerialize
-	public var vertexBuffer:GLBuffer = null;
+	public var vertexBuffer:GLBuffer = #if snow null #else 0 #end;
 	public var bufferDirty:Bool = true;
 
 	public function new(meshPath:String) {

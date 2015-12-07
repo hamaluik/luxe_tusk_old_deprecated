@@ -21,32 +21,35 @@ Auto-generated up-to-date documentation can be accessed here: http://blazingmamm
 
 ## Planned Features
 
-- [ ] Entity-Component-Processor Model
+- [x] Entity-Component-Processor Model
 - [x] Event System
-    - [x] Macro-based automatic event routing for `Game` class children
+    - [x] Macro-based automatic event routing for `Scene` class children
     - [x] Macro-based automatic event routing for `Processor` class children
 - [ ] Enhanced Logging
     - [x] Coloured browser console logs
     - [ ] Coloured terminal logs for supported terminals
     - [ ] Formatted file logs
+    - [ ] Log state (à la [loguru](https://github.com/emilk/loguru))
 - [ ] Macro-Based Profiling?
-- [ ] Macro-Based Developer Console
+- [ ] Macro-Based Developer Console?
+- [ ] Macro-Based Scene / Entity / Component inspector system (à la Unity)
 - [ ] Macro-Based Game Saving / Loading
     - [x] Serialization
     - [ ] Unserialization
     - [ ] File saving
     - [ ] File loading
-- [ ] Flexible Rendering
-    - [ ] Material system
-- [ ] Asynchronous File Loader
+- [x] Flexible Rendering
+    - [x] Material system
+- [x] Asynchronous File Loader
+- [ ] Easy-to-use "loading" screen
 - [ ] Optional (But Commonly Used) Libraries
     - [ ] Post-processing shaders / effects
-    - [ ] Tweening
+    - [ ] Tweening / Easing
     - [ ] [Tiled](http://www.mapeditor.org/) level loading
     - [ ] 3D model loading
     - [ ] Collision detection
-    - [ ] Standard component library
-    - [ ] Standard processor library
+    - [x] Standard component library
+    - [x] Standard processor library
 - [x] Thorough documentation
 - [ ] Workable samples
 - [ ] Think of more features!
@@ -54,7 +57,3 @@ Auto-generated up-to-date documentation can be accessed here: http://blazingmamm
 ## Contributing
 
 Issues, forks, and pull requests are gladly welcomed!
-
-See https://gist.github.com/FuzzyWuzzie/fab1ce12d2fb84f1f888 for the post-commit hook to automatically update the `VERSION` file and upload docs to gh-pages, and https://gist.github.com/FuzzyWuzzie/8af1e821bdeec3926b9e for the pre-commit hook to automatically run tests before committing. Place the files in the `.git/hooks` repository, named `post-commit` and `pre-commit` respectively.
-
-See https://gist.github.com/chrisjacob/825950 for information on setting up the gh-pages sub repo.

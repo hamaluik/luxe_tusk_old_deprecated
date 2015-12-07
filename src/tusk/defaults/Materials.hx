@@ -17,6 +17,7 @@ class Materials {
 	private function new() {}
 
 	public static function loadUnlitTextured():Promise<Material> {
+		#if snow
 		if(Tusk.assets.isLoaded("unlit.textured")) {
 			var d:Deferred<Material> = new Deferred<Material>();
 			d.resolve(Tusk.assets.getMaterial("unlit.textured"));
@@ -64,9 +65,13 @@ class Materials {
 		}
 
 		return Tusk.assets.loadMaterial("unlit.textured", mat);
+		#else
+		return null;
+		#end
 	}
 
 	public static function loadEffectFadeout():Promise<Material> {
+		#if snow
 		if(Tusk.assets.isLoaded("effect.fadeout")) {
 			var d:Deferred<Material> = new Deferred<Material>();
 			d.resolve(Tusk.assets.getMaterial("effect.fadeout"));
@@ -105,9 +110,13 @@ class Materials {
 		}
 
 		return Tusk.assets.loadMaterial("effect.fadeout", mat);
+		#else
+		return null;
+		#end
 	}
 
 	public static function loadEffectCircleOut():Promise<Material> {
+		#if snow
 		if(Tusk.assets.isLoaded("effect.circleout")) {
 			var d:Deferred<Material> = new Deferred<Material>();
 			d.resolve(Tusk.assets.getMaterial("effect.circleout"));
@@ -147,9 +156,13 @@ class Materials {
 		}
 
 		return Tusk.assets.loadMaterial("effect.circleout", mat);
+		#else
+		return null;
+		#end
 	}
 
 	public static function loadTextBasic():Promise<Material> {
+		#if snow
 		if(Tusk.assets.isLoaded("text.basic")) {
 			var d:Deferred<Material> = new Deferred<Material>();
 			d.resolve(Tusk.assets.getMaterial("text.basic"));
@@ -197,5 +210,8 @@ class Materials {
 		}
 
 		return Tusk.assets.loadMaterial("text.basic", mat);
+		#else
+		return null;
+		#end
 	}
 }

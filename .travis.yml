@@ -1,13 +1,18 @@
 # adapted from https://github.com/andyli/HaxeCI/blob/master/.travis.yml
 language: haxe
 
-# TravisCI by default run on linux.
-# Let's enable both linux and mac builds because why not?
-os:
-  - linux
-  - osx
+env:
+    matrix:
+    - TARGET=interp
+    - TARGET=cpp
+    - TARGET=cs
+    - TARGET=java
+    - TARGET=neko
+    - TARGET=node
+    - TARGET=php
+    - TARGET=python
 
-# Test with Haxe 3.2.0 and Haxe development.
+# Test with Haxe 3.2.1 and Haxe development.
 haxe:
   - "3.2.1"
   - development
@@ -17,26 +22,25 @@ matrix:
   allow_failures:
     - haxe: development
 
-#before_install:
-#  - haxelib git snow https://github.com/underscorediscovery/snow.git
-
 install:
-  # os-specific config
-  - if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
-      export DISPLAY=:99.0;
-      export AUDIODEV=null;
-    elif [ "${TRAVIS_OS_NAME}" = "osx" ]; then
-      brew update;
-      brew install phantomjs;
-    fi
-  # Install haxelibs
-  - haxelib install hxcpp
+  # install haxelibs
   - haxelib install buddy
-  - haxelib install partials
-  - haxelib list
+
+  # apt packages for each target
+  - sudo apt-get update
+  - sh -c "if [ '$TARGET' = 'cpp' ]; then sudo apt-get install gcc-multilib g++-multilib -y; fi"
+  - sh -c "if [ '$TARGET' = 'cs' ]; then sudo apt-get install mono-devel -y; fi"
+  - sh -c "if [ '$TARGET' = 'php' ]; then sudo apt-get install php5-cli -y; fi"
+  - sh -c "if [ '$TARGET' = 'python' ]; then sudo apt-get install python3 -y; fi"
+
+  # haxelib dependencies for each target
+  - sh -c "if [ '$TARGET' = 'cpp' ]; then haxelib install hxcpp; fi"
+  - sh -c "if [ '$TARGET' = 'java' ]; then haxelib install hxjava; fi"
+  - sh -c "if [ '$TARGET' = 'cs' ]; then haxelib install hxcs; fi"
 
 script:
-  - haxe test.interp.hxml
-  - haxe test.node.hxml         && node bin/TestMain.node.js
-  - haxe test.phantom.hxml      && haxe phantomjs/run.hxml bin/TestMain.phantom.js
-  - haxe test.cpp.hxml          && ./bin/TestMain
+  - haxe test.${TARGET}.hxml
+
+branches:
+      only:
+          - master

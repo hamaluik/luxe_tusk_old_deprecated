@@ -122,8 +122,10 @@ typedef FieldInspector = {
                 fieldsArray.push(macro '${fieldName}');
                 typesArray.push(macro '${fieldMap.get(fieldName).type}');
             }
+            #if !docgen
             ct.meta.add('inspectorFields', fieldsArray, Context.currentPos());
             ct.meta.add('inspectorTypes', typesArray, Context.currentPos());
+            #end
             return true;
         });
 

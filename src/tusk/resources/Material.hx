@@ -11,9 +11,12 @@ import snow.modules.opengl.GL;
 import snow.modules.opengl.GL.GLBuffer;
 #end
 
-//typedef RenderCallback = Mat4->Mat4->Mat4->GLBuffer->Int->Void;
 typedef SetupRenderUniformsCallback = Material->Void;
+#if snow
 typedef RenderCallback = SetupRenderUniformsCallback->GLBuffer->Int->Void;
+#else
+typedef RenderCallback = SetupRenderUniformsCallback->Int->Int->Void;
+#end
 
 enum AttributeTypes {
 	Pos3;

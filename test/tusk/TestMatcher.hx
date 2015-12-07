@@ -13,12 +13,14 @@ class TestMatcher extends BuddySuite {
 		describe('Using a matcher', {
 			var tusk:Tusk;
 			var m:Matcher;
+			var s:Scene;
 			var e:Entity;
 
 			before({
 				tusk = new Tusk(new Game());
 				m = new Matcher();
-				e = new Entity();
+				s = new Scene();
+				e = new Entity(s);
 			});
 			it('should be able to chain-construct itself (`new Matcher().include().include().exclude()`)', {
 				var a:Matcher = m.include(CompA.tid);
@@ -66,6 +68,7 @@ class TestMatcher extends BuddySuite {
 
 			after({
 				e = null;
+				s = null;
 				m = null;
 				tusk = null;
 			});

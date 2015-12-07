@@ -11,15 +11,17 @@ class TestEntity extends BuddySuite {
 	public function new() {
 		describe('Using an entity', {
 			var tusk:Tusk;
+			var s:Scene;
 			var e:Entity;
 			before({
 				tusk = new Tusk(new Game());
-				e = new Entity();
+				s = new Scene();
+				e = new Entity(s);
 			});
 
 			it('should increment the entity ID counter when it gets created', {
-				var e1:Entity = new Entity();
-				var e2:Entity = new Entity();
+				var e1:Entity = new Entity(s);
+				var e2:Entity = new Entity(s);
 				e2.id.should.be(e1.id + 1);
 			});
 			it('should be possible to enable or disable it');
@@ -57,6 +59,7 @@ class TestEntity extends BuddySuite {
 
 			after({
 				e = null;
+				s = null;
 				tusk = null;
 			});
 		});

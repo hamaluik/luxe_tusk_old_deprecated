@@ -1,7 +1,11 @@
 -lib buddy
 -lib partials
+-lib glm
+
 -D testing
 -D assertions
--main TestMain
+
 -cp test
 -cp src
+
+-main TestMain

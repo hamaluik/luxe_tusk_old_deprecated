@@ -1,0 +1,30 @@
+-cmd cd docs
+
+--next 
+--interp
+--macro Clean.run()
+
+--next
+-cp ../src
+-D docgen
+-dce no
+-lib promhx
+-lib partials
+-lib glm
+--macro ImportAll.run()
+
+--each
+
+--interp
+-xml haxe.xml
+
+--next
+-js all.js
+-xml js.xml
+
+#--next
+#-cpp cpp/
+#-xml cpp.xml
+
+--next
+-cmd haxelib run dox -i . -theme ./themes/tusk --title tŭsk --toplevel-package tusk

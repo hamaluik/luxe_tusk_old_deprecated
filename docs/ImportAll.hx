@@ -86,7 +86,7 @@ class ImportAll {
 					}
 					catch(exc:Dynamic) {
 						trace("Couldn't get module: " + cl);
-						//throw(exc);
+						throw(exc);
 					}
 				} else if( sys.FileSystem.isDirectory(p + "/" + file) )
 					run(full);

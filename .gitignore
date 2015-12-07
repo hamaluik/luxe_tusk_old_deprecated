@@ -8,7 +8,6 @@ VERSION
 
 # Documentation
 docs/*.xml
-docs/pages/
 docs/*.js
 docs/*.n
 

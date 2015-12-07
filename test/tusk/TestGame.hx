@@ -7,7 +7,7 @@ using buddy.Should;
 private class MockGame extends Game {
 	public var a:Bool = false;
 
-    override public function onStart(data:StartEvent) {
+    override public function setup() {
     	a = true;
     }
 }

@@ -35,12 +35,15 @@ class Renderer2DProcessor extends Processor {
 	}
 
 	override public function onStart(data:StartEvent):Void {
+		#if snow
 		// enable GL modes
 		GL.enable(GL.DEPTH_TEST);
 		GL.enable(GL.BLEND);
+		#end
 	}
 
 	override public function onRender(data:RenderEvent) {
+		#if snow
 		GL.viewport(0, 0, Tusk.instance.app.window.width, Tusk.instance.app.window.height);
 		GL.clearColor(clearColour.r, clearColour.g, clearColour.b, clearColour.a);
 		GL.clear(GL.COLOR_BUFFER_BIT | GL.DEPTH_BUFFER_BIT);
@@ -72,5 +75,6 @@ class Renderer2DProcessor extends Processor {
 				}, mesh.vertexBuffer, mesh.mesh.vertices.length);
 			}
 		}
+		#end
 	}
 }
