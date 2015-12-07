@@ -16,6 +16,7 @@ class MeshComponent extends Component {
 	@:dontSerialize
 	public var mesh:Mesh;
 
+	@:dontSerialize
 	public var vertexBuffer:GLBuffer = null;
 	public var bufferDirty:Bool = true;
 

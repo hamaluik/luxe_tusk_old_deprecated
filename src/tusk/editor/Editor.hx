@@ -8,8 +8,11 @@ import api.react.ReactMacro.jsx;
 import js.Browser;
 
 import tusk.editor.views.EditorView;
+import tusk.editor.views.inspectors.Inspector;
 
 class Editor {
+	public static var inspectors:Array<Inspector> = new Array<Inspector>();
+
 	private function new(){}
 	public static function init() {
 		#if editor

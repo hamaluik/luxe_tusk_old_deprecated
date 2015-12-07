@@ -4,11 +4,9 @@ package tusk.editor.views;
 
 import api.react.ReactComponent;
 import api.react.ReactMacro.jsx;
-
-import js.html.Element;
-
 import haxe.ds.StringMap;
 using StringTools;
+import tusk.editor.views.inspectors.*;
 
 typedef ComponentState = {
 	var expanded:Bool;
@@ -48,27 +46,23 @@ class ComponentView extends ReactComponentOfPropsAndState<ComponentProps, Compon
 	}
 
 	private function renderComponent() {
-		/*var i:Dynamic = Reflect.field(props.component, 'inspectFields');
-		var ix:Dynamic = Reflect.callMethod(props.component, i, []);
-		var ti:tusk.lib.comp.TransformComponent = cast props.component;
-		var x:StringMap<String> = ti.inspectFields();
-		var c:Class<Dynamic> = Type.getClass(props.component);
-		var cn:String = Type.getClassName(c);
-		for(field in Type.getInstanceFields(Type.getClass(props.component))) {
-			trace(field + ': ' + Type.typeof(Reflect.field(props.component, field)));
-		}
-		Type.getS
-		js.Lib.debug();*/
-		//var inspectors:StringMap<String> = cast Reflect.callMethod(props.component, Reflect.field(props.component, 'inspectFields'), []);
-		//js.Lib.debug();
-		
 		var meta:Dynamic<Array<Dynamic>> = haxe.rtti.Meta.getType(Type.getClass(props.component));
 		var fields:Array<String> = cast meta.inspectorFields;
 		var types:Array<String> = cast meta.inspectorTypes;
 
 		if(state.expanded) {
 			return [for(i in 0...fields.length) {
-				jsx('<li key=${i}>${fields[i]}:${types[i]}</li>');
+				switch(types[i]) {
+					case 'Bool': jsx('<$BoolInspector key=${i} component=${props.component} field=${fields[i]} />');
+					case 'Int': jsx('<$IntInspector key=${i} component=${props.component} field=${fields[i]} />');
+					case 'Float': jsx('<$FloatInspector key=${i} component=${props.component} field=${fields[i]} />');
+					case 'String': jsx('<$StringInspector key=${i} component=${props.component} field=${fields[i]} />');
+					case 'Vec2': jsx('<$Vec2Inspector key=${i} component=${props.component} field=${fields[i]} />');
+					case 'Vec3': jsx('<$Vec3Inspector key=${i} component=${props.component} field=${fields[i]} />');
+					case 'Vec4': jsx('<$Vec4Inspector key=${i} component=${props.component} field=${fields[i]} />');
+					case 'Quat': jsx('<$QuatInspector key=${i} component=${props.component} field=${fields[i]} />');
+					default: jsx('<$UnknownInspector key=${i} component=${props.component} field=${fields[i]} type=${types[i]} />');
+				}
 			}];
 		}
 		return null;

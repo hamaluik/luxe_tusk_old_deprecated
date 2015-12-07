@@ -19,6 +19,7 @@ class TransformComponent extends Component {
 	public var lastRotation:Quat = Quat.identity();
 	public var lastScale:Vec3 = new Vec3(1.0);
 
+	@:dontSerialize
 	public var modelMatrix:Mat4 = new Mat4(1.0);
 	//public var modelMatrixDirty:Bool = true;
 

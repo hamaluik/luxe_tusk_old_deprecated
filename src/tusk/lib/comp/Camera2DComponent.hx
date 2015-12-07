@@ -12,9 +12,11 @@ class Camera2DComponent extends Component {
 	/**
 	 * The combined projection and view matrices for this camera
 	 */
+	@:dontSerialize
 	public var projectionMatrix:Mat4 = new Mat4(1.0);
 	public var projectionMatrixDirty:Bool = true;
 
+	@:dontSerialize
 	public var viewMatrix:Mat4 = new Mat4(1.0);
 	public var viewMatrixDirty:Bool = true;
 

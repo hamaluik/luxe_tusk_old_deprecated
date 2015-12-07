@@ -139,6 +139,11 @@ class Tusk extends AppFixedTimestep {
     @:noCompletion
     override public function update(dt:Float) {
         router.onEvent(EventType.Update, { dt: dt });
+        #if editor
+        for(inspector in tusk.editor.Editor.inspectors) {
+            inspector.update();
+        }
+        #end
     }
 
     private function render(window:Window) {
