@@ -15,7 +15,8 @@ import tusk.resources.*;
 	tusk.modules.partials.Sounds,
 	tusk.modules.partials.Materials,
 	tusk.modules.partials.Meshes,
-	tusk.modules.partials.Fonts)
+	tusk.modules.partials.Fonts,
+	tusk.modules.partials.Texts)
 class Assets implements partials.Partial {
 	private var assets:StringMap<Asset> = new StringMap<Asset>();
 
