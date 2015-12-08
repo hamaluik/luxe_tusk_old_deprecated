@@ -15,7 +15,7 @@
 			dependencies: {
 				tusk: '*'
 			},
-			defines: ['assertions', 'editor']
+			defines: ['assertions']
 		},
 
 		files: {
