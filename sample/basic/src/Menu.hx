@@ -26,6 +26,8 @@ import glm.Vec2;
 import glm.Vec3;
 import glm.Quat;
 
+import tusk.events.*;
+
 class Menu extends Scene {
 	public function new() {
 		super('Menu');
@@ -67,5 +69,13 @@ class Menu extends Scene {
 				]));
 			});
 		});
+	}
+
+	override public function onMouseDown(event:MouseButtonEvent) {
+		Log.info('Button clicked: ${event.button}');
+	}
+
+	override public function onKeyDown(event:KeyEvent) {
+		Log.info('Key pressed: ${event.keyCode}');
 	}
 }

@@ -9,4 +9,9 @@ enum EventType {
 	Update;
 	Render;
 	Destroy;
+	KeyDown;
+	KeyUp;
+	MouseDown;
+	MouseUp;
+	MouseMove;
 }

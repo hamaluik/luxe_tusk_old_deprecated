@@ -74,27 +74,57 @@ class Processor {
 
 	/**
 	 * Override to hook into when the application is ready
-	 * @param  data The data supplied by the event caller
+	 * @param  event The event supplied by the event caller
 	 */
-	public function onStart(data:StartEvent) {}
+	public function onStart(event:StartEvent) {}
 
 	/**
 	 * Override to hook into when the application is being destroyed
-	 * @param  data The data supplied by the event caller
+	 * @param  event The event supplied by the event caller
 	 */
-	public function onDestroy(data:DestroyEvent) {}
+	public function onDestroy(event:DestroyEvent) {}
 
 	/**
 	 * Override to hook into when the application's timer updates
-	 * @param  data The data supplied by the event caller
+	 * @param  event The event supplied by the event caller
 	 */
-	public function onUpdate(data:UpdateEvent) {}
+	public function onUpdate(event:UpdateEvent) {}
 
 	/**
 	 * Override to hook into the render function
-	 * @param  data The data supplied by the event caller
+	 * @param  event The event supplied by the event caller
 	 */
-	public function onRender(data:RenderEvent) {}
+	public function onRender(event:RenderEvent) {}
+
+	/**
+	 * Override to react to when a key is pressed
+	 * @param  event The event supplied by the event caller
+	 */
+	public function onKeyDown(event:KeyEvent) {}
+
+	/**
+	 * Override to react to when a key is released
+	 * @param  event The event supplied by the event caller
+	 */
+	public function onKeyUp(event:KeyEvent) {}
+
+	/**
+	 * Override to react to when a mouse button is pressed
+	 * @param  event The event supplied by the event caller
+	 */
+	public function onMouseDown(event:MouseButtonEvent) {}
+
+	/**
+	 * Override to react to when a mouse button is released
+	 * @param  event The event supplied by the event caller
+	 */
+	public function onMouseUp(event:MouseButtonEvent) {}
+
+	/**
+	 * Override to react to when the mouse is moved
+	 * @param  event The event supplied by the event caller
+	 */
+	public function onMouseMove(event:MouseMoveEvent) {}
 
 	/**
 	 * Called by the haxe serializer when serializing.

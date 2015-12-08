@@ -3,9 +3,14 @@ package tusk.events;
 /**
  * Passed to handles when the update event is called
  */
-typedef UpdateEvent = {
+class UpdateEvent extends Event {
 	/**
 	 * The time between frames, in seconds
 	 */
-	var dt:Float;
-};
+	public var dt:Float;
+	
+	public function new(dt:Float) {
+		this.dt = dt;
+		super();
+	}
+}

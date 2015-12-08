@@ -43,7 +43,7 @@ class EventRouter {
 	 * @param type what type of event to register the handler for
 	 * @param data           an Events typedef containing event information
 	 */
-	public function onEvent<T>(type:EventType, ?data:T) {
+	public function onEvent(type:EventType, ?data:Event) {
 		if(!handlers.exists(type)) return;
 		var handlerArray:Array<EventHandler> = handlers.get(type);
 		for(handler in handlerArray) {

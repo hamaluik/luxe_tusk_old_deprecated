@@ -140,7 +140,7 @@ class Tusk extends AppFixedTimestep {
 
     @:noCompletion
     override public function update(dt:Float) {
-        router.onEvent(EventType.Update, { dt: dt });
+        router.onEvent(EventType.Update, new UpdateEvent(dt));
         #if editor
         for(inspector in tusk.editor.Editor.inspectors) {
             inspector.update();
@@ -148,8 +148,33 @@ class Tusk extends AppFixedTimestep {
         #end
     }
 
+    @:noCompletion
+    override public function onkeydown(keycode:Int, scancode:Int, repeat:Bool, mod:ModState, timestamp:Float, window_id:Int) {
+        router.onEvent(EventType.KeyDown, new KeyEvent(keycode, scancode, repeat, mod));
+    }
+
+    @:noCompletion
+    override public function onkeyup(keycode:Int, scancode:Int, repeat:Bool, mod:ModState, timestamp:Float, window_id:Int) {
+        router.onEvent(EventType.KeyUp, new KeyEvent(keycode, scancode, repeat, mod));
+    }
+
+    @:noCompletion
+    override public function onmousedown(x:Int, y:Int, button:Int, timestamp:Float, window_id:Int) {
+        router.onEvent(EventType.MouseDown, new MouseButtonEvent(x, y, button));
+    }
+
+    @:noCompletion
+    override public function onmouseup(x:Int, y:Int, button:Int, timestamp:Float, window_id:Int) {
+        router.onEvent(EventType.MouseUp, new MouseButtonEvent(x, y, button));
+    }
+
+    @:noCompletion
+    override public function onmousemove(x:Int, y:Int, xrel:Int, yrel:Int, timestamp:Float, window_id:Int) {
+        router.onEvent(EventType.MouseMove, new MouseMoveEvent(x, y, xrel, yrel));
+    }
+
     private function render(window:Window) {
-        router.onEvent(EventType.Render, { alpha: alpha });
+        router.onEvent(EventType.Render, new RenderEvent(this.alpha));
     }
 
     public static function pushScene(scene:Scene):Promise<Scene> {
@@ -162,7 +187,7 @@ class Tusk extends AppFixedTimestep {
 
         scene.sceneDone = new Deferred<Scene>();
         scene.___connectRoutes();
-        router.onEvent(EventType.Load, { scene: scene });
+        router.onEvent(EventType.Load, new LoadEvent(scene));
 
         #if editor
         scenesChanged.trigger();
@@ -176,7 +201,7 @@ class Tusk extends AppFixedTimestep {
             return;
         }
 
-        router.onEvent(EventType.Destroy, { scene: scene });
+        router.onEvent(EventType.Destroy, new DestroyEvent(scene));
         for(processor in scene.processors) {
             processor.___disconnectRoutes();
         }

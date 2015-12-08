@@ -58,7 +58,12 @@ import haxe.macro.Expr;
                      'onStart',
                      'onUpdate',
                      'onRender',
-                     'onDestroy': {
+                     'onDestroy',
+                     'onKeyDown',
+                     'onKeyUp',
+                     'onMouseDown',
+                     'onMouseUp',
+                     'onMouseMove': {
                      	connectEvent(connectField, field);
                         disconnectEvent(disconnectField, field);
                      }
