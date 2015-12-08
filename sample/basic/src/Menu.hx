@@ -37,10 +37,9 @@ class Menu extends Scene {
 		Log.info("Loading menu screen..");
 
 		Promise.when(
-			Tusk.assets.loadText('assets/tilemaps/office.json'),
-			Tusk.assets.loadTexture('assets/tilemaps/office.png'),
-			tusk.defaults.Materials.loadUnlitTextured()
-		).then(function(officeJSON:Text, officeTexture:Texture, mat:Material) {
+			tusk.defaults.Materials.loadUnlitColoured(),
+			tusk.defaults.Primitives.loadQuad()
+		).then(function(debugMat:Material, quad:Mesh) {
 			this.useProcessor(new MeshProcessor());
 			this.useProcessor(new MaterialProcessor());
 			this.useProcessor(new Camera2DProcessor());
@@ -55,19 +54,15 @@ class Menu extends Scene {
 				new Camera2DComponent(new Vec2(w, h) / -2.0, new Vec2(w, h) / 2.0, -100, 100)
 			]));
 
-			var tm:TileMap = TileMap.fromJSON(officeJSON.text);
-			TileMap.buildMesh(tm, 'office.tilemap').then(function(office:Mesh) {
-				// set the material's texture
-				mat.textures = new Array<Texture>();
-				mat.textures.push(officeTexture);
-
-				Log.info('Mesh loaded, creating entity!');
-				this.entities.push(new Entity(this, 'Office TileMap', [
-					new TransformComponent(new Vec3(tm.width * tm.tilewidth, tm.height * tm.tileheight) * -1, Quat.identity(), new Vec3(2, 2, 2)),
-					new MeshComponent(office.path),
-					new MaterialComponent(mat.path),
-				]));
-			});
+			quad.colours = new Array<Vec4>();
+			for(v in quad.vertices) {
+				quad.colours.push(new Vec4(0.75, 0.25, 0.25, 0.5));
+			}
+			entities.push(new Entity(this, 'derp', [
+				new TransformComponent(new Vec3(), Quat.identity(), new Vec3(128, 128, 128)),
+				new MeshComponent(quad),
+				new MaterialComponent(debugMat.path),
+			]));
 		});
 	}
 

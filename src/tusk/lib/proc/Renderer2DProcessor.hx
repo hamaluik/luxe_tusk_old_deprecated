@@ -58,14 +58,16 @@ class Renderer2DProcessor extends Processor {
 					mat.setMat4("projection", camera.projectionMatrix);
 					mat.setMat4("view", camera.viewMatrix);
 					mat.setMat4("model", transform.modelMatrix);
-					mat.setTexture("texture", 0);
+
+					if(mat.textures != null && mat.textures.length > 0) {
+						mat.setTexture("texture", 0);
+					}
 
 					if(entity.hasType(TextComponent.tid)) {
 						var tc:TextComponent = cast entity.get(TextComponent.tid);
 						//js.Lib.debug();
 						mat.setVec4("colour", tc.colour);
 					}
-
 				}, mesh.vertexBuffer, mesh.mesh.vertices.length);
 			}
 		}

@@ -45,7 +45,13 @@ class MeshProcessor extends Processor {
 						data.push(mesh.mesh.uvs[i].x);
 						data.push(mesh.mesh.uvs[i].y);
 					}
-
+					// add the colour
+					if(mat.material.attributeFlags.has(AttributeTypes.Colour4)) {
+						data.push(mesh.mesh.colours[i].r);
+						data.push(mesh.mesh.colours[i].g);
+						data.push(mesh.mesh.colours[i].b);
+						data.push(mesh.mesh.colours[i].a);
+					}
 				}
 				GL.bufferData(GL.ARRAY_BUFFER, new snow.api.buffers.Float32Array(data), GL.STATIC_DRAW);
 				GL.bindBuffer(GL.ARRAY_BUFFER, null);

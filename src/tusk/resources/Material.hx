@@ -21,6 +21,7 @@ typedef RenderCallback = SetupRenderUniformsCallback->Int->Int->Void;
 enum AttributeTypes {
 	Pos3;
 	UV;
+	Colour4;
 }
 
 /**

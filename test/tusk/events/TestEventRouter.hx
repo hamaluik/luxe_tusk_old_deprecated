@@ -61,9 +61,7 @@ class TestEventRouter extends BuddySuite {
 					testValueA = Std.int(data.dt);
 				});
 				testValueA.should.be(0);
-				router.onEvent.bind(EventType.Update, {
-					dt: 123
-				}).should.not.throwType(Exception);
+				router.onEvent.bind(EventType.Update, new UpdateEvent(123)).should.not.throwType(Exception);
 				testValueA.should.be(123);
 			});
 

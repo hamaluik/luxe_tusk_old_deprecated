@@ -43,12 +43,10 @@ class AppFixedTimestep {
         alpha = 0.5;
         app = new Snow();
     }
-    public function config(config:AppConfig):AppConfig { return null; }
-    public function ready() {}
-    public function update(dt:Float) {}
 }
 @:dox(hide)
 typedef AppConfig = { window:Window }
+typedef ModState = Dynamic;
 #end
 
 /**
@@ -103,7 +101,7 @@ class Tusk extends AppFixedTimestep {
     }
 
     @:noCompletion
-    override function config(config:AppConfig):AppConfig {
+    #if snow override #end function config(config:AppConfig):AppConfig {
         config.window.title = game.title;
         config.window.width = 960;
         config.window.height = 540;
@@ -119,7 +117,7 @@ class Tusk extends AppFixedTimestep {
     #end
 
     @:noCompletion
-    override public function ready() {
+    #if snow override #end public function ready() {
         Log.trace("snõw is ready");
 
         // initialize all modules
@@ -139,7 +137,7 @@ class Tusk extends AppFixedTimestep {
     }
 
     @:noCompletion
-    override public function update(dt:Float) {
+    #if snow override #end public function update(dt:Float) {
         router.onEvent(EventType.Update, new UpdateEvent(dt));
         #if editor
         for(inspector in tusk.editor.Editor.inspectors) {
@@ -149,27 +147,27 @@ class Tusk extends AppFixedTimestep {
     }
 
     @:noCompletion
-    override public function onkeydown(keycode:Int, scancode:Int, repeat:Bool, mod:ModState, timestamp:Float, window_id:Int) {
+    #if snow override #end public function onkeydown(keycode:Int, scancode:Int, repeat:Bool, mod:ModState, timestamp:Float, window_id:Int) {
         router.onEvent(EventType.KeyDown, new KeyEvent(keycode, scancode, repeat, mod));
     }
 
     @:noCompletion
-    override public function onkeyup(keycode:Int, scancode:Int, repeat:Bool, mod:ModState, timestamp:Float, window_id:Int) {
+    #if snow override #end public function onkeyup(keycode:Int, scancode:Int, repeat:Bool, mod:ModState, timestamp:Float, window_id:Int) {
         router.onEvent(EventType.KeyUp, new KeyEvent(keycode, scancode, repeat, mod));
     }
 
     @:noCompletion
-    override public function onmousedown(x:Int, y:Int, button:Int, timestamp:Float, window_id:Int) {
+    #if snow override #end public function onmousedown(x:Int, y:Int, button:Int, timestamp:Float, window_id:Int) {
         router.onEvent(EventType.MouseDown, new MouseButtonEvent(x, y, button));
     }
 
     @:noCompletion
-    override public function onmouseup(x:Int, y:Int, button:Int, timestamp:Float, window_id:Int) {
+    #if snow override #end public function onmouseup(x:Int, y:Int, button:Int, timestamp:Float, window_id:Int) {
         router.onEvent(EventType.MouseUp, new MouseButtonEvent(x, y, button));
     }
 
     @:noCompletion
-    override public function onmousemove(x:Int, y:Int, xrel:Int, yrel:Int, timestamp:Float, window_id:Int) {
+    #if snow override #end public function onmousemove(x:Int, y:Int, xrel:Int, yrel:Int, timestamp:Float, window_id:Int) {
         router.onEvent(EventType.MouseMove, new MouseMoveEvent(x, y, xrel, yrel));
     }
 

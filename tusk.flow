@@ -16,6 +16,8 @@
 			flags: [
 				"-resource src/flow/assets/shaders/unlit.textured.vert@unlit.textured.vert",
 				"-resource src/flow/assets/shaders/unlit.textured.frag@unlit.textured.frag",
+				"-resource src/flow/assets/shaders/unlit.coloured.vert@unlit.coloured.vert",
+				"-resource src/flow/assets/shaders/unlit.coloured.frag@unlit.coloured.frag",
 				"-resource src/flow/assets/shaders/unlit.textured.coloured.vert@unlit.textured.coloured.vert",
 				"-resource src/flow/assets/shaders/unlit.textured.coloured.frag@unlit.textured.coloured.frag",
 				"-resource src/flow/assets/shaders/effect.circleout.frag@effect.circleout.frag",

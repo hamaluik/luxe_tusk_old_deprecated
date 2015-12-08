@@ -16,6 +16,55 @@ import snow.modules.opengl.GL.GLBuffer;
 class Materials {
 	private function new() {}
 
+	public static function loadUnlitColoured():Promise<Material> {
+		#if snow
+		if(Tusk.assets.isLoaded("unlit.coloured")) {
+			var d:Deferred<Material> = new Deferred<Material>();
+			d.resolve(Tusk.assets.getMaterial("unlit.coloured"));
+			return d.promise();
+		}
+
+		var shader:Shader = new Shader("unlit.coloured",
+			haxe.Resource.getString("unlit.coloured.vert"),
+			haxe.Resource.getString("unlit.coloured.frag"));
+		var mat = new Material("unlit.coloured", shader);
+
+		// setup the attribute flags
+		mat.attributeFlags.set(AttributeTypes.Pos3);
+		mat.attributeFlags.set(AttributeTypes.Colour4);
+
+		GL.useProgram(mat.shader.program);
+		var posLocation:Int = mat.shader.getAttributeLocation("position");
+		var colourLocation:Int = mat.shader.getAttributeLocation("colour");
+
+		mat.onRender = function(setupUniforms:SetupRenderUniformsCallback, vertexBuffer:GLBuffer, vertexCount:Int) {
+			GL.useProgram(mat.shader.program);
+			GL.blendFunc(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA);
+
+			setupUniforms(mat);
+
+			GL.enableVertexAttribArray(posLocation);
+			GL.enableVertexAttribArray(colourLocation);
+			GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer);
+
+			GL.vertexAttribPointer(posLocation, 3, GL.FLOAT, false, 7*4, 0);
+			GL.vertexAttribPointer(colourLocation, 4, GL.FLOAT, false, 7*4, 3*4);
+
+			GL.drawArrays(GL.TRIANGLES, 0, vertexCount);
+
+			GL.bindTexture(GL.TEXTURE_2D, null);
+			GL.bindBuffer(GL.ARRAY_BUFFER, null);
+			GL.disableVertexAttribArray(colourLocation);
+			GL.disableVertexAttribArray(posLocation);
+			GL.useProgram(null);
+		}
+
+		return Tusk.assets.loadMaterial("unlit.coloured", mat);
+		#else
+		return null;
+		#end
+	}
+
 	public static function loadUnlitTextured():Promise<Material> {
 		#if snow
 		if(Tusk.assets.isLoaded("unlit.textured")) {

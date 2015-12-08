@@ -22,8 +22,9 @@ class MeshComponent extends Component {
 	public var vertexBuffer:GLBuffer = #if snow null #else 0 #end;
 	public var bufferDirty:Bool = true;
 
-	public function new(meshPath:String) {
+	public function new(?meshPath:String, ?mesh:Mesh) {
 		this.meshPath = meshPath;
+		this.mesh = mesh;
 		super();
 	}
 }
