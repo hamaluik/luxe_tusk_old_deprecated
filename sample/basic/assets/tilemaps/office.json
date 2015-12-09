@@ -39,7 +39,7 @@
          "name":"chairs",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":16,
          "x":0,
          "y":0
@@ -50,7 +50,7 @@
          "name":"decorations",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":16,
          "x":0,
          "y":0
@@ -243,7 +243,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "width":0,
          "x":0,
          "y":0
@@ -267,12 +267,12 @@
                  "type":"",
                  "visible":true,
                  "width":8,
-                 "x":64,
-                 "y":96
+                 "x":35.8181818181818,
+                 "y":51.2727272727273
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "width":0,
          "x":0,
          "y":0

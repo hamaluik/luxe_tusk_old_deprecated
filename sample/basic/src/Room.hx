@@ -3,11 +3,14 @@ import tusk.debug.Log;
 import tusk.lib.comp.Camera2DComponent;
 import tusk.lib.comp.MaterialComponent;
 import tusk.lib.comp.MeshComponent;
-import tusk.lib.comp.NapStaticRectComponent;
+import tusk.lib.comp.NapeSpaceComponent;
+import tusk.lib.comp.NapeRectComponent;
 import tusk.lib.comp.TransformComponent;
 import tusk.lib.proc.Camera2DProcessor;
 import tusk.lib.proc.MaterialProcessor;
 import tusk.lib.proc.MeshProcessor;
+import tusk.lib.proc.NapeSpaceProcessor;
+import tusk.lib.proc.NapeTransformUpdateProcessor;
 import tusk.lib.proc.Renderer2DProcessor;
 import tusk.lib.proc.TransformProcessor;
 import tusk.Tusk;
@@ -47,6 +50,8 @@ class Room extends Scene {
 			this.useProcessor(new MeshProcessor());
 			this.useProcessor(new MaterialProcessor());
 			this.useProcessor(new Camera2DProcessor());
+			this.useProcessor(new NapeSpaceProcessor());
+			this.useProcessor(new NapeTransformUpdateProcessor());
 			this.useProcessor(new TransformProcessor());
 			this.useProcessor(new Renderer2DProcessor(new Vec4(0.25, 0.25, 0.25, 1)));
 
@@ -58,15 +63,6 @@ class Room extends Scene {
 				new Camera2DComponent(new Vec2(w, h) / -2.0, new Vec2(w, h) / 2.0, -100, 100)
 			]));
 
-			/*quad.colours = new Array<Vec4>();
-			for(v in quad.vertices) {
-				quad.colours.push(new Vec4(0.75, 0.25, 0.25, 0.5));
-			}
-			entities.push(new Entity(this, 'derp', [
-				new TransformComponent(new Vec3(), Quat.identity(), new Vec3(128, 128, 128)),
-				new MeshComponent(quad),
-				new MaterialComponent(unlitColoured.path),
-			]));*/
 			// create the visual tilemap
 			var tm:TileMap = TileMap.fromJSON(officeJSON.text);
 			var tmOffset:Vec3 = 4 * new Vec3(tm.width * tm.tilewidth, tm.height * tm.tileheight, 0) / -2;
@@ -82,28 +78,66 @@ class Room extends Scene {
 				entities.push(tileMapEntity);
 			});
 
+			// initialize the physics system
+			var mainSpace:NapeSpaceComponent = new NapeSpaceComponent(new Vec2(0, -1000));
+			entities.push(new Entity(this, 'NapeSpace', [mainSpace]));
+
 			// create the collision objects
 			quad.colours = new Array<Vec4>();
 			for(v in quad.vertices) {
 				quad.colours.push(new Vec4(0.75, 0.25, 0.25, 0.5));
 			}
+			var greenQuad:Mesh = quad.clone('greenQuad');
+			for(c in greenQuad.colours) {
+				c.set(0.25, 0.75, 0.25, 0.5);
+			}
 			for(layer in tm.layers) {
-				if(layer.type != tusk.modules.tiled.Layer.LayerType.Object || layer.name != 'collisions') {
-					continue;
-				}
-
-				// found the collision layer!
-				Log.info('found ${layer.objects.length} collision objects!');
-				for(object in layer.objects) {
-					var size:Vec3 = new Vec3(object.width, object.height, 0);
-					var center:Vec3 = size.clone() / 2 + new Vec3(object.x, object.y, -1);
-					center.y = (tm.tileheight * (tm.height + 1)) - center.y;
-					entities.push(new Entity(this, 'collision', [
-						new TransformComponent(center * 4 + tmOffset, Quat.identity(), size * 4),
-						new MeshComponent(quad),
-						new MaterialComponent(unlitColoured.path),
-						new NapeStaticRectComponent()
-					]));
+				switch(layer.name) {
+					case 'collisions': {
+						// found the collision layer!
+						for(object in layer.objects) {
+							var size:Vec3 = new Vec3(object.width, object.height, 0);
+							var center:Vec3 = size.clone() / 2 + new Vec3(object.x, object.y, -1);
+							center.y = (tm.tileheight * (tm.height + 1)) - center.y;
+							center *= 4;
+							center += tmOffset;
+							size *= 4;
+							entities.push(new Entity(this, 'collision', [
+								new TransformComponent(center, Quat.identity(), size),
+								new MeshComponent(quad),
+								new MaterialComponent(unlitColoured.path),
+								new NapeRectComponent(
+									mainSpace.space,
+									nape.phys.BodyType.STATIC,
+									center, size
+								)
+							]));
+						}
+					}
+					case 'spawns': {
+						// found the spawn layer!
+						Log.info('found ${layer.objects.length} spawn objects!');
+						for(object in layer.objects) {
+							var size:Vec3 = new Vec3(object.width, object.height, 0);
+							var center:Vec3 = size.clone() / 2 + new Vec3(object.x, object.y, -1);
+							center.y = (tm.tileheight * (tm.height + 1)) - center.y;
+							center *= 4;
+							center += tmOffset;
+							size *= 4;
+							Log.info('spawn ${object.name} is at: ${center}');
+							entities.push(new Entity(this, 'box', [
+								new TransformComponent(center, Quat.identity(), size),
+								new MeshComponent(greenQuad),
+								new MaterialComponent(unlitColoured.path),
+								new NapeRectComponent(
+									mainSpace.space,
+									nape.phys.BodyType.DYNAMIC,
+									center, size
+								)
+							]));
+						}
+					}
+					default: {}
 				}
 			}
 		});

@@ -44,10 +44,11 @@ Auto-generated up-to-date documentation can be accessed here: http://blazingmamm
 - [ ] Easy-to-use "loading" screen
 - [ ] Optional (But Commonly Used) Libraries
     - [ ] Post-processing shaders / effects
-    - [ ] Tweening / Easing
-    - [ ] [Tiled](http://www.mapeditor.org/) level loading
+    - [x] Tweening / Easing
+    - [x] [Tiled](http://www.mapeditor.org/) level loading
     - [ ] 3D model loading
-    - [ ] Collision detection
+    - [ ] Collision detection using [differ](https://github.com/underscorediscovery/differ)
+    - [x] Physics calculations using [Nape](http://napephys.com/)
     - [x] Standard component library
     - [x] Standard processor library
 - [x] Thorough documentation
