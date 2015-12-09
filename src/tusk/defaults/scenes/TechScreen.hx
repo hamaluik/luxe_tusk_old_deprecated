@@ -79,20 +79,37 @@ class TechScreen extends Scene {
 				fec
 			]));
 			fec.done.pipe(function(_) {
-				var timer:TimedPromiseComponent = new TimedPromiseComponent(3.0);
-				entities.push(new Entity(this, 'Timer', [timer]));
-				return timer.done;
+				if(!sceneDone.isResolved()) {
+					var timer:TimedPromiseComponent = new TimedPromiseComponent(3.0);
+					entities.push(new Entity(this, 'Timer', [timer]));
+					return timer.done;
+				}
+				return null;
 			}).pipe(function(_) {
-				fec.t = 0;
-				fec.fadeIn = false;
-				fec.reset();
-				return fec.done;
+				if(!sceneDone.isResolved()) {
+					fec.t = 0;
+					fec.fadeIn = false;
+					fec.reset();
+					return fec.done;
+				}
+				return null;
 			}).then(function(_) {
-				sceneDone.resolve(this);
+				if(!sceneDone.isResolved()) {
+					sceneDone.resolve(this);
+				}
+				return null;
 			});
 
 			// tell the processors we've started
 			Tusk.router.onEvent(tusk.events.EventType.Start);
 		});
+	}
+
+	override public function onKeyDown(event:tusk.events.KeyEvent) {
+		#if snow
+		if(event.keyCode == tusk.events.KeyEvent.Key.escape) {
+			sceneDone.resolve(this);
+		}
+		#end
 	}
 }

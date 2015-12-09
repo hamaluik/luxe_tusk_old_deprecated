@@ -14,7 +14,7 @@ typedef GLBuffer = Int;
  * A tŭsk standard libary component for defining a mesh
  */
 class MeshComponent extends Component {
-	public var meshPath:String;
+	public var path:String;
 	@:dontSerialize
 	public var mesh:Mesh;
 
@@ -22,8 +22,8 @@ class MeshComponent extends Component {
 	public var vertexBuffer:GLBuffer = #if snow null #else 0 #end;
 	public var bufferDirty:Bool = true;
 
-	public function new(?meshPath:String, ?mesh:Mesh) {
-		this.meshPath = meshPath;
+	public function new(?path:String, ?mesh:Mesh) {
+		this.path = mesh == null ? path : mesh.path;
 		this.mesh = mesh;
 		super();
 	}

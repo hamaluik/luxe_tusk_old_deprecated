@@ -24,7 +24,7 @@ class TextProcessor extends Processor {
 				var mesh:MeshComponent = cast entity.get(MeshComponent.tid);
 				mesh.bufferDirty = true;
 				if(mesh.mesh == null) {
-					mesh.mesh = Tusk.assets.getMesh(mesh.meshPath);
+					mesh.mesh = Tusk.assets.getMesh(mesh.path);
 				}
 				mesh.mesh.vertices = new Array<Vec3>();
 				mesh.mesh.uvs = new Array<Vec2>();

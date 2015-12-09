@@ -21,7 +21,7 @@ class MaterialProcessor extends Processor {
 		if(add) {
 			var mc:MaterialComponent = cast entity.get(MaterialComponent.tid);
 			if(mc.material == null) {
-				mc.material = Tusk.assets.getMaterial(mc.materialPath);
+				mc.material = Tusk.assets.getMaterial(mc.path);
 			}
 		}
 	}

@@ -103,22 +103,39 @@ class SplashScreen extends Scene {
 				cec
 			]));
 			cec.done.pipe(function(_) {
-				logoEnt.push(new SplashScreen_ShakeComponent());
-				logoEnt.push(new SoundComponent(roar.path, true));
-				var timer:TimedPromiseComponent = new TimedPromiseComponent(4.297);
-				entities.push(new Entity(this, 'Timer', [timer]));
-				return timer.done;
+				if(!sceneDone.isResolved()) {
+					logoEnt.push(new SplashScreen_ShakeComponent());
+					logoEnt.push(new SoundComponent(roar.path, true));
+					var timer:TimedPromiseComponent = new TimedPromiseComponent(4.297);
+					entities.push(new Entity(this, 'Timer', [timer]));
+					return timer.done;
+				}
+				return null;
 			}).pipe(function(_) {
-				cec.t = 0;
-				cec.circleIn = false;
-				cec.reset();
-				return cec.done;
+				if(!sceneDone.isResolved()) {
+					cec.t = 0;
+					cec.circleIn = false;
+					cec.reset();
+					return cec.done;
+				}
+				return null;
 			}).then(function(_) {
-				sceneDone.resolve(this);
+				if(!sceneDone.isResolved()) {
+					sceneDone.resolve(this);
+				}
+				return null;
 			});
 
 			// tell the processors we've started
 			Tusk.router.onEvent(tusk.events.EventType.Start);
 		});
+	}
+
+	override public function onKeyDown(event:tusk.events.KeyEvent) {
+		#if snow
+		if(event.keyCode == tusk.events.KeyEvent.Key.escape) {
+			sceneDone.resolve(this);
+		}
+		#end
 	}
 }

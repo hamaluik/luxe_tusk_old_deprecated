@@ -18,14 +18,14 @@ class MeshProcessor extends Processor {
 		super(entities);
 	}
 
-	override public function onUpdate(data:UpdateEvent) {
+	override public function onUpdate(event:UpdateEvent) {
 		#if snow
 		for(entity in entities) {
 			// get our components
 			var mesh:MeshComponent = cast entity.get(MeshComponent.tid);
 			var mat:MaterialComponent = cast entity.get(MaterialComponent.tid);
 			if(mesh.mesh == null) {
-				mesh.mesh = Tusk.assets.getMesh(mesh.meshPath);
+				mesh.mesh = Tusk.assets.getMesh(mesh.path);
 			}
 
 			// build the mesh buffer if that is necessary

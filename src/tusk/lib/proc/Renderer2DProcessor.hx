@@ -34,10 +34,20 @@ class Renderer2DProcessor extends Processor {
 		super(entities);
 	}
 
-	override public function onRender(data:RenderEvent) {
+	override public function onRender(event:RenderEvent) {
+		// sort our entities based on depth
+		// TODO: sort somewhere else that is less expensive!!
+		entities.sort(function(a:Entity, b:Entity):Int {
+			var ta:TransformComponent = cast a.get(TransformComponent.tid);
+			var tb:TransformComponent = cast b.get(TransformComponent.tid);
+			if(ta.position.z == tb.position.z) return 0;
+			return ta.position.z < tb.position.z ? 1 : -1;
+		});
+
 		#if snow
-		GL.enable(GL.DEPTH_TEST);
+		GL.disable(GL.DEPTH_TEST);
 		GL.enable(GL.BLEND);
+		GL.depthFunc(GL.LESS);
 		GL.viewport(0, 0, Tusk.instance.app.window.width, Tusk.instance.app.window.height);
 		GL.clearColor(clearColour.r, clearColour.g, clearColour.b, clearColour.a);
 		GL.clear(GL.COLOR_BUFFER_BIT | GL.DEPTH_BUFFER_BIT);
@@ -49,7 +59,7 @@ class Renderer2DProcessor extends Processor {
 				var mesh:MeshComponent = cast entity.get(MeshComponent.tid);
 				var material:MaterialComponent = cast entity.get(MaterialComponent.tid);
 
-				if(mesh.mesh == null) {
+				if(mesh.mesh == null || mesh.vertexBuffer == null) {
 					continue;
 				}
 
