@@ -1,4 +1,9 @@
+import comp.KeyNavigatorComponent;
+import comp.MovementAxisComponent;
+import comp.MoveSpeedComponent;
 import glm.Vec4;
+import proc.KeyAxisProcessor;
+import proc.MovementProcessor;
 import tusk.debug.Log;
 import tusk.lib.comp.Camera2DComponent;
 import tusk.lib.comp.MaterialComponent;
@@ -50,7 +55,9 @@ class Room extends Scene {
 			this.useProcessor(new MeshProcessor());
 			this.useProcessor(new MaterialProcessor());
 			this.useProcessor(new Camera2DProcessor());
+			this.useProcessor(new KeyAxisProcessor());
 			this.useProcessor(new NapeSpaceProcessor());
+			this.useProcessor(new MovementProcessor());
 			this.useProcessor(new NapeTransformUpdateProcessor());
 			this.useProcessor(new TransformProcessor());
 			this.useProcessor(new Renderer2DProcessor(new Vec4(0.25, 0.25, 0.25, 1)));
@@ -67,7 +74,7 @@ class Room extends Scene {
 			var tm:TileMap = TileMap.fromJSON(officeJSON.text);
 			var tmOffset:Vec3 = 4 * new Vec3(tm.width * tm.tilewidth, tm.height * tm.tileheight, 0) / -2;
 			TileMap.buildMesh(tm, 'office.tilemap').then(function(officeMesh:Mesh) {
-				Log.info('Built ${officeMesh.vertices.length} vertices!');
+			this.useProcessor(new KeyAxisProcessor());
 				unlitTextured.textures = new Array<Texture>();
 				unlitTextured.textures.push(officeTexture);
 				var tileMapEntity:Entity = new Entity(this, 'TileMap', [
@@ -116,7 +123,6 @@ class Room extends Scene {
 					}
 					case 'spawns': {
 						// found the spawn layer!
-						Log.info('found ${layer.objects.length} spawn objects!');
 						for(object in layer.objects) {
 							var size:Vec3 = new Vec3(object.width, object.height, 0);
 							var center:Vec3 = size.clone() / 2 + new Vec3(object.x, object.y, -1);
@@ -124,7 +130,6 @@ class Room extends Scene {
 							center *= 4;
 							center += tmOffset;
 							size *= 4;
-							Log.info('spawn ${object.name} is at: ${center}');
 							entities.push(new Entity(this, 'box', [
 								new TransformComponent(center, Quat.identity(), size),
 								new MeshComponent(greenQuad),
@@ -133,7 +138,10 @@ class Room extends Scene {
 									mainSpace.space,
 									nape.phys.BodyType.DYNAMIC,
 									center, size
-								)
+								),
+								new KeyNavigatorComponent(),
+								new MovementAxisComponent(),
+								new MoveSpeedComponent(256)
 							]));
 						}
 					}
@@ -141,13 +149,5 @@ class Room extends Scene {
 				}
 			}
 		});
-	}
-
-	override public function onMouseDown(event:MouseButtonEvent) {
-		Log.info('Button clicked: ${event.button}');
-	}
-
-	override public function onKeyDown(event:KeyEvent) {
-		Log.info('Key pressed: ${event.keyCode}');
 	}
 }
