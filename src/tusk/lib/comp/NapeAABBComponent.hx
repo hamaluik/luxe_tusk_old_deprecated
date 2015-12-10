@@ -9,7 +9,7 @@ import nape.phys.BodyType;
 import nape.shape.Polygon;
 import tusk.Component;
 
-class NapeRectComponent extends Component {
+class NapeAABBComponent extends Component {
 	public var body:Body;
 
 	public function new(space:Space, bodyType:BodyType, center:glm.Vec2, size:glm.Vec2, ?material:Material) {
@@ -19,6 +19,7 @@ class NapeRectComponent extends Component {
 		body.position.setxy(center.x, center.y);
 		body.rotation = 0;
 		body.space = space;
+		body.allowRotation = false;
 		super();
 	}
 }

@@ -4,7 +4,7 @@ import tusk.lib.comp.Camera2DComponent;
 import tusk.lib.comp.MaterialComponent;
 import tusk.lib.comp.MeshComponent;
 import tusk.lib.comp.NapeSpaceComponent;
-import tusk.lib.comp.NapeRectComponent;
+import tusk.lib.comp.NapeAABBComponent;
 import tusk.lib.comp.TransformComponent;
 import tusk.lib.proc.Camera2DProcessor;
 import tusk.lib.proc.MaterialProcessor;
@@ -79,7 +79,7 @@ class Room extends Scene {
 			});
 
 			// initialize the physics system
-			var mainSpace:NapeSpaceComponent = new NapeSpaceComponent(new Vec2(0, -1000));
+			var mainSpace:NapeSpaceComponent = new NapeSpaceComponent(new Vec2(0, 0));
 			entities.push(new Entity(this, 'NapeSpace', [mainSpace]));
 
 			// create the collision objects
@@ -106,7 +106,7 @@ class Room extends Scene {
 								new TransformComponent(center, Quat.identity(), size),
 								new MeshComponent(quad),
 								new MaterialComponent(unlitColoured.path),
-								new NapeRectComponent(
+								new NapeAABBComponent(
 									mainSpace.space,
 									nape.phys.BodyType.STATIC,
 									center, size
@@ -129,7 +129,7 @@ class Room extends Scene {
 								new TransformComponent(center, Quat.identity(), size),
 								new MeshComponent(greenQuad),
 								new MaterialComponent(unlitColoured.path),
-								new NapeRectComponent(
+								new NapeAABBComponent(
 									mainSpace.space,
 									nape.phys.BodyType.DYNAMIC,
 									center, size
