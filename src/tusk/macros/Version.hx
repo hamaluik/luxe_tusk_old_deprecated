@@ -34,7 +34,7 @@ class Version {
 		}
 
 		Compiler.define('version', version);
-		Sys.println('\033[0;36mtŭsk / build - version: \033[1;37m' + version + '\033[0;37m');
+		Sys.println('\033[0;36mtusk / build - version: \033[1;37m' + version + '\033[0;37m');
 		return Context.makeExpr(version, Context.currentPos());
 	}
 }

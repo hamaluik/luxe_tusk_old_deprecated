@@ -4,7 +4,7 @@ import tusk.Component;
 import tusk.resources.Material;
 
 /**
- * A tŭsk standard libary component for defining a material
+ * A tusk standard libary component for defining a material
  */
 class MaterialComponent extends Component {
 	public var path:String;

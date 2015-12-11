@@ -6,7 +6,7 @@ import glm.Vec3;
 import glm.Vec2;
 
 /**
- * A tŭsk standard libary component for defining a camera
+ * A tusk standard libary component for defining a camera
  */
 class Camera2DComponent extends Component {
 	/**

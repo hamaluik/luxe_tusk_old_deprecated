@@ -11,7 +11,7 @@ typedef GLBuffer = Int;
 #end
 
 /**
- * A tŭsk standard libary component for defining a mesh
+ * A tusk standard libary component for defining a mesh
  */
 class MeshComponent extends Component {
 	public var path:String;

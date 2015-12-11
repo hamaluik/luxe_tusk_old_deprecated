@@ -6,7 +6,7 @@ import glm.Vec3;
 import glm.Mat4;
 
 /**
- * A tŭsk standard libary component for defining a transform
+ * A tusk standard libary component for defining a transform
  */
 class TransformComponent extends Component {
 	// the current values

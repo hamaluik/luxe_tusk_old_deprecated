@@ -27,4 +27,4 @@
 #-xml cpp.xml
 
 --next
--cmd haxelib run dox -i . -theme ./themes/tusk --title tŭsk --toplevel-package tusk
+-cmd haxelib run dox -i . -theme ./themes/tusk --title tusk --toplevel-package tusk

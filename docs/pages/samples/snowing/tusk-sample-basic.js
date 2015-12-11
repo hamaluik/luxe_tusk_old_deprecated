@@ -407,7 +407,7 @@ TuskApp.main = function() {
 	var snow1 = new snow_Snow();
 	var hasLoop = true;
 	var snowConfig = { has_loop : hasLoop, app_package : "com.blazingmammothgames.tusk"};
-	tusk_debug_Log.log("Starting tŭsk " + "0.2.0-prealpha+dceb52",tusk_debug_LogFunctions.Info,{ fileName : "TuskApp.hx", lineNumber : 23, className : "TuskApp", methodName : "main"});
+	tusk_debug_Log.log("Starting tusk " + "0.2.0-prealpha+dceb52",tusk_debug_LogFunctions.Info,{ fileName : "TuskApp.hx", lineNumber : 23, className : "TuskApp", methodName : "main"});
 	try {
 		snow1.init(snowConfig,new tusk_Tusk(new Main()));
 	} catch( exception ) {
