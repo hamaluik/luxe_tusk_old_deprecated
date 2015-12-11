@@ -22,6 +22,8 @@
 				"-resource src/flow/assets/shaders/unlit.textured.coloured.frag@unlit.textured.coloured.frag",
 				"-resource src/flow/assets/shaders/effect.circleout.frag@effect.circleout.frag",
 				"-resource src/flow/assets/shaders/effect.fadeout.frag@effect.fadeout.frag",
+				"-resource src/flow/assets/shaders/particles.untextured.vert@particles.untextured.vert",
+				"-resource src/flow/assets/shaders/particles.untextured.frag@particles.untextured.frag",
 				"-resource src/flow/assets/images/blazingmammothgames.png@blazingmammothgames.png",
 				"-resource src/flow/assets/images/technologies.png@technologies.png",
 				"-resource src/flow/assets/fonts/Subatomic_Screen.png@Subatomic_Screen.png",

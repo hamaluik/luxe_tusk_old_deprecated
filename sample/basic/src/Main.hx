@@ -27,7 +27,7 @@ class Main extends Game {
 	override public function setup() {
 		Log.info('Setting up game...');
 
-		var tech:Scene = new TechScreen();
+		/*var tech:Scene = new TechScreen();
 		var splash:Scene = new SplashScreen();
 		scenes.set('room', new Room());
 		/*Tusk.pushScene(tech)
@@ -37,7 +37,14 @@ class Main extends Game {
 			}).pipe(function(_) {
 				Tusk.removeScene(splash);
 				return Tusk.pushScene(scenes.get('room'));
-			});*/
-		Tusk.pushScene(scenes.get('room'));
+			});
+		Tusk.pushScene(scenes.get('room'));*/
+		//Tusk.pushScene(new Snow());
+		var splash:Scene = new SplashScreen();
+		Tusk.pushScene(splash)
+			.pipe(function(_) { 
+				Tusk.removeScene(splash);
+				return Tusk.pushScene(new Snow());
+			});
 	}
 }

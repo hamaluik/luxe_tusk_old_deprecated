@@ -49,5 +49,8 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser.js"></script>
 		{{/if}}{{/each}}
 		<script src="./{{project.app.name}}{{#if project.app.web.min}}.min{{/if}}.js"></script>
+		{{#each project.build.defines}}{{#if this '==' 'livereload'}}
+		<script src="http://localhost:35729/livereload.js?snipver=1"></script>
+		{{/if}}{{/each}}
 	</body>
 </html>

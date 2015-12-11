@@ -263,4 +263,57 @@ class Materials {
 		return null;
 		#end
 	}
+
+	public static function loadParticlesUntextured():Promise<Material> {
+		#if snow
+		if(Tusk.assets.isLoaded("particles.untextured")) {
+			var d:Deferred<Material> = new Deferred<Material>();
+			d.resolve(Tusk.assets.getMaterial("particles.untextured"));
+			return d.promise();
+		}
+
+		var shader:Shader = new Shader("particles.untextured",
+			haxe.Resource.getString("particles.untextured.vert"),
+			haxe.Resource.getString("particles.untextured.frag"));
+		var mat = new Material("particles.untextured", shader);
+
+		// setup the attribute flags
+		mat.attributeFlags.set(AttributeTypes.Pos3);
+		mat.attributeFlags.set(AttributeTypes.Colour4);
+
+		GL.useProgram(mat.shader.program);
+		var posLocation:Int = mat.shader.getAttributeLocation("position");
+		var colourLocation:Int = mat.shader.getAttributeLocation("colour");
+		var sizeLocation:Int = mat.shader.getAttributeLocation("pointSize");
+
+		mat.onRender = function(setupUniforms:SetupRenderUniformsCallback, vertexBuffer:GLBuffer, vertexCount:Int) {
+			GL.useProgram(mat.shader.program);
+			GL.blendFunc(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA);
+
+			setupUniforms(mat);
+
+			GL.enableVertexAttribArray(posLocation);
+			GL.enableVertexAttribArray(colourLocation);
+			GL.enableVertexAttribArray(sizeLocation);
+			GL.bindBuffer(GL.ARRAY_BUFFER, vertexBuffer);
+
+			GL.vertexAttribPointer(posLocation, 3, GL.FLOAT, false, 8*4, 0);
+			GL.vertexAttribPointer(colourLocation, 4, GL.FLOAT, false, 8*4, 3*4);
+			GL.vertexAttribPointer(sizeLocation, 1, GL.FLOAT, false, 8*4, 7*4);
+
+			GL.drawArrays(GL.POINTS, 0, vertexCount);
+
+			//GL.bindTexture(GL.TEXTURE_2D, null);
+			GL.bindBuffer(GL.ARRAY_BUFFER, null);
+			GL.disableVertexAttribArray(sizeLocation);
+			GL.disableVertexAttribArray(colourLocation);
+			GL.disableVertexAttribArray(posLocation);
+			GL.useProgram(null);
+		}
+
+		return Tusk.assets.loadMaterial("particles.untextured", mat);
+		#else
+		return null;
+		#end
+	}
 }

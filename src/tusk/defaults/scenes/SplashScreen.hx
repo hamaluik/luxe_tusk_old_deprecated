@@ -14,6 +14,7 @@ import tusk.lib.comp.SplashScreen_ShakeComponent;
 import tusk.lib.comp.TextComponent;
 import tusk.lib.comp.TimedPromiseComponent;
 import tusk.lib.comp.TransformComponent;
+import tusk.lib.comp.ParticleSystemComponent;
 import tusk.lib.proc.Camera2DProcessor;
 import tusk.lib.proc.CircleEffectRendererProcessor;
 import tusk.lib.proc.MaterialProcessor;
@@ -23,6 +24,7 @@ import tusk.lib.proc.SplashScreen_RoarShakeProcessor;
 import tusk.lib.proc.TextProcessor;
 import tusk.lib.proc.TimedPromiseProcessor;
 import tusk.lib.proc.TransformProcessor;
+import tusk.lib.proc.ParticleSystemProcessor;
 
 import tusk.resources.Mesh;
 import tusk.resources.Material;
@@ -50,8 +52,9 @@ class SplashScreen extends Scene {
 			tusk.defaults.Materials.loadTextBasic(),
 			Tusk.assets.loadTexture('blazingmammothgames.png', haxe.Resource.getBytes('blazingmammothgames.png')),
 			Tusk.assets.loadSound('assets/sounds/blazingmammothgames.ogg'),
-			tusk.defaults.Materials.loadEffectCircleOut()
-		).then(function(quad:Mesh, textMesh:Mesh, mat:Material, font:Font, fontMat:Material, logo:Texture, roar:Sound, circleOutMat:Material) {
+			tusk.defaults.Materials.loadEffectCircleOut(),
+			tusk.defaults.Materials.loadParticlesUntextured()
+		).then(function(quad:Mesh, textMesh:Mesh, mat:Material, font:Font, fontMat:Material, logo:Texture, roar:Sound, circleOutMat:Material, particlesMat:Material) {
 			// set the material's texture
 			mat.textures = new Array<Texture>();
 			mat.textures.push(logo);
@@ -67,7 +70,8 @@ class SplashScreen extends Scene {
 			this.useProcessor(new TransformProcessor());
 			this.useProcessor(new TextProcessor());
 			this.useProcessor(new MeshProcessor());
-			this.useProcessor(new Renderer2DProcessor(new Vec4(1.0, 1.0, 1.0, 1.0)));
+			this.useProcessor(new Renderer2DProcessor(new Vec4(0.25, 0.25, 0.25, 1.0)));
+			this.useProcessor(new ParticleSystemProcessor(new Vec4(0, 0, 0, 1), false));
 			this.useProcessor(new CircleEffectRendererProcessor());
 
 			// create the camera
@@ -91,7 +95,28 @@ class SplashScreen extends Scene {
 				new TransformComponent(new Vec3(0, -96, 0.05), Quat.identity(), new Vec3(3, 3, 3)),
 				new MeshComponent(textMesh.path),
 				new MaterialComponent(fontMat.path),
-				new TextComponent(font, 'Blazing Mammoth Games', TextAlign.Centre)
+				new TextComponent(font, 'Blazing Mammoth Games', TextAlign.Centre,
+					new Vec4(1, 1, 1, 1))
+			]));
+
+			// create the snow!
+			var psc:ParticleSystemComponent = new ParticleSystemComponent(1000, 10);
+			psc.customUpdater = function(particle:Particle, pc:ParticleSystemComponent, dt:Float) {
+				// accelerate it due to gravity
+				particle.vel.x = Math.sin(2 * Math.PI * particle.t * 0.2 + (4 * Math.PI * particle.seed)) * 32;
+				particle.vel.y = -40;
+				particle.vel.z = 0;
+
+				// move the particle along
+				particle.lastPos.set(particle.pos.x, particle.pos.y, particle.pos.z);
+				particle.pos.x += particle.vel.x * dt;
+				particle.pos.y += particle.vel.y * dt;
+				particle.pos.z += particle.vel.z * dt;
+			}
+			entities.push(new Entity(this, 'Particle System', [
+				new TransformComponent(new Vec3(0, Tusk.instance.app.window.height / 2, 0), Quat.identity(), new Vec3(2, 2, 2)),
+				psc,
+				new MaterialComponent(particlesMat.path)
 			]));
 
 			// create the circle effect
