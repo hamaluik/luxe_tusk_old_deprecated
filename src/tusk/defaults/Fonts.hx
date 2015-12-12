@@ -13,7 +13,7 @@ class Fonts {
 			return d.promise();
 		}
         return Tusk.assets.loadTexture('Subatomic_Screen.png', haxe.Resource.getBytes('Subatomic_Screen.png')).pipe(function(texture:Texture) {
-            return Tusk.assets.loadFont('Subatomic_Screen.fnt', haxe.Resource.getString('Subatomic_Screen.fnt'));
+            return Tusk.assets.loadFont('Subatomic_Screen.fnt', haxe.Resource.getString('Subatomic_Screen.fnt'), texture);
         });
 	}
 }
