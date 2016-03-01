@@ -6,6 +6,8 @@ import haxe.macro.Expr;
 import sys.FileSystem;
 #end
 
+using StringTools;
+
 /**
  * For code-completion of asset files in the project
  *
@@ -44,7 +46,9 @@ import sys.FileSystem;
             return fileRefs;
         }
         else {
-            fileRefs.push(new FileRef(baseDir, file));
+            if(!file.endsWith('Thumbs.db')) {
+                fileRefs.push(new FileRef(baseDir, file));
+            }
             return fileRefs;
         }
     }

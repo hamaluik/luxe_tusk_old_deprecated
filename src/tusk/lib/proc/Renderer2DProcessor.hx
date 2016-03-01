@@ -78,6 +78,11 @@ class Renderer2DProcessor extends Processor {
 						//js.Lib.debug();
 						mat.setVec4("colour", tc.colour);
 					}
+
+					if(entity.hasType(CustomUniformsComponent.tid)) {
+						var customUniforms:CustomUniformsComponent = cast entity.get(CustomUniformsComponent.tid);
+						customUniforms.setUniforms();
+					}
 				}, mesh.vertexBuffer, mesh.mesh.vertices.length);
 			}
 		}

@@ -23,9 +23,16 @@ class SoundProcessor extends Processor {
 				Tusk.sound.play(sound);
 				sound.onEnd = function() {
 					s.playing = false;
+					s.finish();
 				}
 				s.play = false;
 				s.playing = true;
+			}
+			else if(s.playing && s.stop) {
+				var sound:Sound = Tusk.assets.getSound(s.path);
+				Tusk.sound.stop(sound);
+				s.stop = false;
+				s.playing = false;
 			}
 		}
 	}

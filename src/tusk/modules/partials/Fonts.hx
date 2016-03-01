@@ -52,13 +52,13 @@ class Fonts implements partials.Partial {
 
 	public function getFont(path:String):Font {
 		if(!assets.exists(path)) {
-			throw new Exception("Font '${path}' hasn't been loaded yet!", ExceptionType.AssetNotFound);
+			throw new Exception('Font \'${path}\' hasn\'t been loaded yet!', ExceptionType.AssetNotFound);
 		}
 		try {
 			return cast(assets.get(path), Font);
 		}
 		catch(e:String) {
-			throw new Exception("Asset '${path}' isn't a font!", ExceptionType.InvalidAssetType);
+			throw new Exception('Asset \'${path}\' isn\'t a font!', ExceptionType.InvalidAssetType);
 		}
 	}
 }

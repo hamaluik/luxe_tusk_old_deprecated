@@ -48,9 +48,9 @@ class Camera2DProcessor extends Processor {
 			var transform:TransformComponent = cast entity.get(TransformComponent.tid);
 
 			// check if the projection-view matrix is dirty
-			if(transform.position != transform.lastPosition || transform.rotation != transform.lastRotation) {
+			/*if(transform.position != transform.lastPosition || transform.rotation != transform.lastRotation) {
 				camera.viewMatrixDirty = true;
-			}
+			}*/
 
 			// if we need to update the projection matrix, do so
 			if(camera.projectionMatrixDirty) {

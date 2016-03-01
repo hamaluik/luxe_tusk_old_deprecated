@@ -53,15 +53,15 @@ class Textures implements partials.Partial {
 	 * @throws tusk.debug.Exception if the texture hasn't been loaded, or if `path` points
 	 *                              to an asset which isn't a texture
 	 */
-	public function getTexture(path:String):tusk.resources.Texture {
+	public function getTexture(path:String):Texture {
 		if(!assets.exists(path)) {
-			throw new Exception("Texture '${path}' hasn't been loaded yet!", ExceptionType.AssetNotFound);
+			throw new Exception('Texture \'${path}\' hasn\'t been loaded yet!', ExceptionType.AssetNotFound);
 		}
 		try {
 			return cast(assets.get(path), Texture);
 		}
 		catch(e:String) {
-			throw new Exception("Asset '${path}' isn't a texture!", ExceptionType.InvalidAssetType);
+			throw new Exception('Asset \'${path}\' isn\'t a texture!', ExceptionType.InvalidAssetType);
 		}
 	}
 }

@@ -82,7 +82,7 @@ class TileMap {
 
 			// now build the layer!
 			pos.x = 0;
-			pos.y = layer.height * tileSize.y;
+			pos.y = (layer.height - 1) * tileSize.y;
 			for(gid in layer.data) {
 				// skip empty tiles
 				if(gid != 0) {

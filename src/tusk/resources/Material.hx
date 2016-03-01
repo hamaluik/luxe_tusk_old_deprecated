@@ -1,6 +1,7 @@
 package tusk.resources;
 
 import glm.Vec2;
+import glm.Vec3;
 import glm.Vec4;
 import glm.Mat4;
 
@@ -49,6 +50,19 @@ class Material extends Asset {
 	 */
 	public var attributeFlags:EnumFlags<AttributeTypes> = new EnumFlags<AttributeTypes>();
 
+	public function clone(newPath:String):Material {
+		var m:Material = new Material(newPath, this.shader);
+		m.onRender = this.onRender;
+		if(this.textures != null) {
+			m.textures = new Array<Texture>();
+			for(texture in this.textures) {
+				m.textures.push(texture);
+			}
+		}
+		m.attributeFlags = this.attributeFlags;
+		return m;
+	}
+
 	/**
 	 * Create a new material!
 	 * @param  shader The material's shader. If not compiled, the material will compile it automatically.
@@ -72,6 +86,13 @@ class Material extends Asset {
 		#if snow
 		var location:GLUniformLocation = shader.getUniformLocation(name);
 		GL.uniform2f(location, vec.x, vec.y);
+		#end
+	}
+
+	public function setVec3(name:String, vec:Vec3) {
+		#if snow
+		var location:GLUniformLocation = shader.getUniformLocation(name);
+		GL.uniform3f(location, vec.x, vec.y, vec.z);
 		#end
 	}
 

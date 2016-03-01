@@ -29,51 +29,67 @@ class TextProcessor extends Processor {
 				mesh.mesh.vertices = new Array<Vec3>();
 				mesh.mesh.uvs = new Array<Vec2>();
 
-				// deal with alignment
-				var textWidth:Float = 0;
-				for(i in 0...text.text.length) {
-					var code:Int = text.text.charCodeAt(i);
-					var char:FontChar = text.font.chars.get(code);
-					textWidth += char.xAdvance;
-				}
-
-				var xPos:Float = switch(text.align) {
-					case Left: 0;
-					case Right: -textWidth;
-					case Centre: -textWidth / 2.0;
-				}
+				// split it into lines
+				var lines:Array<String> = text.text.split('\n');
+				var offsets:Array<Float> = new Array<Float>();
 				var yPos:Float = 0;
-				var yTop:Float = yPos + text.font.baseLine;
+				for(line in lines) {
+					// deal with alignment
+					var textWidth:Float = 0;
+					for(i in 0...line.length) {
+						var code:Int = line.charCodeAt(i);
+						var char:FontChar = text.font.chars.get(code);
+						textWidth += char.xAdvance;
+					}
+					offsets.push(switch(text.align) {
+						case Left: 0;
+						case Right: -textWidth;
+						case Centre: -textWidth / 2.0;
+					});
+				}
 
-				for(i in 0...text.text.length) {
-					var code:Int = text.text.charCodeAt(i);
-					var char:FontChar = text.font.chars.get(code);
-					var offset:Vec3 = new Vec3(
-						char.offset.x,
-						yTop - char.size.y - char.offset.y,
-						0);
+				var yPos:Float = switch(text.valign) {
+					case Top: 0;
+					case Bottom: lines.length * text.font.baseLine;
+					case Centre: (lines.length * text.font.baseLine) / 2.0;
+				};
+				for(j in 0...lines.length) {
+					var line:String = lines[j];
+					var xPos:Float = offsets[j];
+					var yTop:Float = yPos + text.font.baseLine;
 
-					//    2
-					//  / |
-					// 0--1
-					mesh.mesh.vertices.push(new Vec3(xPos, yPos) + offset);
-					mesh.mesh.uvs.push(new Vec2(char.minUV.x, char.maxUV.y));
-					mesh.mesh.vertices.push(new Vec3(xPos + char.size.x, yPos) + offset);
-					mesh.mesh.uvs.push(new Vec2(char.maxUV.x, char.maxUV.y));
-					mesh.mesh.vertices.push(new Vec3(xPos + char.size.x, yPos + char.size.y) + offset);
-					mesh.mesh.uvs.push(new Vec2(char.maxUV.x, char.minUV.y));
+					for(i in 0...line.length) {
+						var code:Int = line.charCodeAt(i);
+						var char:FontChar = text.font.chars.get(code);
+						var offset:Vec3 = new Vec3(
+							char.offset.x,
+							yTop - char.size.y - char.offset.y,
+							0);
 
-					// 1--0
-					// | /  
-					// 2   
-					mesh.mesh.vertices.push(new Vec3(xPos + char.size.x, yPos + char.size.y) + offset);
-					mesh.mesh.uvs.push(new Vec2(char.maxUV.x, char.minUV.y));
-					mesh.mesh.vertices.push(new Vec3(xPos, yPos + char.size.y) + offset);
-					mesh.mesh.uvs.push(new Vec2(char.minUV.x, char.minUV.y));
-					mesh.mesh.vertices.push(new Vec3(xPos, yPos) + offset);
-					mesh.mesh.uvs.push(new Vec2(char.minUV.x, char.maxUV.y));
+						//    2
+						//  / |
+						// 0--1
+						mesh.mesh.vertices.push(new Vec3(xPos, yPos) + offset);
+						mesh.mesh.uvs.push(new Vec2(char.minUV.x, char.maxUV.y));
+						mesh.mesh.vertices.push(new Vec3(xPos + char.size.x, yPos) + offset);
+						mesh.mesh.uvs.push(new Vec2(char.maxUV.x, char.maxUV.y));
+						mesh.mesh.vertices.push(new Vec3(xPos + char.size.x, yPos + char.size.y) + offset);
+						mesh.mesh.uvs.push(new Vec2(char.maxUV.x, char.minUV.y));
 
-					xPos += char.xAdvance;
+						// 1--0
+						// | /  
+						// 2   
+						mesh.mesh.vertices.push(new Vec3(xPos + char.size.x, yPos + char.size.y) + offset);
+						mesh.mesh.uvs.push(new Vec2(char.maxUV.x, char.minUV.y));
+						mesh.mesh.vertices.push(new Vec3(xPos, yPos + char.size.y) + offset);
+						mesh.mesh.uvs.push(new Vec2(char.minUV.x, char.minUV.y));
+						mesh.mesh.vertices.push(new Vec3(xPos, yPos) + offset);
+						mesh.mesh.uvs.push(new Vec2(char.minUV.x, char.maxUV.y));
+
+						xPos += char.xAdvance;
+					}
+
+					yPos -= text.font.baseLine;
 				}
 
 				//Log.info('Text is ${xPos} units big');

@@ -47,13 +47,13 @@ class Texts implements partials.Partial {
 
 	public function getText(path:String):Text {
 		if(!assets.exists(path)) {
-			throw new Exception("Text '${path}' hasn't been loaded yet!", ExceptionType.AssetNotFound);
+			throw new Exception('Text \'${path}\' hasn\'t been loaded yet!', ExceptionType.AssetNotFound);
 		}
 		try {
 			return cast(assets.get(path), Text);
 		}
 		catch(e:String) {
-			throw new Exception("Asset '${path}' isn't a text!", ExceptionType.InvalidAssetType);
+			throw new Exception('Asset \'${path}\' isn\'t a text!', ExceptionType.InvalidAssetType);
 		}
 	}
 }

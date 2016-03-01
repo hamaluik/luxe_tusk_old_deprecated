@@ -19,6 +19,16 @@ class Game {
 		return "Unbranded Tusk Game";
 	}
 
+	public var width(get, null):Int;
+	public function get_width():Int {
+		return 960;
+	}
+
+	public var height(get, null):Int;
+	public function get_height():Int {
+		return 540;
+	}
+
 	public var currentScenes:Array<Scene> = new Array<Scene>();
 
 	public function new() {}

@@ -1,13 +1,14 @@
 package tusk.lib.comp;
 
-import tusk.Component;
+import tusk.PromiseComponent;
 import tusk.resources.Sound;
 
 /**
  * A tusk standard libary component for defining a sound
  */
-class SoundComponent extends Component {
+class SoundComponent extends PromiseComponent {
 	public var play:Bool = false;
+	public var stop:Bool = false;
 
 	public var playing:Bool = false;
 	public var path:String = "";

@@ -103,8 +103,8 @@ class Tusk extends AppFixedTimestep {
     @:noCompletion
     #if snow override #end function config(config:AppConfig):AppConfig {
         config.window.title = game.title;
-        config.window.width = 960;
-        config.window.height = 540;
+        config.window.width = game.width;
+        config.window.height = game.height;
         Log.trace("game config: " + config);
         return config;
     }
@@ -176,16 +176,15 @@ class Tusk extends AppFixedTimestep {
     }
 
     public static function pushScene(scene:Scene):Promise<Scene> {
-        for(s in game.currentScenes) {
-            if(s == scene) {
-                throw new tusk.debug.Exception('Scene is already running!');
-            }
+        if(game.currentScenes.indexOf(scene) >= 0) {
+            throw new tusk.debug.Exception('Scene is already running!');
         }
         game.currentScenes.push(scene);
 
-        scene.sceneDone = new Deferred<Scene>();
+        //scene.sceneDone = new Deferred<Scene>();
         scene.___connectRoutes();
-        router.onEvent(EventType.Load, new LoadEvent(scene));
+        //router.onEvent(EventType.Load, new LoadEvent(scene));
+        scene.onLoad(new LoadEvent(scene));
 
         #if editor
         scenesChanged.trigger();

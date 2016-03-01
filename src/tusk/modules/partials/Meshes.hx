@@ -20,13 +20,13 @@ class Meshes implements partials.Partial {
 
 	public function getMesh(path:String):Mesh {
 		if(!assets.exists(path)) {
-			throw new Exception("Mesh '${path}' hasn't been loaded yet!", ExceptionType.AssetNotFound);
+			throw new Exception('Mesh \'${path}\' hasn\'t been loaded yet!', ExceptionType.AssetNotFound);
 		}
 		try {
 			return cast(assets.get(path), Mesh);
 		}
 		catch(e:String) {
-			throw new Exception("Asset '${path}' isn't a mesh!", ExceptionType.InvalidAssetType);
+			throw new Exception('Asset \'${path}\' isn\'t a mesh!', ExceptionType.InvalidAssetType);
 		}
 	}
 }

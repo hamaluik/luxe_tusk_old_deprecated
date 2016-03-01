@@ -26,7 +26,7 @@ class Sounds implements partials.Partial {
 				def.resolve(sound);
 			},
 			function(snd:snow.system.audio.Sound) {
-				def.throwError(new Exception("Unable to load sound '${path}'!", ExceptionType.FileNotFound));
+				def.throwError(new Exception('Unable to load sound \'${path}\'!', ExceptionType.FileNotFound));
 			}
 		);
 		#else
@@ -45,13 +45,13 @@ class Sounds implements partials.Partial {
 	 */
 	public function getSound(path:String):Sound {
 		if(!assets.exists(path)) {
-			throw new Exception("Sound '${path}' hasn't been loaded yet!", ExceptionType.AssetNotFound);
+			throw new Exception('Sound \'${path}\' hasn\'t been loaded yet!', ExceptionType.AssetNotFound);
 		}
 		try {
 			return cast(assets.get(path), Sound);
 		}
 		catch(e:String) {
-			throw new Exception("Asset '${path}' isn't a sound!", ExceptionType.InvalidAssetType);
+			throw new Exception('Asset \'${path}\' isn\'t a sound!', ExceptionType.InvalidAssetType);
 		}
 	}
 }

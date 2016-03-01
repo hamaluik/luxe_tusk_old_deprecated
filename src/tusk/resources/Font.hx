@@ -101,7 +101,7 @@ class Font extends Asset {
 
 		// ok, font information should be loaded
 		// now load the texture
-		if(texture == null) {
+		/*if(texture == null) {
 			var basePath:String = Path.directory(path);
 			var texturePath:String = Path.join([basePath, font.imageFileName]);
 			Tusk.assets.loadTexture(texturePath).then(function(fontTexture:Texture) {
@@ -109,7 +109,8 @@ class Font extends Asset {
 				def.resolve(font);
 			});
 		}
-		else {
+		else {*/
+		if(texture != null) {
 			font.texture = texture;
 			def.resolve(font);
 		}

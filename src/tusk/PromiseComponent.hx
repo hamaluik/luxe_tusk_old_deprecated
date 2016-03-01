@@ -24,6 +24,6 @@ class PromiseComponent extends Component {
 	}
 
 	public function finish() {
-		onDone.resolve(true);
+		if(!onDone.isResolved()) onDone.resolve(true);
 	}
 }

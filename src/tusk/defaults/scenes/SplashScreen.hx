@@ -32,6 +32,8 @@ import tusk.resources.Font;
 import tusk.resources.Texture;
 import tusk.resources.Sound;
 
+import tusk.events.LoadEvent;
+
 import glm.Vec2;
 import glm.Vec3;
 import glm.Vec4;
@@ -40,7 +42,8 @@ import glm.Quat;
 class SplashScreen extends Scene {
 	public function new() { super("Tusk Splash Screen"); }
 
-	override public function onLoad(_) {
+	override public function onLoad(event:LoadEvent) {
+		if(event.scene != this) return;
 		Log.info("Loading splash screen..");
 
 		// load the resources

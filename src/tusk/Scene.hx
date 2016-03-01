@@ -13,7 +13,7 @@ import tusk.editor.EditorEvent;
 class Scene {
 	public var name(default, null):String = null;
 
-	public var sceneDone:Deferred<Scene>;
+	public var sceneDone:Deferred<Scene> = new Deferred<Scene>();
 
 	/**
 	 * All the processors used in the scene

@@ -18,11 +18,11 @@ class Materials {
 
 	public static function loadUnlitColoured():Promise<Material> {
 		#if snow
-		if(Tusk.assets.isLoaded("unlit.coloured")) {
+		/*if(Tusk.assets.isLoaded("unlit.coloured")) {
 			var d:Deferred<Material> = new Deferred<Material>();
 			d.resolve(Tusk.assets.getMaterial("unlit.coloured"));
 			return d.promise();
-		}
+		}*/
 
 		var shader:Shader = new Shader("unlit.coloured",
 			haxe.Resource.getString("unlit.coloured.vert"),
@@ -67,11 +67,11 @@ class Materials {
 
 	public static function loadUnlitTextured():Promise<Material> {
 		#if snow
-		if(Tusk.assets.isLoaded("unlit.textured")) {
+		/*if(Tusk.assets.isLoaded("unlit.textured")) {
 			var d:Deferred<Material> = new Deferred<Material>();
 			d.resolve(Tusk.assets.getMaterial("unlit.textured"));
 			return d.promise();
-		}
+		}*/
 
 		var shader:Shader = new Shader("unlit.textured",
 			haxe.Resource.getString("unlit.textured.vert"),
@@ -121,11 +121,11 @@ class Materials {
 
 	public static function loadEffectFadeout():Promise<Material> {
 		#if snow
-		if(Tusk.assets.isLoaded("effect.fadeout")) {
+		/*if(Tusk.assets.isLoaded("effect.fadeout")) {
 			var d:Deferred<Material> = new Deferred<Material>();
 			d.resolve(Tusk.assets.getMaterial("effect.fadeout"));
 			return d.promise();
-		}
+		}*/
 
 		var shader:Shader = new Shader("effect.fadeout",
 			haxe.Resource.getString("unlit.textured.vert"),
@@ -166,11 +166,11 @@ class Materials {
 
 	public static function loadEffectCircleOut():Promise<Material> {
 		#if snow
-		if(Tusk.assets.isLoaded("effect.circleout")) {
+		/*if(Tusk.assets.isLoaded("effect.circleout")) {
 			var d:Deferred<Material> = new Deferred<Material>();
 			d.resolve(Tusk.assets.getMaterial("effect.circleout"));
 			return d.promise();
-		}
+		}*/
 
 		var shader:Shader = new Shader("effect.circleout",
 			haxe.Resource.getString("unlit.textured.vert"),
@@ -212,11 +212,11 @@ class Materials {
 
 	public static function loadTextBasic():Promise<Material> {
 		#if snow
-		if(Tusk.assets.isLoaded("text.basic")) {
+		/*if(Tusk.assets.isLoaded("text.basic")) {
 			var d:Deferred<Material> = new Deferred<Material>();
 			d.resolve(Tusk.assets.getMaterial("text.basic"));
 			return d.promise();
-		}
+		}*/
 
 		var shader:Shader = new Shader("text.basic",
 			haxe.Resource.getString("unlit.textured.coloured.vert"),
@@ -266,11 +266,11 @@ class Materials {
 
 	public static function loadParticlesUntextured():Promise<Material> {
 		#if snow
-		if(Tusk.assets.isLoaded("particles.untextured")) {
+		/*if(Tusk.assets.isLoaded("particles.untextured")) {
 			var d:Deferred<Material> = new Deferred<Material>();
 			d.resolve(Tusk.assets.getMaterial("particles.untextured"));
 			return d.promise();
-		}
+		}*/
 
 		var shader:Shader = new Shader("particles.untextured",
 			haxe.Resource.getString("particles.untextured.vert"),

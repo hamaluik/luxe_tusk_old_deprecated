@@ -40,4 +40,10 @@ class Sound {
         Tusk.instance.app.audio.play(sound.path);
         #end
     }
+
+    public function stop(sound:tusk.resources.Sound) {
+    	#if snow
+    	Tusk.instance.app.audio.stop(sound.path);
+    	#end
+    }
 }
